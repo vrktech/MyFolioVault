@@ -1,0 +1,46 @@
+#--------------------------------------------------------------------
+# Personal Investment Portfolio Tracker - Git Ignore Rules
+# Option 1: Application-Only Repository (Omits Framework Engine)
+#--------------------------------------------------------------------
+
+# Environment and sensitive credentials
+.env
+backup_sample_data.sql
+*.sql.gz
+*.bak
+
+# CodeIgniter 4 Framework Engine & Default Scaffolding
+system/
+tests/
+phpunit.xml.dist
+preload.php
+spark
+composer.phar
+
+# Runtime Writable Directories (preserve folder structure via index.html)
+writable/cache/*
+!writable/cache/index.html
+writable/debugbar/*
+writable/logs/*
+!writable/logs/index.html
+writable/session/*
+!writable/session/index.html
+writable/uploads/*
+!writable/uploads/index.html
+
+# Dependencies & Package Managers (if used in future)
+vendor/
+node_modules/
+
+# OS and Editor specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+

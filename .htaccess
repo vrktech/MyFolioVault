@@ -1,0 +1,20 @@
+Options +FollowSymlinks -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /Portfolio/
+
+    # Allow direct access to public folder
+    RewriteCond %{REQUEST_URI} ^/Portfolio/public/ [NC]
+    RewriteRule ^ - [L]
+
+    # If asset file exists in public/, rewrite directly to it
+    RewriteCond %{DOCUMENT_ROOT}/Portfolio/public/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/Portfolio/public/$1 -d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Route all application requests to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
+
