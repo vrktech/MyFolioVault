@@ -31,6 +31,7 @@ writable/uploads/*
 # Dependencies & Package Managers (if used in future)
 vendor/
 node_modules/
+dist/
 
 # OS and Editor specific files
 .DS_Store
@@ -43,4 +44,9 @@ Desktop.ini
 *.njsproj
 *.sln
 *.sw?
+
+# Local documentation & release guides
+release_guide.html
+release_instructions.html
+
 
