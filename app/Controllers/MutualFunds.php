@@ -33,11 +33,13 @@ class MutualFunds extends BaseController
         $capitalGains = $this->capitalGainsModel->getCapitalGainsWithFund($userId);
 
         return view('mutual_funds/index', [
-            'title'        => 'Mutual Funds Portfolio - WealthPulse',
-            'holdings'     => $metricsData['holdings'],
-            'summary'      => $metricsData['summary'],
-            'transactions' => $transactions,
-            'capitalGains' => $capitalGains,
+            'title'          => 'Mutual Funds Portfolio - RupeeFolio',
+            'holdings'       => $metricsData['holdings'],
+            'activeHoldings' => $metricsData['active_holdings'] ?? $metricsData['holdings'],
+            'pastHoldings'   => $metricsData['past_holdings'] ?? [],
+            'summary'        => $metricsData['summary'],
+            'transactions'   => $transactions,
+            'capitalGains'   => $capitalGains,
         ]);
     }
 
@@ -47,7 +49,7 @@ class MutualFunds extends BaseController
     public function newFund()
     {
         return view('mutual_funds/new_fund', [
-            'title' => 'New Mutual Fund Purchase - WealthPulse',
+            'title' => 'New Mutual Fund Purchase - RupeeFolio',
         ]);
     }
 

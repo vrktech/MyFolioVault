@@ -1,7 +1,7 @@
 <?php
 /**
  * Standalone First-Time Web Setup Wizard
- * Investment Portfolio Tracker
+ * RupeeFolio - Indian Investment Portfolio Tracker
  *
  * 100% Offline Compatible - Native System Fonts
  */
@@ -25,7 +25,7 @@ if ($action === 'delete_self') {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Setup Installer Deleted - Portfolio Tracker</title>
+        <title>Setup Installer Deleted - RupeeFolio</title>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
         <link rel="stylesheet" href="assets/css/app.css">
@@ -305,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First-Time Setup Wizard - Investment Portfolio Tracker</title>
+    <title>First-Time Setup Wizard - RupeeFolio</title>
     <!-- 100% Offline Local Assets & Native Fonts -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
@@ -355,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
     <!-- Header Brand -->
     <div class="text-center mb-4">
         <div class="brand-logo-icon mb-2" style="width: 48px; height: 48px; font-size: 1.5rem; display: inline-flex;">₹</div>
-        <h3 class="fw-bold text-dark mb-1">Investment Portfolio Tracker</h3>
+        <h3 class="fw-bold text-dark mb-1">RupeeFolio</h3>
         <p class="text-muted small mb-0">First-Time Web Installation &amp; Database Setup Wizard</p>
     </div>
 
@@ -587,7 +587,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
                 <div class="pt-3 border-top d-flex justify-content-between align-items-center">
                     <span class="text-muted small">Creates 25 tables, composite indexes &amp; administrator account</span>
                     <button type="submit" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
-                        <i class="bi bi-gear-fill me-1"></i> Install Portfolio Tracker
+                        <i class="bi bi-gear-fill me-1"></i> Install RupeeFolio
                     </button>
                 </div>
             </form>
@@ -596,7 +596,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
 
     <!-- Footer -->
     <div class="text-center mt-4 text-muted small">
-        &copy; <?= date('Y') ?> Investment Portfolio Tracker &bull; 100% Offline Compatible &bull; Indian Rupee (₹)
+        &copy; <?= date('Y') ?> RupeeFolio &bull; 100% Offline Compatible &bull; Indian Rupee (₹)
     </div>
 </div>
 

@@ -171,7 +171,7 @@ class Home extends BaseController
         ];
 
         return view('welcome', [
-            'title'         => 'Welcome - Portfolio Tracker',
+            'title'         => 'Welcome - RupeeFolio',
             'userName'      => $session->get('userName') ?? 'Investor',
             'userEmail'     => $session->get('userEmail') ?? '',
             'modules'       => $modules,

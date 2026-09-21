@@ -410,7 +410,7 @@ class Reports extends BaseController
         $data   = $this->getCashflowData($userId, $range);
 
         return view('reports/cashflow', array_merge([
-            'title'     => 'Portfolio Cash Flow & Capital Activity Report - WealthPulse',
+            'title'     => 'Portfolio Cash Flow & Capital Activity Report - RupeeFolio',
             'activeTab' => 'cashflow',
             'range'     => $range,
         ], $data));
@@ -675,7 +675,7 @@ class Reports extends BaseController
         $data   = $this->getTaxData($userId, $range);
 
         return view('reports/tax', array_merge([
-            'title'     => 'Capital Gains & Tax Audit Report (LTCG / STCG) - WealthPulse',
+            'title'     => 'Capital Gains & Tax Audit Report (LTCG / STCG) - RupeeFolio',
             'activeTab' => 'tax',
             'range'     => $range,
         ], $data));
@@ -765,7 +765,7 @@ class Reports extends BaseController
         $data   = $this->getIncomeData($userId, $range);
 
         return view('reports/income', array_merge([
-            'title'     => 'Passive Income & Distribution Report - WealthPulse',
+            'title'     => 'Passive Income & Distribution Report - RupeeFolio',
             'activeTab' => 'income',
             'range'     => $range,
         ], $data));
@@ -913,7 +913,7 @@ class Reports extends BaseController
         $data   = $this->getExpensesData($userId, $range);
 
         return view('reports/expenses', array_merge([
-            'title'     => 'Expenses & Statutory Friction Report - WealthPulse',
+            'title'     => 'Expenses & Statutory Friction Report - RupeeFolio',
             'activeTab' => 'expenses',
             'range'     => $range,
         ], $data));
@@ -928,134 +928,106 @@ class Reports extends BaseController
         $userId = (int)session()->get('userId');
 
         $eqModel   = new EquityModel();
+        $reitModel = new ReitInvitModel();
         $etfModel  = new EtfModel();
+        $bondModel = new BondModel();
         $mfModel   = new MutualFundModel();
         $npsModel  = new NpsAccountModel();
-        $bondModel = new BondModel();
-        $reitModel = new ReitInvitModel();
 
-        $eqData      = $eqModel->getHoldingsWithMetrics($userId);
-        $eqSummary   = $eqData['summary'] ?? [];
-        $eqHoldings  = $eqData['holdings'] ?? [];
-
-        $etfSummary  = $etfModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
-        $mfSummary   = $mfModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
-        $npsData     = $npsModel->getNpsPortfolio($userId);
-        $npsSummary  = $npsData['summary'] ?? [];
-        $bondSummary = $bondModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
+        $eqSummary   = $eqModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
         $reitSummary = $reitModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
+        $etfSummary  = $etfModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
+        $bondSummary = $bondModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
+        $mfSummary   = $mfModel->getHoldingsWithMetrics($userId)['summary'] ?? [];
+        $npsSummary  = $npsModel->getNpsPortfolio($userId)['summary'] ?? [];
 
         $allocations = [
             'equities' => [
-                'key'            => 'equities',
-                'name'           => 'Equities',
-                'icon'           => 'bi bi-graph-up-arrow',
-                'color'          => 'primary',
-                'invested'       => (float)($eqSummary['total_invested'] ?? 0),
-                'current'        => (float)($eqSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($eqSummary['total_unrealized_pnl'] ?? 0),
-                'unrealized_pct' => (float)($eqSummary['unrealized_pnl_percent'] ?? 0),
-                'holdings_count' => (int)($eqSummary['active_holdings_count'] ?? 0),
-                'url'            => base_url('equities'),
+                'name'      => 'Direct Equities',
+                'color'     => '#0d6efd',
+                'invested'  => (float)($eqSummary['total_invested'] ?? 0),
+                'current'   => (float)($eqSummary['total_current_value'] ?? 0),
+                'count'     => (int)($eqSummary['active_holdings_count'] ?? 0),
+                'url'       => base_url('equities'),
             ],
-            'reits_invits' => [
-                'key'            => 'reits_invits',
-                'name'           => 'InvITs & REITs',
-                'icon'           => 'bi bi-buildings',
-                'color'          => 'info',
-                'invested'       => (float)($reitSummary['total_invested'] ?? 0),
-                'current'        => (float)($reitSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($reitSummary['total_unrealized_pnl'] ?? 0),
-                'unrealized_pct' => (float)($reitSummary['unrealized_pnl_percent'] ?? 0),
-                'holdings_count' => (int)($reitSummary['active_holdings_count'] ?? 0),
-                'url'            => base_url('reits-invits'),
+            'reits' => [
+                'name'      => 'InvITs & REITs',
+                'color'     => '#0dcaf0',
+                'invested'  => (float)($reitSummary['total_invested'] ?? 0),
+                'current'   => (float)($reitSummary['total_current_value'] ?? 0),
+                'count'     => (int)($reitSummary['active_holdings_count'] ?? 0),
+                'url'       => base_url('reits-invits'),
             ],
             'etfs' => [
-                'key'            => 'etfs',
-                'name'           => 'Exchange Traded Funds',
-                'icon'           => 'bi bi-pie-chart',
-                'color'          => 'success',
-                'invested'       => (float)($etfSummary['total_invested'] ?? 0),
-                'current'        => (float)($etfSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($etfSummary['total_unrealized_pnl'] ?? 0),
-                'unrealized_pct' => (float)($etfSummary['unrealized_pnl_percent'] ?? 0),
-                'holdings_count' => (int)($etfSummary['active_holdings_count'] ?? 0),
-                'url'            => base_url('etfs'),
+                'name'      => 'ETFs',
+                'color'     => '#6610f2',
+                'invested'  => (float)($etfSummary['total_invested'] ?? 0),
+                'current'   => (float)($etfSummary['total_current_value'] ?? 0),
+                'count'     => (int)($etfSummary['active_holdings_count'] ?? 0),
+                'url'       => base_url('etfs'),
             ],
             'bonds' => [
-                'key'            => 'bonds',
-                'name'           => 'Bonds & Fixed Income',
-                'icon'           => 'bi bi-bank',
-                'color'          => 'dark',
-                'invested'       => (float)($bondSummary['total_invested'] ?? 0),
-                'current'        => (float)($bondSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($bondSummary['total_unrealized_pnl'] ?? 0),
-                'unrealized_pct' => (float)($bondSummary['unrealized_pnl_percent'] ?? 0),
-                'holdings_count' => (int)($bondSummary['active_holdings_count'] ?? 0),
-                'url'            => base_url('bonds'),
+                'name'      => 'Bonds & Fixed Income',
+                'color'     => '#dc3545',
+                'invested'  => (float)($bondSummary['total_invested'] ?? 0),
+                'current'   => (float)($bondSummary['total_current_value'] ?? 0),
+                'count'     => (int)($bondSummary['active_holdings_count'] ?? 0),
+                'url'       => base_url('bonds'),
             ],
             'mutual_funds' => [
-                'key'            => 'mutual_funds',
-                'name'           => 'Mutual Funds',
-                'icon'           => 'bi bi-collection',
-                'color'          => 'warning',
-                'invested'       => (float)($mfSummary['total_invested'] ?? 0),
-                'current'        => (float)($mfSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($mfSummary['total_unrealized_pnl'] ?? 0),
-                'unrealized_pct' => (float)($mfSummary['unrealized_pnl_percent'] ?? 0),
-                'holdings_count' => (int)($mfSummary['active_holdings_count'] ?? 0),
-                'url'            => base_url('mutual-funds'),
+                'name'      => 'Mutual Funds',
+                'color'     => '#198754',
+                'invested'  => (float)($mfSummary['total_invested'] ?? 0),
+                'current'   => (float)($mfSummary['total_current_value'] ?? 0),
+                'count'     => (int)($mfSummary['active_holdings_count'] ?? 0),
+                'url'       => base_url('mutual-funds'),
             ],
             'nps' => [
-                'key'            => 'nps',
-                'name'           => 'National Pension System (Tier 1)',
-                'icon'           => 'bi bi-shield-check',
-                'color'          => 'secondary',
-                'invested'       => (float)($npsSummary['total_invested'] ?? 0),
-                'current'        => (float)($npsSummary['total_current_value'] ?? 0),
-                'unrealized'     => (float)($npsSummary['total_pnl'] ?? 0),
-                'unrealized_pct' => (float)($npsSummary['overall_return_pct'] ?? 0),
-                'holdings_count' => !empty($npsData['account']) ? 1 : 0,
-                'url'            => base_url('nps'),
+                'name'      => 'NPS Tier 1',
+                'color'     => '#fd7e14',
+                'invested'  => (float)($npsSummary['total_invested'] ?? 0),
+                'current'   => (float)($npsSummary['total_current_value'] ?? 0),
+                'count'     => (int)($npsSummary['total_schemes'] ?? 0),
+                'url'       => base_url('nps'),
             ],
         ];
 
         $totalInvested = array_sum(array_column($allocations, 'invested'));
         $totalCurrent  = array_sum(array_column($allocations, 'current'));
         $totalPnl      = $totalCurrent - $totalInvested;
-        $totalPnlPct   = $totalInvested > 0 ? (($totalPnl / $totalInvested) * 100) : 0.0;
+        $totalPnlPct   = $totalInvested > 0 ? ($totalPnl / $totalInvested) * 100 : 0.0;
 
-        foreach ($allocations as $k => $item) {
-            $allocations[$k]['share_pct'] = $totalCurrent > 0 ? (($item['current'] / $totalCurrent) * 100) : 0.0;
+        foreach ($allocations as $k => $v) {
+            $allocations[$k]['pnl']             = $v['current'] - $v['invested'];
+            $allocations[$k]['pnl_pct']         = $v['invested'] > 0 ? (($v['current'] - $v['invested']) / $v['invested']) * 100 : 0.0;
+            $allocations[$k]['share_pct']       = $totalCurrent > 0 ? ($v['current'] / $totalCurrent) * 100 : 0.0;
+            $allocations[$k]['invest_share_pct']= $totalInvested > 0 ? ($v['invested'] / $totalInvested) * 100 : 0.0;
         }
 
-        // Equities Sector Allocation Breakdown
+        // Sector Allocation for Direct Equities
+        $eqHoldings = $eqModel->getHoldingsWithMetrics($userId)['holdings'] ?? [];
         $equitiesSectorAllocation = [];
         foreach ($eqHoldings as $h) {
-            if (($h['active_quantity'] ?? 0) <= 0) continue;
-            $sec = trim($h['sector'] ?? '') ?: 'Unclassified';
+            $sec = !empty($h['sector_name']) ? $h['sector_name'] : 'Diversified / Unclassified';
             if (!isset($equitiesSectorAllocation[$sec])) {
                 $equitiesSectorAllocation[$sec] = [
-                    'name'             => $sec,
-                    'invested'         => 0.0,
-                    'current'          => 0.0,
-                    'unrealized'       => 0.0,
-                    'unrealized_pct'   => 0.0,
-                    'holdings_count'   => 0,
-                    'share_pct'        => 0.0,
-                    'equity_share_pct' => 0.0,
+                    'name'     => $sec,
+                    'invested' => 0.0,
+                    'current'  => 0.0,
+                    'count'    => 0,
                 ];
             }
-            $equitiesSectorAllocation[$sec]['invested'] += (float)($h['invested'] ?? 0);
-            $equitiesSectorAllocation[$sec]['current']  += (float)($h['current_value'] ?? 0);
-            $equitiesSectorAllocation[$sec]['holdings_count']++;
+            $equitiesSectorAllocation[$sec]['invested'] += (float)$h['invested_amount'];
+            $equitiesSectorAllocation[$sec]['current']  += (float)$h['current_value'];
+            $equitiesSectorAllocation[$sec]['count']++;
         }
-        $eqTotalCurrent = (float)($eqSummary['total_current_value'] ?? 0);
-        foreach ($equitiesSectorAllocation as $sec => $sdata) {
-            $unreal = $sdata['current'] - $sdata['invested'];
-            $unrealPct = $sdata['invested'] > 0 ? (($unreal / $sdata['invested']) * 100) : 0.0;
-            $sharePct = $totalCurrent > 0 ? (($sdata['current'] / $totalCurrent) * 100) : 0.0;
-            $eqSharePct = $eqTotalCurrent > 0 ? (($sdata['current'] / $eqTotalCurrent) * 100) : 0.0;
+
+        foreach ($equitiesSectorAllocation as $sec => $data) {
+            $unreal    = $data['current'] - $data['invested'];
+            $unrealPct = $data['invested'] > 0 ? ($unreal / $data['invested']) * 100 : 0.0;
+            $sharePct  = $totalCurrent > 0 ? ($data['current'] / $totalCurrent) * 100 : 0.0;
+            $eqSharePct= (float)($eqSummary['total_current_value'] ?? 0) > 0 ? ($data['current'] / (float)$eqSummary['total_current_value']) * 100 : 0.0;
+
             $equitiesSectorAllocation[$sec]['unrealized']        = $unreal;
             $equitiesSectorAllocation[$sec]['unrealized_pct']    = $unrealPct;
             $equitiesSectorAllocation[$sec]['share_pct']         = $sharePct;
@@ -1064,7 +1036,7 @@ class Reports extends BaseController
         uasort($equitiesSectorAllocation, fn($a, $b) => $b['current'] <=> $a['current']);
 
         return view('reports/allocation', [
-            'title'                    => 'Asset Allocation & Portfolio Valuation Snapshot - WealthPulse',
+            'title'                    => 'Asset Allocation & Portfolio Valuation Snapshot - RupeeFolio',
             'activeTab'                => 'allocation',
             'allocations'              => $allocations,
             'totalInvested'            => $totalInvested,
@@ -1084,13 +1056,13 @@ class Reports extends BaseController
         $userId = (int)session()->get('userId');
         $range  = $this->getActiveDateRange();
         $data   = $this->getCashflowData($userId, $range);
-        $filename = 'wealthpulse_cashflow_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'rupeefolio_cashflow_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename);
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, ['WealthPulse - Portfolio Cash Flow & Activity Report']);
+        fputcsv($out, ['RupeeFolio - Portfolio Cash Flow & Activity Report']);
         fputcsv($out, ['Reporting Period: ' . $range['label']]);
         fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
         fputcsv($out, []);
@@ -1128,13 +1100,13 @@ class Reports extends BaseController
         $userId = (int)session()->get('userId');
         $range  = $this->getActiveDateRange();
         $data   = $this->getTaxData($userId, $range);
-        $filename = 'wealthpulse_tax_capital_gains_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'rupeefolio_tax_capital_gains_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename);
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, ['WealthPulse - Capital Gains & Tax Report (LTCG / STCG)']);
+        fputcsv($out, ['RupeeFolio - Capital Gains & Tax Report (LTCG / STCG)']);
         fputcsv($out, ['Reporting Period: ' . $range['label']]);
         fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
         fputcsv($out, []);
@@ -1174,13 +1146,13 @@ class Reports extends BaseController
         $userId = (int)session()->get('userId');
         $range  = $this->getActiveDateRange();
         $data   = $this->getIncomeData($userId, $range);
-        $filename = 'wealthpulse_passive_income_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'rupeefolio_passive_income_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename);
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, ['WealthPulse - Passive Income & Distribution Report']);
+        fputcsv($out, ['RupeeFolio - Passive Income & Distribution Report']);
         fputcsv($out, ['Reporting Period: ' . $range['label']]);
         fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
         fputcsv($out, []);
@@ -1202,13 +1174,13 @@ class Reports extends BaseController
         $userId = (int)session()->get('userId');
         $range  = $this->getActiveDateRange();
         $data   = $this->getExpensesData($userId, $range);
-        $filename = 'wealthpulse_expenses_friction_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'rupeefolio_expenses_friction_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=' . $filename);
 
         $out = fopen('php://output', 'w');
-        fputcsv($out, ['WealthPulse - Expenses & Statutory Friction Report']);
+        fputcsv($out, ['RupeeFolio - Expenses & Statutory Friction Report']);
         fputcsv($out, ['Reporting Period: ' . $range['label']]);
         fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
         fputcsv($out, []);

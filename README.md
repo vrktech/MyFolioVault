@@ -1,4 +1,4 @@
-# Personal Investment Portfolio Tracker
+# RupeeFolio — Indian Investment Portfolio Tracker
 
 [![PHP](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
 [![CodeIgniter](https://img.shields.io/badge/Framework-CodeIgniter%204-EF4444.svg)](https://codeigniter.com/)
@@ -6,7 +6,7 @@
 [![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205.3.3%20(Offline)-7952B3.svg)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A high-performance, private, and 100% offline-compatible investment portfolio management system designed specifically for Indian capital market investors. Track equities, REITs, InvITs, ETFs, Sovereign Gold Bonds (SGBs), Mutual Funds, and NPS across multiple brokers and family accounts with comprehensive Indian corporate actions and tax engine support.
+**RupeeFolio** is a high-performance, private, and 100% offline-compatible investment portfolio management system designed specifically for Indian capital market investors. Track equities, REITs, InvITs, ETFs, Sovereign Gold Bonds (SGBs), Mutual Funds, and NPS across multiple brokers and family accounts with comprehensive Indian corporate actions and tax engine support.
 
 ---
 
@@ -71,8 +71,8 @@ A high-performance, private, and 100% offline-compatible investment portfolio ma
 Clone this repository into your web server's root directory (e.g. `xampp/htdocs/`):
 ```bash
 cd /path/to/webserver/htdocs
-git clone https://github.com/<your-username>/<your-repo-name>.git Portfolio
-cd Portfolio
+git clone https://github.com/<your-username>/rupeefolio.git RupeeFolio
+cd RupeeFolio
 ```
 
 ### Step 2: Add CodeIgniter 4 Framework Engine
@@ -147,7 +147,7 @@ Community feedback is what makes open-source tools better for everyone. We activ
 
 ## ⭐ Support the Project
 
-If this personal portfolio tracker saves you time, helps you manage your investments, or brings you value:
+If **RupeeFolio** saves you time, helps you manage your investments, or brings you value:
 
 - ⭐ **Star this repository** on GitHub — it gives the project visibility and helps other Indian retail investors discover it!
 

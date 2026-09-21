@@ -143,8 +143,14 @@ class BondModel extends Model
         $overallUnrealizedPercent = $totalInvested > 0 ? (($totalUnrealizedPnl / $totalInvested) * 100) : 0.0;
         $totalNetReturn = $totalUnrealizedPnl + $totalRealizedPnl + $totalInterestEarned;
 
+        $activeHoldings = array_values(array_filter($holdings, fn($h) => (float)$h['active_quantity'] > 0.0001));
+        $pastHoldings   = array_values(array_filter($holdings, fn($h) => (float)$h['active_quantity'] <= 0.0001));
+
         return [
-            'holdings' => $holdings,
+            'holdings'        => $activeHoldings,
+            'active_holdings' => $activeHoldings,
+            'past_holdings'   => $pastHoldings,
+            'all_holdings'    => $holdings,
             'summary'  => [
                 'total_current_value'    => $totalCurrentValue,
                 'total_invested'         => $totalInvested,
@@ -157,7 +163,8 @@ class BondModel extends Model
                 'total_sgb_exempt'       => $totalSgbExempt,
                 'total_net_return'       => $totalNetReturn,
                 'bonds_count'            => count($bonds),
-                'active_holdings_count'  => count(array_filter($holdings, fn($h) => $h['active_quantity'] > 0.0001)),
+                'active_holdings_count'  => count($activeHoldings),
+                'past_holdings_count'    => count($pastHoldings),
             ],
         ];
     }

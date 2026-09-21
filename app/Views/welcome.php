@@ -151,7 +151,7 @@
                 <div class="d-flex align-items-center gap-2">
                     <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">₹</div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-0">Investment Portfolio Tracker &bull; System Specifications</h6>
+                        <h6 class="fw-bold text-dark mb-0">RupeeFolio &bull; System Specifications</h6>
                         <small class="text-muted">Enterprise-grade self-hosted personal finance platform</small>
                     </div>
                 </div>

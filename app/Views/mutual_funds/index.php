@@ -89,7 +89,12 @@
         <ul class="nav nav-tabs card-header-tabs border-0" id="mfTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active fw-semibold" id="holdings-tab" data-bs-toggle="tab" data-bs-target="#holdings" type="button" role="tab">
-                    <i class="bi bi-briefcase me-1 text-success"></i>Active Holdings (<?= count($holdings) ?>)
+                    <i class="bi bi-briefcase me-1 text-success"></i>Active Holdings (<?= count($activeHoldings ?? $holdings) ?>)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-semibold" id="past-holdings-tab" data-bs-toggle="tab" data-bs-target="#past-holdings" type="button" role="tab">
+                    <i class="bi bi-archive me-1 text-secondary"></i>Past Holdings (<?= count($pastHoldings ?? []) ?>)
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -110,11 +115,11 @@
             
             <!-- TAB 1: ACTIVE HOLDINGS -->
             <div class="tab-pane fade show active p-3" id="holdings" role="tabpanel">
-                <?php if (empty($holdings)): ?>
+                <?php if (empty($activeHoldings ?? $holdings)): ?>
                     <div class="text-center py-5">
                         <i class="bi bi-briefcase fs-1 text-muted mb-3 d-block"></i>
-                        <h5>No Mutual Fund Schemes Found</h5>
-                        <p class="text-muted small">You haven't added any mutual funds yet. Click below to add your first scheme!</p>
+                        <h5>No Active Mutual Fund Schemes Found</h5>
+                        <p class="text-muted small">You don't have any active mutual fund schemes currently. Click below to add your first scheme!</p>
                         <a href="<?= base_url('mutual-funds/new') ?>" class="btn btn-primary btn-sm rounded-3">
                             <i class="bi bi-plus-lg me-1"></i>Add New Scheme
                         </a>
@@ -138,7 +143,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($holdings as $h): ?>
+                                <?php foreach (($activeHoldings ?? $holdings) as $h): ?>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -233,6 +238,134 @@
                                                             href="<?= base_url('mutual-funds/delete/' . $h['id']) ?>" 
                                                             onclick="return confirm('Delete this Mutual Fund scheme and all its transaction records?');">
                                                             <i class="bi bi-trash me-2"></i>Delete Scheme
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <!-- TAB 1B: PAST HOLDINGS (FULLY REDEEMED SCHEMES) -->
+            <div class="tab-pane fade p-3" id="past-holdings" role="tabpanel">
+                <?php if (empty($pastHoldings)): ?>
+                    <div class="text-center py-5">
+                        <i class="bi bi-archive fs-1 text-muted mb-3 d-block"></i>
+                        <h5>No Past Mutual Fund Holdings Found</h5>
+                        <p class="text-muted small">You don't have any fully redeemed mutual fund schemes yet. When you redeem 100% of your units in a scheme, it will appear here along with your lifetime realized profit/loss.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="text-muted small">
+                            Showing <strong><?= count($pastHoldings) ?></strong> past / closed schemes
+                        </div>
+                        <div class="text-muted small">
+                            <span class="badge bg-secondary-subtle text-secondary border"><i class="bi bi-info-circle me-1"></i>0 Active Units &bull; Lifetime Closed Trades</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="mfPastHoldingsTable">
+                            <thead class="table-light text-muted small text-uppercase">
+                                <tr>
+                                    <th>Scheme / AMFI Code</th>
+                                    <th>Folio Number</th>
+                                    <th>Category</th>
+                                    <th>AMC / Fund House</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-end">Latest NAV (₹)</th>
+                                    <th class="text-end">Realized P&L</th>
+                                    <th class="text-center" style="min-width: 160px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($pastHoldings as $ph): ?>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="brand-badge-sm me-2 bg-secondary bg-opacity-10 text-secondary rounded px-2 py-1 small fw-bold">
+                                                    <?= esc($ph['amfi_code']) ?>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-semibold text-dark mb-0"><?= esc($ph['scheme_name']) ?></div>
+                                                    <?php if (!empty($ph['nav_date'])): ?>
+                                                        <small class="text-muted" style="font-size: 0.72rem;">
+                                                            NAV as of <?= date('d-M-Y', strtotime($ph['nav_date'])) ?>
+                                                        </small>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border fw-medium px-2 py-1 font-monospace">
+                                                <?= esc($ph['folio_number']) ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border fw-medium px-2 py-1">
+                                                <?= esc($ph['category']) ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-muted small">
+                                            <?= esc($ph['amc_name'] ?: '—') ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
+                                                <i class="bi bi-check2-all me-1"></i>Closed
+                                            </span>
+                                        </td>
+                                        <td class="text-end fw-semibold text-dark">
+                                            <?= format_inr($ph['current_nav']) ?>
+                                        </td>
+                                        <td class="text-end">
+                                            <?= format_pnl($ph['realized_pnl']) ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-success rounded-start-3 px-2 py-1 open-trans-modal"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#transactionModal"
+                                                        data-id="<?= $ph['id'] ?>"
+                                                        data-name="<?= esc($ph['scheme_name']) ?>"
+                                                        data-folio="<?= esc($ph['folio_number']) ?>"
+                                                        data-amfi="<?= esc($ph['amfi_code']) ?>"
+                                                        data-nav="<?= $ph['current_nav'] ?>"
+                                                        data-units="0">
+                                                    <i class="bi bi-plus-circle me-1"></i>Invest Again
+                                                </button>
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split rounded-end-3" 
+                                                        data-bs-toggle="dropdown" 
+                                                        aria-expanded="false">
+                                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                                                    <li>
+                                                        <button class="dropdown-item small open-edit-fund-modal"
+                                                                data-id="<?= $ph['id'] ?>"
+                                                                data-name="<?= esc($ph['scheme_name']) ?>"
+                                                                data-amfi="<?= esc($ph['amfi_code']) ?>"
+                                                                data-folio="<?= esc($ph['folio_number']) ?>"
+                                                                data-category="<?= esc($ph['category']) ?>"
+                                                                data-amc="<?= esc($ph['amc_name'] ?? '') ?>"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editFundModal">
+                                                            <i class="bi bi-pencil me-2 text-primary"></i>Edit Scheme Details
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item small text-primary" href="<?= base_url('mutual-funds?mf_id=' . $ph['id'] . '&tab=transactions') ?>" onclick="showMfLedger(<?= $ph['id'] ?>); return false;">
+                                                            <i class="bi bi-clock-history me-2"></i>Trade Ledger
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item small text-info" href="<?= base_url('mutual-funds?tax_mf_id=' . $ph['id'] . '&tab=capitalgains') ?>">
+                                                            <i class="bi bi-receipt-cutoff me-2"></i>FIFO Tax Lots
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -1585,6 +1718,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const initialFy     = urlParams.get('fy');
     const initialTab    = urlParams.get('tab');
     const hash          = window.location.hash;
+
+    if (initialTab === 'past-holdings' || hash === '#past-holdings') {
+        const pastTabBtn = document.getElementById('past-holdings-tab');
+        if (pastTabBtn) {
+            bootstrap.Tab.getOrCreateInstance(pastTabBtn).show();
+        }
+    }
 
     if (initialFundId && ledgerFundFilter) {
         ledgerFundFilter.value = initialFundId;

@@ -115,8 +115,14 @@ class MutualFundModel extends Model
 
         $overallUnrealizedPercent = $totalInvested > 0 ? (($totalUnrealizedPnl / $totalInvested) * 100) : 0.0;
 
+        $activeHoldings = array_values(array_filter($holdings, fn($h) => (float)$h['active_units'] > 0.0001));
+        $pastHoldings   = array_values(array_filter($holdings, fn($h) => (float)$h['active_units'] <= 0.0001));
+
         return [
-            'holdings' => $holdings,
+            'holdings'        => $activeHoldings,
+            'active_holdings' => $activeHoldings,
+            'past_holdings'   => $pastHoldings,
+            'all_holdings'    => $holdings,
             'summary'  => [
                 'total_current_value'    => $totalCurrentValue,
                 'total_invested'         => $totalInvested,
@@ -127,7 +133,8 @@ class MutualFundModel extends Model
                 'total_ltcg'             => $totalLtcg,
                 'total_net_gain'         => $totalUnrealizedPnl + $totalRealizedPnl,
                 'funds_count'            => count($funds),
-                'active_holdings_count'  => count(array_filter($holdings, fn($h) => $h['active_units'] > 0.0001)),
+                'active_holdings_count'  => count($activeHoldings),
+                'past_holdings_count'    => count($pastHoldings),
             ],
         ];
     }

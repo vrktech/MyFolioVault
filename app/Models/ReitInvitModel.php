@@ -143,8 +143,14 @@ class ReitInvitModel extends Model
         $overallUnrealizedPercent = $totalInvested > 0 ? (($totalUnrealizedPnl / $totalInvested) * 100) : 0.0;
         $totalNetReturn = $totalUnrealizedPnl + $totalRealizedPnl + $totalDistributionsEarned;
 
+        $activeHoldings = array_values(array_filter($holdings, fn($h) => (float)$h['active_units'] > 0.0001));
+        $pastHoldings   = array_values(array_filter($holdings, fn($h) => (float)$h['active_units'] <= 0.0001));
+
         return [
-            'holdings' => $holdings,
+            'holdings'        => $activeHoldings,
+            'active_holdings' => $activeHoldings,
+            'past_holdings'   => $pastHoldings,
+            'all_holdings'    => $holdings,
             'summary'  => [
                 'total_current_value'        => $totalCurrentValue,
                 'total_invested'             => $totalInvested,
@@ -156,7 +162,8 @@ class ReitInvitModel extends Model
                 'total_ltcg'                 => $totalLtcg,
                 'total_net_return'           => $totalNetReturn,
                 'trusts_count'               => count($trusts),
-                'active_holdings_count'      => count(array_filter($holdings, fn($h) => $h['active_units'] > 0.0001)),
+                'active_holdings_count'      => count($activeHoldings),
+                'past_holdings_count'        => count($pastHoldings),
             ],
         ];
     }

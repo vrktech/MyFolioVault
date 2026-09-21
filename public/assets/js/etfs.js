@@ -1,5 +1,5 @@
 /**
- * Investment Portfolio Tracker - ETFs Module Scripts
+ * RupeeFolio - ETFs Module Scripts
  * 100% Offline Compatible
  */
 
@@ -687,6 +687,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const initialFy    = urlParams.get('fy');
     const initialTab   = urlParams.get('tab');
     const hash         = window.location.hash;
+
+    if (initialTab === 'past-holdings' || hash === '#past-holdings') {
+        const pastTabBtn = document.getElementById('past-holdings-tab');
+        if (pastTabBtn) {
+            bootstrap.Tab.getOrCreateInstance(pastTabBtn).show();
+        }
+    }
 
     if (initialEtfId && ledgerEtfFilter) {
         ledgerEtfFilter.value = initialEtfId;

@@ -40,12 +40,14 @@ class Bonds extends BaseController
         $capitalGains = $this->capitalGainsModel->getCapitalGainsWithBond($userId);
 
         return view('bonds/index', [
-            'title'        => 'Bonds Portfolio - WealthPulse',
-            'holdings'     => $metricsData['holdings'],
-            'summary'      => $metricsData['summary'],
-            'transactions' => $transactions,
-            'payouts'      => $payouts,
-            'capitalGains' => $capitalGains,
+            'title'          => 'Bonds Portfolio - RupeeFolio',
+            'holdings'       => $metricsData['holdings'],
+            'activeHoldings' => $metricsData['active_holdings'] ?? $metricsData['holdings'],
+            'pastHoldings'   => $metricsData['past_holdings'] ?? [],
+            'summary'        => $metricsData['summary'],
+            'transactions'   => $transactions,
+            'payouts'        => $payouts,
+            'capitalGains'   => $capitalGains,
         ]);
     }
 
@@ -55,7 +57,7 @@ class Bonds extends BaseController
     public function newBond()
     {
         return view('bonds/new_bond', [
-            'title' => 'New Bond Acquisition - WealthPulse',
+            'title' => 'New Bond Acquisition - RupeeFolio',
         ]);
     }
 

@@ -1,5 +1,5 @@
 /**
- * Investment Portfolio Tracker - Equities Module Scripts
+ * RupeeFolio - Equities Module Scripts
  * 100% Offline Compatible
  */
 
@@ -777,12 +777,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    document.querySelectorAll('.view-stock-tax').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const stockId = this.dataset.stockId;
+            const taxTabBtn = document.getElementById('capitalgains-tab');
+            if (taxTabBtn) {
+                bootstrap.Tab.getOrCreateInstance(taxTabBtn).show();
+            }
+            if (taxStockFilter) {
+                taxStockFilter.value = stockId;
+                applyEquityTaxFilters(true);
+            }
+        });
+    });
+
     // Deep link parameters
     const urlParams = new URLSearchParams(window.location.search);
     const stockParam = urlParams.get('stock_id') || urlParams.get('stock');
     const fyParam    = urlParams.get('fy');
     const tabParam   = urlParams.get('tab');
     const hash       = window.location.hash;
+
+    if (tabParam === 'past-holdings' || hash === '#past-holdings') {
+        const pastTabBtn = document.getElementById('past-holdings-tab');
+        if (pastTabBtn) {
+            bootstrap.Tab.getOrCreateInstance(pastTabBtn).show();
+        }
+    }
 
     if (stockParam || fyParam || tabParam === 'transactions' || hash === '#transactions') {
         const transTabBtn = document.getElementById('transactions-tab');

@@ -42,7 +42,7 @@ class Nps extends BaseController
         $deductions    = $this->transactionModel->getQuarterlyUnitDeductions($userId, $accountId);
 
         return view('nps/index', [
-            'title'         => 'NPS Tier 1 Portfolio - WealthPulse',
+            'title'         => 'NPS Tier 1 Portfolio - RupeeFolio',
             'account'       => $portfolio['account'],
             'schemes'       => $portfolio['schemes'],
             'summary'       => $portfolio['summary'],
@@ -65,7 +65,7 @@ class Nps extends BaseController
         $user = $this->userModel->find($userId);
 
         return view('nps/new_account', [
-            'title'        => 'Setup NPS Tier 1 Account - WealthPulse',
+            'title'        => 'Setup NPS Tier 1 Account - RupeeFolio',
             'defaultName'  => $user['name'] ?? '',
         ]);
     }
@@ -745,7 +745,7 @@ class Nps extends BaseController
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'WealthPulse Portfolio Tracker');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'RupeeFolio Portfolio Tracker');
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

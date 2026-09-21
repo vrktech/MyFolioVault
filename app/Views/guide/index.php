@@ -71,7 +71,7 @@
                 </div>
                 
                 <p class="text-secondary">
-                    Welcome to the <strong>Investment Portfolio Tracker</strong>. This platform provides complete self-hosted wealth tracking across Indian asset classes in <strong>INR (₹)</strong> with 100% offline capability and automated FIFO tax computation.
+                    Welcome to <strong>RupeeFolio</strong>. This platform provides complete self-hosted wealth tracking across Indian asset classes in <strong>INR (₹)</strong> with 100% offline capability and automated FIFO tax computation.
                 </p>
 
                 <div class="alert alert-primary bg-primary bg-opacity-10 border-primary rounded-3 small mb-4">
@@ -280,6 +280,18 @@
                             <em>How It Works:</em> Apportions the cost basis of each active parent lot by 91.1% and allocates matching shares in the demerged entity at 8.9% cost basis, grandfathering original acquisition dates under Section 49(2C).
                         </div>
                     </div>
+                </div>
+
+                <!-- 2.6 ACTIVE HOLDINGS VS PAST HOLDINGS -->
+                <div class="card bg-light border p-3 rounded-3 mt-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-archive me-1 text-secondary"></i>2.6 Active Holdings vs. Past Holdings (Closed Positions)</h6>
+                    <p class="small text-secondary mb-2">
+                        To maintain a clean and uncluttered workspace, all asset modules (Equities, ETFs, Mutual Funds, InvITs/REITs, and Bonds) automatically segregate positions across two dedicated tabs:
+                    </p>
+                    <ul class="small text-secondary mb-0">
+                        <li class="mb-2"><strong>Active Holdings:</strong> Strictly displays securities currently held with positive quantity (<code>quantity &gt; 0</code>). Fully sold or liquidated assets are automatically filtered out of this view.</li>
+                        <li><strong>Past Holdings:</strong> Any security with <code>0</code> active quantity is automatically organized into this tab. Shows lifetime Realized Capital Gains (STCG &amp; LTCG), cumulative income earned (dividends, interest, or distributions), net returns, and a convenient <strong>+ Buy Again</strong> button to seamlessly re-enter a position.</li>
+                    </ul>
                 </div>
             </div>
 

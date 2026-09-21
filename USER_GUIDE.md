@@ -1,4 +1,4 @@
-# Investment Portfolio Tracker — Complete User & Operations Manual
+# RupeeFolio — Complete User & Operations Manual
 **Indian Financial Market Edition &bull; 100% Local Offline Wealth Management**
 
 ---
@@ -17,24 +17,29 @@
      - [3.5.3 Rights Issues](#353-rights-issues)
      - [3.5.4 Mergers](#354-mergers)
      - [3.5.5 Demergers](#355-demergers)
+   - [3.6 Active Holdings vs. Past Holdings (Closed Positions)](#36-active-holdings-vs-past-holdings-closed-positions)
 4. [Module 2: InvITs & REITs](#4-module-2-invits--reits)
    - [4.1 How to Add a New Trust](#41-how-to-add-a-new-trust)
    - [4.2 How to Record Buy & Sell Transactions](#42-how-to-record-buy--sell-transactions)
    - [4.3 How to Record 4-Component Quarterly Distributions](#43-how-to-record-4-component-quarterly-distributions)
+   - [4.4 Active Holdings vs. Past Holdings (Closed Trusts)](#44-active-holdings-vs-past-holdings-closed-trusts)
 5. [Module 3: Exchange Traded Funds (ETFs)](#5-module-3-exchange-traded-funds-etfs)
    - [5.1 How to Add a Categorized ETF](#51-how-to-add-a-categorized-etf)
    - [5.2 How to Record Buy & Sell Orders](#52-how-to-record-buy--sell-orders)
    - [5.3 How to Record ETF Splits](#53-how-to-record-etf-splits)
    - [5.4 ETF Taxation Rules (Equity vs Sec 50AA)](#54-etf-taxation-rules-equity-vs-sec-50aa)
+   - [5.5 Active Holdings vs. Past Holdings (Closed ETFs)](#55-active-holdings-vs-past-holdings-closed-etfs)
 6. [Module 4: Bonds & Fixed Income](#6-module-4-bonds--fixed-income)
    - [6.1 How to Add a Bond or SGB](#61-how-to-add-a-bond-or-sgb)
    - [6.2 How to Record Buy Transactions (Clean Price vs Accrued Interest)](#62-how-to-record-buy-transactions-clean-price-vs-accrued-interest)
    - [6.3 How to Record Coupon / Interest Payouts & TDS](#63-how-to-record-coupon--interest-payouts--tds)
    - [6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption](#64-sovereign-gold-bond-sgb-sec-47viic-tax-exemption)
+   - [6.5 Active Holdings vs. Past Holdings (Matured & Redeemed Bonds)](#65-active-holdings-vs-past-holdings-matured--redeemed-bonds)
 7. [Module 5: Mutual Funds](#7-module-5-mutual-funds)
    - [7.1 How to Add a Fund & Folio](#71-how-to-add-a-fund--folio)
    - [7.2 How to Record SIP & Lumpsum Investments](#72-how-to-record-sip--lumpsum-investments)
    - [7.3 How to Record Redemptions (FIFO Units Matching)](#73-how-to-record-redemptions-fifo-units-matching)
+   - [7.4 Active Holdings vs. Past Holdings (Fully Redeemed Funds)](#74-active-holdings-vs-past-holdings-fully-redeemed-funds)
 8. [Module 6: National Pension System (NPS Tier 1)](#8-module-6-national-pension-system-nps-tier-1)
    - [8.1 How to Set Up PRAN & Pension Fund Manager](#81-how-to-set-up-pran--pension-fund-manager)
    - [8.2 How to Record Voluntary Contributions (Scheme E/C/G/A Split)](#82-how-to-record-voluntary-contributions-scheme-ecga-split)
@@ -46,7 +51,7 @@
 
 ## 1. System Architecture & Core Principles
 
-**Investment Portfolio Tracker** is engineered specifically for Indian retail investors, HNIs, and family offices managing multiple asset classes denominated in **Indian Rupees (₹ INR)**.
+**RupeeFolio** is engineered specifically for Indian retail investors, HNIs, and family offices managing multiple asset classes denominated in **Indian Rupees (₹ INR)**.
 
 ### Core Architecture Pillars:
 1. **100% Offline by Design**:
@@ -380,6 +385,28 @@ Used when a company spins off an operating division into a separately listed ent
 
 ---
 
+### 3.6 Active Holdings vs. Past Holdings (Closed Positions)
+
+RupeeFolio automatically segregates your live investments from fully liquidated positions using dedicated navigation tabs on the Equities dashboard:
+
+#### Active Holdings Tab:
+- **Zero-Quantity Suppression**: Stocks where all shares have been sold (`quantity = 0`) are completely hidden from this view, keeping your active portfolio concise and uncluttered.
+- **Metrics Tracked**: Shows currently held share count, weighted average cost basis, current market price (CMP), live portfolio market value, and unrealized profit & loss.
+- **Counter Badge**: The tab counter strictly reflects the count of companies where you currently own shares.
+
+#### Past Holdings Tab (Closed Positions):
+- **Automatic Filing**: When an exit order brings your remaining shares to 0, the stock is automatically filed into the **Past Holdings** tab placed directly next to Active Holdings.
+- **Lifetime Financial Ledger**: Displays your full historical audit for that company, including:
+  - **Realized Capital P&L**: Total profit or loss realized across all past FIFO sales (with STCG and LTCG breakdown).
+  - **Lifetime Dividends**: Total dividend cash credited to your bank account while you held the stock.
+  - **Net Gain / Return**: Realized Capital P&L + Total Dividends Earned.
+- **Re-entering a Position (+ Buy Again)**:
+  - Each closed position provides a green **+ Buy Again** button.
+  - Clicking this button opens the purchase modal pre-populated with the company's ticker, name, and current CMP, allowing you to re-acquire shares without re-creating the stock master.
+- **Audit Access**: Includes direct split-action links to the company's full historical **Trade Ledger**, **Dividend History**, and **FIFO Capital Gains Tax Lot Log**.
+
+---
+
 ## 4. Module 2: InvITs & REITs
 
 Tracks Infrastructure Investment Trusts (InvITs) like PowerGrid InvIT, IRB InvIT, and Real Estate Investment Trusts (REITs) like Embassy Office Parks REIT, Mindspace Business Parks REIT, and Brookfield India Real Estate Trust.
@@ -411,6 +438,10 @@ REIT/InvIT managers (Embassy, Mindspace, etc.) send quarterly distribution notic
      - *How It Works*: Return of Capital is **not** taxed as immediate income. Instead, the application systematically deducts this amount from the unit cost basis of your active purchase lots.
      - If the cumulative return of capital exceeds your original purchase price, the excess is taxed under Section 56(2)(xii).
 3. Click **Save Distribution**. The transaction is logged in the **Distribution Ledger** and updates your annual income report.
+
+### 4.4 Active Holdings vs. Past Holdings (Closed Trusts)
+- **Active Holdings**: Displays exclusively trusts with `active_units > 0`. Shows current market value, invested capital, and unrealized gains calculated against your net adjusted cost basis.
+- **Past Holdings**: Trusts where all units have been sold out (`active_units = 0`) transition into the adjacent **Past Holdings** tab. Shows lifetime Realized Capital P&L, cumulative 4-component distributions earned, net gains, and a **+ Buy Again** quick action button.
 
 ---
 
@@ -448,6 +479,10 @@ Certain ETFs execute unit splits (e.g. Nippon India ETF Nifty 50 BeES executed a
 - **Debt / Gold / Silver ETFs** (`GOLDBEES`, `SILVERBEES`, `LIQUIDBEES` acquired on or after April 1, 2023):
   - Governed by **Section 50AA** of the Income Tax Act.
   - Deemed Short-Term Capital Gains regardless of holding period and taxed at your marginal slab rate.
+
+### 5.5 Active Holdings vs. Past Holdings (Closed ETFs)
+- **Active Holdings**: Displays exclusively ETFs with `active_units > 0`. Shows category badges (Index, Gold, Silver, Debt, Global), live market value, and unrealized P&L.
+- **Past Holdings**: When an ETF is sold in full (`active_units = 0`), it is catalogued into **Past Holdings** with lifetime Realized P&L (STCG/LTCG), category tags, and a **+ Buy Again** shortcut.
 
 ---
 
@@ -492,6 +527,10 @@ When purchasing bonds in the secondary market (e.g. on the NSE/BSE debt segment 
   - The exit transaction is flagged as `EXEMPT_SGB_MATURITY`.
   - The realized gain is excluded from taxable capital gains in your tax report, while full cash proceeds are logged in your cash flow statement.
 
+### 6.5 Active Holdings vs. Past Holdings (Matured & Redeemed Bonds)
+- **Active Holdings**: Strictly includes active bonds with positive remaining quantity (`quantity > 0`). Displays invested capital, current market value, days to maturity countdown, and next coupon tracking.
+- **Past Holdings**: When a bond is sold or redeemed at maturity (`quantity = 0`), it is organized under the **Past Holdings** tab. Shows lifetime Realized Capital P&L, total coupon interest earned, net returns, and an option to **+ Buy Again**.
+
 ---
 
 ## 7. Module 5: Mutual Funds
@@ -528,6 +567,10 @@ Tracks Direct and Regular mutual fund folios across AMCs with AMFI scheme codes.
    - Matches redeemed units against earliest SIP installments using FIFO.
    - For equity funds, units held $> 365\text{ days}$ generate **LTCG**; units held $\le 365\text{ days}$ generate **STCG**.
    - Generates precise audit records in `mutual_fund_capital_gains`.
+
+### 7.4 Active Holdings vs. Past Holdings (Fully Redeemed Funds)
+- **Active Holdings**: Displays folios with `active_units > 0`. Shows current market value, invested amounts, and live unrealized returns.
+- **Past Holdings**: Folios where all units have been redeemed (`active_units = 0`) appear in the **Past Holdings** tab. Shows lifetime Realized Capital P&L (STCG/LTCG), total returns, and an **+ Invest Again** shortcut button.
 
 ---
 
@@ -659,4 +702,4 @@ D:\xampp\mysql\bin\mysql.exe -u root -p investment_portfolio < my_portfolio_back
 - ⭐ **Support the Project**: If this tracker helps you manage your investments, consider giving the repository a star on GitHub!
 
 ---
-*Investment Portfolio Tracker &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*
+*RupeeFolio &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*

@@ -37,8 +37,10 @@ class Etfs extends BaseController
         $corporateActions = $this->corporateActionModel->getUserCorporateActions($userId, 'ETF');
 
         return view('etfs/index', [
-            'title'            => 'ETFs Portfolio - WealthPulse',
+            'title'            => 'ETFs Portfolio - RupeeFolio',
             'holdings'         => $metricsData['holdings'],
+            'activeHoldings'   => $metricsData['active_holdings'] ?? $metricsData['holdings'],
+            'pastHoldings'     => $metricsData['past_holdings'] ?? [],
             'summary'          => $metricsData['summary'],
             'transactions'     => $transactions,
             'capitalGains'     => $capitalGains,
@@ -52,7 +54,7 @@ class Etfs extends BaseController
     public function newEtf()
     {
         return view('etfs/new_etf', [
-            'title' => 'New ETF Purchase - WealthPulse',
+            'title' => 'New ETF Purchase - RupeeFolio',
         ]);
     }
 

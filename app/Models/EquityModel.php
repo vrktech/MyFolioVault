@@ -127,8 +127,14 @@ class EquityModel extends Model
 
         $overallUnrealizedPercent = $totalInvested > 0 ? (($totalUnrealizedPnl / $totalInvested) * 100) : 0.0;
 
+        $activeHoldings = array_values(array_filter($holdings, fn($h) => (int)$h['active_quantity'] > 0));
+        $pastHoldings   = array_values(array_filter($holdings, fn($h) => (int)$h['active_quantity'] <= 0));
+
         return [
-            'holdings' => $holdings,
+            'holdings'        => $activeHoldings,
+            'active_holdings' => $activeHoldings,
+            'past_holdings'   => $pastHoldings,
+            'all_holdings'    => $holdings,
             'summary'  => [
                 'total_current_value'      => $totalCurrentValue,
                 'total_invested'           => $totalInvested,
@@ -140,7 +146,8 @@ class EquityModel extends Model
                 'total_dividends'          => $totalDividends,
                 'total_net_gain'           => $totalUnrealizedPnl + $totalRealizedPnl + $totalDividends,
                 'stocks_count'             => count($stocks),
-                'active_holdings_count'    => count(array_filter($holdings, fn($h) => $h['active_quantity'] > 0)),
+                'active_holdings_count'    => count($activeHoldings),
+                'past_holdings_count'      => count($pastHoldings),
             ],
         ];
     }

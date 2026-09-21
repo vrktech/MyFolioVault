@@ -1,5 +1,5 @@
 /**
- * Investment Portfolio Tracker - Main Application Scripts
+ * RupeeFolio - Main Application Scripts
  * 100% Offline Compatible
  */
 
