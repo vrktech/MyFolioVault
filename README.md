@@ -123,6 +123,40 @@ If you prefer configuring manually via MySQL CLI or phpMyAdmin:
 
 ---
 
+## ⚠️ Disclaimer & Limitation of Liability
+
+> [!CAUTION]
+> **PLEASE READ CAREFULLY BEFORE USING THIS APPLICATION:**
+> 
+> 1. **"As Is" Software**: This application is open-source software provided on an **"AS IS"** and **"AS AVAILABLE"** basis without warranties of any kind, either express or implied, including but not limited to merchantability, fitness for a particular purpose, or freedom from defects.
+> 2. **No Liability for Data Loss or Damages**: In no event shall the author(s), contributor(s), or copyright holder(s) be held liable for any direct, indirect, incidental, special, consequential, or punitive damages (including, without limitation, loss of data, database corruption, software errors, downtime, or business interruption) arising out of the installation, use, or inability to use this software.
+> 3. **Not Financial or Tax Advice**: This tool is developed strictly for personal portfolio tracking, bookkeeping, and educational utility. It does **not** constitute financial, legal, investment, or tax advice under SEBI regulations or the Indian Income Tax Act. Tax calculations, corporate action formulas (bonus, splits, mergers), and capital gains treatments should always be independently validated against official broker contract notes, depository statements (CDSL/NSDL), and certified tax professionals before filing returns.
+> 4. **Backup Responsibility**: You are solely responsible for securing your environment, maintaining regular database backups, protecting passwords/encryption keys, and verifying calculation results.
+
+---
+
+## 💡 Feedback, Issues & Feature Requests
+
+Community feedback is what makes open-source tools better for everyone. We actively welcome you to report any issues or propose enhancements:
+
+- 🐛 **Report Bugs & Issues**: If you encounter any calculation differences, database errors, UI glitches, or broken links, please **[Open an Issue on GitHub](https://github.com/)** describing what happened, along with reproduction steps.
+- 💡 **Feature Requests & Ideas**: Have ideas for additional Indian investment instruments (e.g. T-Bills, FDs, P2P), new corporate action types, tax reports (ITR filing schedules), or visual charts? Please submit a feature request via GitHub Issues!
+- 🤝 **Pull Requests**: Code contributions, bug fixes, and performance improvements are always welcome.
+
+---
+
+## 💖 Support & Donations
+
+If this personal portfolio tracker saves you time, helps you manage your family wealth, or brings you value, your support is greatly appreciated:
+
+- ⭐ **Star this repository** on GitHub — it helps other Indian retail investors discover the project!
+- 🇮🇳 **UPI Support**: You can send contributions directly via UPI to:
+  ```
+  karthickvr@oksbi
+  ```
+
+---
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

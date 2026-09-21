@@ -642,4 +642,14 @@ D:\xampp\mysql\bin\mysql.exe -u root -p investment_portfolio < my_portfolio_back
 4. **Important**: Click the prominent **"Delete install.php Now"** button on the final screen to permanently remove the setup wizard from your server for security.
 
 ---
+
+## 11. Disclaimer & Limitation of Liability
+
+> [!CAUTION]
+> **LEGAL & FINANCIAL DISCLAIMER**:
+> - **As-Is Provision**: This application is provided on an "AS IS" and "AS AVAILABLE" basis without any express or implied warranties.
+> - **No Financial Advisory**: This software is built for personal record-keeping, tracking, and educational purposes. It does not constitute SEBI-registered investment advice or professional tax advice. Always verify capital gains figures, corporate actions, and income schedules with official broker contract notes, depository statements, and a qualified Chartered Accountant before filing tax returns.
+> - **Limitation of Liability**: The authors and contributors shall not be liable for any data loss, computational inaccuracies, financial loss, or damages arising from the use of this software. Users are solely responsible for maintaining regular database backups.
+
+---
 *Investment Portfolio Tracker &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*
