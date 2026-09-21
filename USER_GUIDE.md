@@ -652,4 +652,11 @@ D:\xampp\mysql\bin\mysql.exe -u root -p investment_portfolio < my_portfolio_back
 > - **Limitation of Liability**: The authors and contributors shall not be liable for any data loss, computational inaccuracies, financial loss, or damages arising from the use of this software. Users are solely responsible for maintaining regular database backups.
 
 ---
+
+## 12. Feedback & Issues
+
+- 🐛 **Issues & Feature Requests**: If you discover calculation differences, encounter bugs, or have ideas for new features, please report them by opening an issue on **GitHub**.
+- ⭐ **Support the Project**: If this tracker helps you manage your investments, consider giving the repository a star on GitHub!
+
+---
 *Investment Portfolio Tracker &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*

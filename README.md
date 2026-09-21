@@ -145,15 +145,11 @@ Community feedback is what makes open-source tools better for everyone. We activ
 
 ---
 
-## 💖 Support & Donations
+## ⭐ Support the Project
 
-If this personal portfolio tracker saves you time, helps you manage your family wealth, or brings you value, your support is greatly appreciated:
+If this personal portfolio tracker saves you time, helps you manage your investments, or brings you value:
 
-- ⭐ **Star this repository** on GitHub — it helps other Indian retail investors discover the project!
-- 🇮🇳 **UPI Support**: You can send contributions directly via UPI to:
-  ```
-  karthickvr@oksbi
-  ```
+- ⭐ **Star this repository** on GitHub — it gives the project visibility and helps other Indian retail investors discover it!
 
 ---
 
