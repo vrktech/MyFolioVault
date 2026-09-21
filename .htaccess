@@ -1,20 +1,16 @@
 Options +FollowSymlinks -Indexes
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /Portfolio/
 
-    # Allow direct access to public folder
-    RewriteCond %{REQUEST_URI} ^/Portfolio/public/ [NC]
-    RewriteRule ^ - [L]
+    # Prevent direct access to sensitive core directories & files
+    RewriteRule ^(\.env|env|schema\.sql|composer\.(json|lock)|package\.(bat|php)|spark|release_guide\.html) - [F,L,NC]
+    RewriteRule ^(app|system|writable|tests)/ - [F,L,NC]
 
-    # If asset file exists in public/, rewrite directly to it
-    RewriteCond %{DOCUMENT_ROOT}/Portfolio/public/$1 -f [OR]
-    RewriteCond %{DOCUMENT_ROOT}/Portfolio/public/$1 -d
+    # Rewrite all other requests to public/ folder
+    RewriteCond %{REQUEST_URI} !/public/ [NC]
     RewriteRule ^(.*)$ public/$1 [L]
-
-    # Route all application requests to index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 </IfModule>
+
+
 

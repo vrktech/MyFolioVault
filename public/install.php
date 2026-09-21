@@ -19,6 +19,30 @@ $action = $_GET['action'] ?? ($_POST['action'] ?? '');
 if ($action === 'delete_self') {
     $selfFile = __FILE__;
     $success = @unlink($selfFile);
+
+    // Resolve accurate app base URL from .env if available
+    $targetLoginUrl = '';
+    if (file_exists(ENV_FILE)) {
+        $envLines = file(ENV_FILE, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($envLines as $line) {
+            $line = trim($line);
+            if (preg_match('/^app\.baseURL\s*=\s*(.*)$/', $line, $m)) {
+                $targetLoginUrl = rtrim(trim($m[1], "'\" "), '/') . '/login';
+                break;
+            }
+        }
+    }
+    if (empty($targetLoginUrl)) {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || ($_SERVER['SERVER_PORT'] ?? 80) == 443) ? "https://" : "http://";
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '/');
+        $scriptDir = rtrim(str_replace('\\', '/', $scriptDir), '/');
+        $det = $protocol . $host . $scriptDir . '/';
+        if (str_ends_with($det, '/public/')) {
+            $det = substr($det, 0, -7) . '/';
+        }
+        $targetLoginUrl = rtrim($det, '/') . '/login';
+    }
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -40,7 +64,7 @@ if ($action === 'delete_self') {
                 <p class="text-secondary small mb-4">
                     <code>install.php</code> has been permanently removed from your server. Your portfolio installation is secure and ready for production use.
                 </p>
-                <a href="login" class="btn btn-primary-gradient px-4 py-2 text-white text-decoration-none">
+                <a href="<?= htmlspecialchars($targetLoginUrl) ?>" class="btn btn-primary-gradient px-4 py-2 text-white text-decoration-none">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Proceed to Login
                 </a>
             <?php else: ?>
@@ -52,7 +76,7 @@ if ($action === 'delete_self') {
                     Please manually delete this file using your file manager or terminal:<br>
                     <code><?= htmlspecialchars($selfFile) ?></code>
                 </div>
-                <a href="login" class="btn btn-primary px-4 py-2 text-white text-decoration-none">
+                <a href="<?= htmlspecialchars($targetLoginUrl) ?>" class="btn btn-primary px-4 py-2 text-white text-decoration-none">
                     Proceed to Login Anyway
                 </a>
             <?php endif; ?>
@@ -420,7 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
 
             <div class="d-flex justify-content-between align-items-center pt-2">
                 <span class="text-muted small">Indian Rupee (₹) Portfolio Edition</span>
-                <a href="login" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
+                <a href="<?= htmlspecialchars(rtrim($appUrl, '/') . '/login') ?>" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Proceed to Login
                 </a>
             </div>
