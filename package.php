@@ -60,6 +60,7 @@ $includeItems = [
     '.htaccess'    => false,
     'index.php'    => false,
     'schema.sql'   => false,
+    'sample_data.sql' => false,
     'README.md'    => false,
     'USER_GUIDE.md'=> false,
     'LICENSE'      => false,
@@ -126,11 +127,31 @@ foreach ($includeItems as $item => $isDir) {
         }
         if ($skip) continue;
 
+        $zipEntry = str_replace('\\', '/', $relPath);
+
         if ($file->isDir()) {
-            $zip->addEmptyDir($relPath);
+            $zip->addEmptyDir($zipEntry);
         } else {
-            $zip->addFile($filePath, $relPath);
-            $fileCount++;
+            // In standalone package release, remove demo credentials helper and prefilled inputs on login screen
+            if ($zipEntry === 'app/Views/auth/login.php') {
+                $loginContent = file_get_contents($filePath);
+
+                // 1. Remove pre-configured demo account hint box
+                $loginContent = preg_replace('/<!--\s*DEMO_CREDENTIALS_START\s*-->.*?<!--\s*DEMO_CREDENTIALS_END\s*-->/s', '', $loginContent);
+
+                // 2. Clear pre-filled demo email
+                $loginContent = str_replace("value=\"<?= old('email', 'admin@portfolio.local') ?>\"", "value=\"<?= old('email') ?>\"", $loginContent);
+
+                // 3. Clear pre-filled demo password
+                $loginContent = str_replace('value="password123"', 'value=""', $loginContent);
+
+                $zip->addFromString($zipEntry, $loginContent);
+                $fileCount++;
+                echo "[*] Production Filter applied to: {$zipEntry} (removed demo credentials box & prefilled values)\n";
+            } else {
+                $zip->addFile($filePath, $zipEntry);
+                $fileCount++;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 define('INSTALL_ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('SCHEMA_FILE', INSTALL_ROOT . 'schema.sql');
+define('SAMPLE_DATA_FILE', INSTALL_ROOT . 'sample_data.sql');
 define('ENV_FILE', INSTALL_ROOT . '.env');
 define('ENV_EXAMPLE', INSTALL_ROOT . 'env');
 
@@ -152,6 +153,11 @@ $requirements = [
         'current' => file_exists(SCHEMA_FILE) ? 'Found (' . number_format(filesize(SCHEMA_FILE) / 1024, 1) . ' KB)' : 'Missing',
         'required' => 'schema.sql in root'
     ],
+    'Demo Data File (sample_data.sql)' => [
+        'status' => true,
+        'current' => file_exists(SAMPLE_DATA_FILE) ? 'Available (' . number_format(filesize(SAMPLE_DATA_FILE) / 1024, 1) . ' KB)' : 'Not found',
+        'required' => 'Optional'
+    ],
     'Root Directory Writable' => [
         'status' => is_writable(INSTALL_ROOT),
         'current' => is_writable(INSTALL_ROOT) ? 'Writable' : 'Read-only',
@@ -188,6 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
     $adminPass2   = $_POST['admin_pass2'] ?? '';
     $fyStartMonth = (int)($_POST['fy_start_month'] ?? 4);
     $recordsPerPage = (int)($_POST['records_per_page'] ?? 20);
+    $installDemoData = !empty($_POST['install_demo_data']);
 
     if (empty($dbHost) || empty($dbUser) || empty($dbName)) {
         $installError = 'Database Host, Username, and Database Name are required.';
@@ -276,6 +283,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
                         $stmt->close();
                     } else {
                         $installError = "User statement preparation failed: " . $mysqli->error;
+                    }
+
+                    // Step 4b: Optionally import demo portfolio data
+                    if (empty($installError) && $installDemoData) {
+                        if (file_exists(SAMPLE_DATA_FILE)) {
+                            $logs[] = "Importing demo holdings and sample transactions (sample_data.sql)...";
+                            $sampleSql = file_get_contents(SAMPLE_DATA_FILE);
+
+                            // Find administrator user_id to ensure foreign key integrity
+                            $adminUserId = 1;
+                            $userQuery = $mysqli->query("SELECT id FROM `users` WHERE `email` = '" . $mysqli->real_escape_string($adminEmail) . "' LIMIT 1");
+                            if ($userQuery && $row = $userQuery->fetch_assoc()) {
+                                $adminUserId = (int)$row['id'];
+                            }
+
+                            $mysqli->query("SET FOREIGN_KEY_CHECKS = 0;");
+                            $mysqli->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';");
+
+                            if ($mysqli->multi_query($sampleSql)) {
+                                do {
+                                    if ($result = $mysqli->store_result()) {
+                                        $result->free();
+                                    }
+                                } while ($mysqli->more_results() && $mysqli->next_result());
+                            }
+
+                            if ($mysqli->error) {
+                                $logs[] = "! Note during demo data import: " . $mysqli->error;
+                            } else {
+                                if ($adminUserId !== 1) {
+                                    $sampleTables = [
+                                        'bonds', 'bond_capital_gains', 'bond_interest_payouts', 'bond_transactions',
+                                        'corporate_actions', 'equities', 'equity_capital_gains', 'equity_dividends',
+                                        'equity_transactions', 'etfs', 'etf_capital_gains', 'etf_transactions',
+                                        'mutual_funds', 'mutual_fund_capital_gains', 'mutual_fund_transactions',
+                                        'nps_accounts', 'nps_scheme_units', 'nps_transactions',
+                                        'reits_invits', 'reit_invit_capital_gains', 'reit_invit_distributions', 'reit_invit_transactions'
+                                    ];
+                                    foreach ($sampleTables as $tbl) {
+                                        $mysqli->query("UPDATE `{$tbl}` SET `user_id` = {$adminUserId} WHERE `user_id` = 1");
+                                    }
+                                }
+                                $logs[] = "✓ Sample demo transactions, holdings, and payouts loaded successfully";
+                            }
+                            $mysqli->query("SET FOREIGN_KEY_CHECKS = 1;");
+                        } else {
+                            $logs[] = "! Warning: sample_data.sql was not found in root; skipped demo data installation.";
+                        }
+                    } elseif (empty($installError)) {
+                        $logs[] = "✓ Clean installation: no demo data loaded (empty portfolio)";
                     }
 
                     // Step 5: Update .env configuration file
@@ -428,6 +485,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
                     </div>
                     <div class="col-sm-6">
                         <span class="text-muted">Financial Year Starts:</span> <strong class="text-dark"><?= date('F', mktime(0, 0, 0, $fyStartMonth, 1)) ?></strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted">Portfolio Data:</span> <strong class="text-dark"><?= !empty($installDemoData) ? 'Demo Sample Data Loaded' : 'Clean &amp; Empty Portfolio' ?></strong>
                     </div>
                 </div>
             </div>
@@ -603,6 +663,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
                                 <option value="80">80 records per page</option>
                                 <option value="100">100 records per page</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Demo / Sample Data Option -->
+                <div class="mb-4">
+                    <div class="step-heading">
+                        <span class="wizard-step-badge active">4</span>
+                        <span>Sample / Demo Portfolio Data</span>
+                    </div>
+
+                    <div class="card border border-primary-subtle bg-primary-subtle bg-opacity-10 rounded-3 p-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="install_demo_data" id="installDemoData" value="1" <?= !empty($_POST['install_demo_data']) ? 'checked' : '' ?>>
+                            <label class="form-check-label fw-semibold text-dark" for="installDemoData">
+                                <i class="bi bi-database-fill-add text-primary me-1"></i> Install Demo Transactions &amp; Sample Portfolio Holdings
+                            </label>
+                            <div class="form-text small text-muted mt-1">
+                                Pre-populates your portfolio with realistic test holdings across Equities, Mutual Funds, ETFs, Bonds, InvITs/REITs, and NPS. <strong>Leave unchecked (default: No) for a clean, blank portfolio database.</strong>
+                            </div>
                         </div>
                     </div>
                 </div>

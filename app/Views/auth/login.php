@@ -96,6 +96,7 @@
     </button>
 </form>
 
+<!-- DEMO_CREDENTIALS_START -->
 <!-- Demo Credentials Helper -->
 <div class="credentials-pill text-center">
     <div class="text-secondary fw-semibold mb-1 small"><i class="bi bi-key-fill text-warning me-1"></i> Pre-configured Demo Account</div>
@@ -104,6 +105,7 @@
         Password: <span class="font-monospace text-dark fw-medium">password123</span>
     </div>
 </div>
+<!-- DEMO_CREDENTIALS_END -->
 
 <?= $this->endSection() ?>
 
