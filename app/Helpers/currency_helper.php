@@ -179,4 +179,41 @@ if (!function_exists('get_fy_ranges')) {
     }
 }
 
+if (!function_exists('stock_badge')) {
+    /**
+     * Render a colorful, distinct Bootstrap badge for a stock or asset symbol.
+     */
+    function stock_badge(?string $symbol, string $extraClass = ''): string
+    {
+        $sym = trim((string) $symbol);
+        if ($sym === '') {
+            return '';
+        }
+
+        // Palette of 12 rich, high-contrast Bootstrap subtle colors
+        $palettes = [
+            'bg-primary-subtle text-primary border-primary-subtle',
+            'bg-success-subtle text-success border-success-subtle',
+            'bg-info-subtle text-info-emphasis border-info-subtle',
+            'bg-warning-subtle text-warning-emphasis border-warning-subtle',
+            'bg-danger-subtle text-danger border-danger-subtle',
+            'bg-purple-subtle',
+            'bg-indigo-subtle',
+            'bg-teal-subtle',
+            'bg-orange-subtle',
+            'bg-pink-subtle',
+            'bg-cyan-subtle',
+            'bg-dark-subtle text-dark-emphasis border-dark-subtle',
+        ];
+
+        // Hash symbol to deterministically assign the same vibrant color across all tables
+        $hash = crc32(strtoupper($sym));
+        $colorClass = $palettes[abs($hash) % count($palettes)];
+
+        $classes = 'badge ' . $colorClass . ' border font-monospace fw-semibold px-1.5 py-0.5 ' . $extraClass;
+
+        return '<span class="' . trim($classes) . '" style="font-size: 0.68rem; letter-spacing: 0.2px;">' . esc($sym) . '</span>';
+    }
+}
+
 

@@ -203,9 +203,7 @@
                                                         <?= esc($h['isin']) ?>
                                                     </span>
                                                     <?php if (!empty($h['bond_symbol'])): ?>
-                                                        <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
-                                                            <?= esc($h['bond_symbol']) ?>
-                                                        </span>
+                                                        <?= stock_badge($h['bond_symbol']) ?>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -434,9 +432,7 @@
                                                         <?= esc($ph['isin']) ?>
                                                     </span>
                                                     <?php if (!empty($ph['bond_symbol'])): ?>
-                                                        <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
-                                                            <?= esc($ph['bond_symbol']) ?>
-                                                        </span>
+                                                        <?= stock_badge($ph['bond_symbol']) ?>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>

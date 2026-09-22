@@ -195,7 +195,7 @@
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($h['exchange']) ?>
                                                     </span>
-                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($h['symbol']) ?></span>
+                                                    <?= stock_badge($h['symbol']) ?>
                                                 </div>
                                             </div>
                                         </td>
@@ -334,7 +334,7 @@
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($ph['exchange']) ?>
                                                     </span>
-                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($ph['symbol']) ?></span>
+                                                    <?= stock_badge($ph['symbol']) ?>
                                                 </div>
                                             </div>
                                         </td>
@@ -625,8 +625,8 @@
                                         data-amount="<?= (float)$t['total_amount'] ?>">
                                         <td><?= date('d-M-Y', strtotime($t['transaction_date'])) ?></td>
                                         <td>
-                                            <strong><?= esc($t['symbol']) ?></strong>
-                                            <span class="text-muted">(<?= esc($t['exchange']) ?>)</span>
+                                            <?= stock_badge($t['symbol']) ?>
+                                            <span class="text-muted small ms-1">(<?= esc($t['exchange']) ?>)</span>
                                         </td>
                                         <td>
                                             <?php if ($t['transaction_type'] === 'BUY'): ?>
@@ -865,7 +865,7 @@
                                         data-cost="<?= $cost ?>"
                                         data-proceeds="<?= $proceeds ?>"
                                         data-gain="<?= $gain ?>">
-                                        <td><strong><?= esc($cg['symbol']) ?></strong> (<?= esc($cg['company_name']) ?>)</td>
+                                        <td><?= stock_badge($cg['symbol']) ?> <span class="text-secondary small ms-1">(<?= esc($cg['company_name']) ?>)</span></td>
                                         <td><?= date('d-M-Y', strtotime($cg['buy_date'])) ?></td>
                                         <td><?= date('d-M-Y', strtotime($cg['sell_date'])) ?></td>
                                         <td class="text-center fw-medium"><?= $cg['holding_days'] ?> days</td>
@@ -1099,7 +1099,7 @@
                                         data-tds="<?= $tdsAmt ?>"
                                         data-net="<?= $netAmt ?>">
                                         <td><?= date('d-M-Y', strtotime($d['dividend_date'])) ?></td>
-                                        <td><strong><?= esc($d['symbol']) ?></strong></td>
+                                        <td><?= stock_badge($d['symbol']) ?></td>
                                         <td>
                                             <span class="badge bg-light text-secondary border px-2 py-1"><?= esc($d['dividend_type']) ?></span>
                                         </td>
