@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = [];
+    protected $helpers = ['currency', 'financial', 'export', 'url', 'form'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -52,7 +52,26 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+    }
 
-        // E.g.: $this->session = \Config\Services::session();
+    /**
+     * Retrieve the currently authenticated User ID from session.
+     */
+    protected function getUserId(): int
+    {
+        return (int) (session()->get('userId') ?? 0);
+    }
+
+    /**
+     * Standardized JSON API Response helper.
+     */
+    protected function jsonResponse(bool $success, string $message, mixed $data = [], int $status = 200)
+    {
+        return $this->response->setStatusCode($status)->setJSON([
+            'success'   => $success,
+            'message'   => $message,
+            'data'      => $data,
+            'timestamp' => date('c'),
+        ]);
     }
 }

@@ -46,6 +46,9 @@
    - [8.3 How to Record Quarterly Fee & Unit Deductions](#83-how-to-record-quarterly-fee--unit-deductions)
 9. [Analytics, Reports & Capital Gains Tax Audit](#9-analytics-reports--capital-gains-tax-audit)
 10. [Production Deployment, Data Cleanup & Backup](#10-production-deployment-data-cleanup--backup)
+11. [Disclaimer & Limitation of Liability](#11-disclaimer--limitation-of-liability)
+12. [Feedback & Issues](#12-feedback--issues)
+13. [Credits & Technology Stack Acknowledgements](#13-credits--technology-stack-acknowledgements)
 
 ---
 
@@ -700,6 +703,19 @@ D:\xampp\mysql\bin\mysql.exe -u root -p investment_portfolio < my_portfolio_back
 
 - 🐛 **Issues & Feature Requests**: If you discover calculation differences, encounter bugs, or have ideas for new features, please report them by opening an issue on **GitHub**.
 - ⭐ **Support the Project**: If this tracker helps you manage your investments, consider giving the repository a star on GitHub!
+
+---
+
+## 13. Credits & Technology Stack Acknowledgements
+
+RupeeFolio is made possible through the following open-source projects and developer tools:
+
+- **CodeIgniter 4**: High-performance, secure PHP MVC framework powering routing, controllers, input validation, and database abstraction. Released under the MIT License by the CodeIgniter Foundation.
+- **Bootstrap 5.3.3**: Responsive UI component framework enabling fluid offline styling across mobile, tablet, and desktop viewports. Released under the MIT License.
+- **Bootstrap Icons 1.11.3**: Crisp offline SVG glyph library powering all dashboard KPIs, action triggers, and status indicators. Released under the MIT License.
+- **Chart.js**: Client-side HTML5 canvas charting library utilized for real-time asset allocation and net worth distribution visuals. Released under the MIT License.
+- **Google Gemini AI**: Architectural engineering, agentic development, complex Indian capital gains tax engine algorithms (STCG/LTCG holding period logic, Section 47(viic) SGB exemption, REIT 4-component income tracking), and end-to-end verification.
+- **PHP 8.1+ & MySQL / MariaDB**: Core language engine, strict typing, and relational database management.
 
 ---
 *RupeeFolio &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*

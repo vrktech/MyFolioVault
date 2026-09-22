@@ -1053,162 +1053,155 @@ class Reports extends BaseController
 
     public function exportCashflow()
     {
-        $userId = (int)session()->get('userId');
+        $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getCashflowData($userId, $range);
         $filename = 'rupeefolio_cashflow_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=' . $filename);
+        $metadata = [
+            'RupeeFolio - Portfolio Cash Flow & Activity Report',
+            'Reporting Period: ' . $range['label'],
+            'Exported On: ' . date('d-M-Y H:i:s'),
+        ];
 
-        $out = fopen('php://output', 'w');
-        fputcsv($out, ['RupeeFolio - Portfolio Cash Flow & Activity Report']);
-        fputcsv($out, ['Reporting Period: ' . $range['label']]);
-        fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
-        fputcsv($out, []);
-        fputcsv($out, ['Module / Asset Class', 'Total Purchase (INR)', 'Total Sold (INR)', 'Total Income (INR)', 'Total Expense (INR)', 'Net Cashflow (INR)', 'Activity Count']);
+        $headers = ['Module / Asset Class', 'Total Purchase (INR)', 'Total Sold (INR)', 'Total Income (INR)', 'Total Expense (INR)', 'Net Cashflow (INR)', 'Activity Count'];
 
+        $rows = [];
         foreach ($data['modules'] as $m) {
-            fputcsv($out, [
+            $rows[] = [
                 $m['name'],
-                number_format($m['purchase'], 2, '.', ''),
-                number_format($m['sold'], 2, '.', ''),
-                number_format($m['income'], 2, '.', ''),
-                number_format($m['expense'], 2, '.', ''),
-                number_format($m['net_flow'], 2, '.', ''),
+                $m['purchase'],
+                $m['sold'],
+                $m['income'],
+                $m['expense'],
+                $m['net_flow'],
                 $m['activity'],
-            ]);
+            ];
         }
 
         $t = $data['totals'];
-        fputcsv($out, [
+        $rows[] = [
             'PORTFOLIO TOTAL',
-            number_format($t['purchase'], 2, '.', ''),
-            number_format($t['sold'], 2, '.', ''),
-            number_format($t['income'], 2, '.', ''),
-            number_format($t['expense'], 2, '.', ''),
-            number_format($t['net_flow'], 2, '.', ''),
+            $t['purchase'],
+            $t['sold'],
+            $t['income'],
+            $t['expense'],
+            $t['net_flow'],
             $t['activity'],
-        ]);
+        ];
 
-        fclose($out);
-        exit;
+        csv_download($filename, $headers, $rows, $metadata);
     }
 
     public function exportTax()
     {
-        $userId = (int)session()->get('userId');
+        $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getTaxData($userId, $range);
         $filename = 'rupeefolio_tax_capital_gains_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=' . $filename);
+        $metadata = [
+            'RupeeFolio - Capital Gains & Tax Report (LTCG / STCG)',
+            'Reporting Period: ' . $range['label'],
+            'Exported On: ' . date('d-M-Y H:i:s'),
+        ];
 
-        $out = fopen('php://output', 'w');
-        fputcsv($out, ['RupeeFolio - Capital Gains & Tax Report (LTCG / STCG)']);
-        fputcsv($out, ['Reporting Period: ' . $range['label']]);
-        fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
-        fputcsv($out, []);
-        fputcsv($out, ['Module / Asset Class', 'STCG (INR)', 'LTCG (INR)', 'Exempt Gains (INR)', 'Total Realized P&L (INR)', 'Matched Sales (INR)', 'Cost Basis (INR)', 'Tax Lots Count']);
+        $headers = ['Module / Asset Class', 'STCG (INR)', 'LTCG (INR)', 'Exempt Gains (INR)', 'Total Realized P&L (INR)', 'Matched Sales (INR)', 'Cost Basis (INR)', 'Tax Lots Count'];
 
+        $rows = [];
         foreach ($data['modules'] as $m) {
-            fputcsv($out, [
+            $rows[] = [
                 $m['name'],
-                number_format($m['stcg'], 2, '.', ''),
-                number_format($m['ltcg'], 2, '.', ''),
-                number_format($m['exempt'], 2, '.', ''),
-                number_format($m['total_gain'], 2, '.', ''),
-                number_format($m['sales'], 2, '.', ''),
-                number_format($m['cost'], 2, '.', ''),
+                $m['stcg'],
+                $m['ltcg'],
+                $m['exempt'],
+                $m['total_gain'],
+                $m['sales'],
+                $m['cost'],
                 $m['lots'],
-            ]);
+            ];
         }
 
         $t = $data['totals'];
-        fputcsv($out, [
+        $rows[] = [
             'CONSOLIDATED TOTAL',
-            number_format($t['stcg'], 2, '.', ''),
-            number_format($t['ltcg'], 2, '.', ''),
-            number_format($t['exempt'], 2, '.', ''),
-            number_format($t['total_gain'], 2, '.', ''),
-            number_format($t['sales'], 2, '.', ''),
-            number_format($t['cost'], 2, '.', ''),
+            $t['stcg'],
+            $t['ltcg'],
+            $t['exempt'],
+            $t['total_gain'],
+            $t['sales'],
+            $t['cost'],
             $t['lots'],
-        ]);
+        ];
 
-        fclose($out);
-        exit;
+        csv_download($filename, $headers, $rows, $metadata);
     }
 
     public function exportIncome()
     {
-        $userId = (int)session()->get('userId');
+        $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getIncomeData($userId, $range);
         $filename = 'rupeefolio_passive_income_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=' . $filename);
+        $metadata = [
+            'RupeeFolio - Passive Income & Distribution Report',
+            'Reporting Period: ' . $range['label'],
+            'Exported On: ' . date('d-M-Y H:i:s'),
+        ];
 
-        $out = fopen('php://output', 'w');
-        fputcsv($out, ['RupeeFolio - Passive Income & Distribution Report']);
-        fputcsv($out, ['Reporting Period: ' . $range['label']]);
-        fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
-        fputcsv($out, []);
-        fputcsv($out, ['Module / Asset Class', 'Gross Income (INR)', 'TDS Withheld (INR)', 'Net Received (INR)', 'Payouts Count']);
+        $headers = ['Module / Asset Class', 'Gross Income (INR)', 'TDS Withheld (INR)', 'Net Received (INR)', 'Payouts Count'];
 
-        fputcsv($out, ['Equities (Cash Dividends)', number_format($data['eqTotals']['gross'], 2, '.', ''), number_format($data['eqTotals']['tds'], 2, '.', ''), number_format($data['eqTotals']['net'], 2, '.', ''), $data['eqTotals']['count']]);
-        fputcsv($out, ['Bonds (Coupon Interest)', number_format($data['bondTotals']['gross'], 2, '.', ''), number_format($data['bondTotals']['tds'], 2, '.', ''), number_format($data['bondTotals']['net'], 2, '.', ''), $data['bondTotals']['count']]);
-        fputcsv($out, ['InvITs & REITs (Distributions)', number_format($data['reitTotals']['gross'], 2, '.', ''), number_format($data['reitTotals']['tds'], 2, '.', ''), number_format($data['reitTotals']['net'], 2, '.', ''), $data['reitTotals']['count']]);
+        $rows = [
+            ['Equities (Cash Dividends)', $data['eqTotals']['gross'], $data['eqTotals']['tds'], $data['eqTotals']['net'], $data['eqTotals']['count']],
+            ['Bonds (Coupon Interest)', $data['bondTotals']['gross'], $data['bondTotals']['tds'], $data['bondTotals']['net'], $data['bondTotals']['count']],
+            ['InvITs & REITs (Distributions)', $data['reitTotals']['gross'], $data['reitTotals']['tds'], $data['reitTotals']['net'], $data['reitTotals']['count']],
+        ];
 
         $gt = $data['grandTotals'];
-        fputcsv($out, ['TOTAL PASSIVE INCOME', number_format($gt['gross'], 2, '.', ''), number_format($gt['tds'], 2, '.', ''), number_format($gt['net'], 2, '.', ''), $gt['payouts']]);
+        $rows[] = ['TOTAL PASSIVE INCOME', $gt['gross'], $gt['tds'], $gt['net'], $gt['payouts']];
 
-        fclose($out);
-        exit;
+        csv_download($filename, $headers, $rows, $metadata);
     }
 
     public function exportExpenses()
     {
-        $userId = (int)session()->get('userId');
+        $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getExpensesData($userId, $range);
         $filename = 'rupeefolio_expenses_friction_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=' . $filename);
+        $metadata = [
+            'RupeeFolio - Expenses & Statutory Friction Report',
+            'Reporting Period: ' . $range['label'],
+            'Exported On: ' . date('d-M-Y H:i:s'),
+        ];
 
-        $out = fopen('php://output', 'w');
-        fputcsv($out, ['RupeeFolio - Expenses & Statutory Friction Report']);
-        fputcsv($out, ['Reporting Period: ' . $range['label']]);
-        fputcsv($out, ['Exported On: ' . date('d-M-Y H:i:s')]);
-        fputcsv($out, []);
-        fputcsv($out, ['Module / Asset Class', 'Brokerage (INR)', 'STT & Taxes (INR)', 'TDS Deducted (INR)', 'Platform Charges (INR)', 'Total Friction (INR)']);
+        $headers = ['Module / Asset Class', 'Brokerage (INR)', 'STT & Taxes (INR)', 'TDS Deducted (INR)', 'Platform Charges (INR)', 'Total Friction (INR)'];
 
+        $rows = [];
         foreach ($data['moduleExpenses'] as $me) {
-            fputcsv($out, [
+            $rows[] = [
                 $me['name'],
-                number_format($me['brokerage'], 2, '.', ''),
-                number_format($me['stt'], 2, '.', ''),
-                number_format($me['tds'], 2, '.', ''),
-                number_format($me['other'], 2, '.', ''),
-                number_format($me['total'], 2, '.', ''),
-            ]);
+                $me['brokerage'],
+                $me['stt'],
+                $me['tds'],
+                $me['other'],
+                $me['total'],
+            ];
         }
 
         $ge = $data['grandExpenses'];
-        fputcsv($out, [
+        $rows[] = [
             'TOTAL EXPENSES & FRICTION',
-            number_format($ge['brokerage'], 2, '.', ''),
-            number_format($ge['stt'], 2, '.', ''),
-            number_format($ge['tds'], 2, '.', ''),
-            number_format($ge['other'], 2, '.', ''),
-            number_format($ge['total'], 2, '.', ''),
-        ]);
+            $ge['brokerage'],
+            $ge['stt'],
+            $ge['tds'],
+            $ge['other'],
+            $ge['total'],
+        ];
 
-        fclose($out);
-        exit;
+        csv_download($filename, $headers, $rows, $metadata);
     }
 }
 

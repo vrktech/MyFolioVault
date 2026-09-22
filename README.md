@@ -153,6 +153,20 @@ If **RupeeFolio** saves you time, helps you manage your investments, or brings y
 
 ---
 
+## 🏆 Credits & Acknowledgements
+
+RupeeFolio is proudly built on open-source technologies and artificial intelligence:
+
+- **[CodeIgniter 4](https://codeigniter.com/)**: Fast, lightweight PHP framework powering the routing, MVC architecture, security, and database abstraction layers. Released under the MIT License by the CodeIgniter Foundation.
+- **[Bootstrap 5.3.3](https://getbootstrap.com/)**: Responsive CSS framework and modern component styling. Released under the MIT License by the Bootstrap Authors.
+- **[Bootstrap Icons 1.11.3](https://icons.getbootstrap.com/)**: Official offline vector icon set. Released under the MIT License.
+- **[Chart.js](https://www.chartjs.org/)**: Simple yet flexible JavaScript charting engine for asset allocation and visual distribution matrices. Released under the MIT License.
+- **[Google Gemini AI](https://deepmind.google/technologies/gemini/)**: Advanced agentic AI pair programming, architectural design, tax rule algorithms, and verification support.
+- **[PHP](https://www.php.net/) & [MySQL / MariaDB](https://www.mysql.com/)**: The reliable open-source runtime and relational database foundations.
+
+---
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
