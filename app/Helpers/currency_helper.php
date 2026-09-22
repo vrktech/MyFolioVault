@@ -68,11 +68,27 @@ if (!function_exists('format_pnl')) {
     /**
      * Render a color-coded P&L badge/element with Rupee symbol and return percentage.
      */
-    function format_pnl(float|int|string|null $amount, ?float $percent = null, bool $badge = false): string
+    function format_pnl(float|int|string|null $amount, ?float $percent = null, bool $badge = false, bool $stacked = false): string
     {
         $val = (float) ($amount ?? 0);
         $pctText = $percent !== null ? ' (' . ($percent >= 0 ? '+' : '') . number_format($percent, 2) . '%)' : '';
         $formatted = format_inr(abs($val));
+
+        if ($stacked) {
+            if ($val > 0) {
+                $pct = $percent !== null ? '(+' . number_format($percent, 2) . '%)' : '';
+                return '<div class="text-success fw-semibold"><i class="bi bi-arrow-up-right me-0.5"></i>+' . $formatted . '</div>' .
+                       ($pct !== '' ? '<div class="text-success small" style="font-size: 0.72rem;">' . $pct . '</div>' : '');
+            }
+            if ($val < 0) {
+                $pct = $percent !== null ? '(' . number_format($percent, 2) . '%)' : '';
+                return '<div class="text-danger fw-semibold"><i class="bi bi-arrow-down-right me-0.5"></i>-' . $formatted . '</div>' .
+                       ($pct !== '' ? '<div class="text-danger small" style="font-size: 0.72rem;">' . $pct . '</div>' : '');
+            }
+            $pct = $percent !== null ? '(0.00%)' : '';
+            return '<div class="text-secondary fw-semibold">' . $formatted . '</div>' .
+                   ($pct !== '' ? '<div class="text-secondary small" style="font-size: 0.72rem;">' . $pct . '</div>' : '');
+        }
 
         if ($val > 0) {
             $text = '+' . $formatted . $pctText;

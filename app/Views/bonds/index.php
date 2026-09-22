@@ -151,9 +151,8 @@
                                     <th class="cursor-pointer sortable-bond-th" data-col="name" role="button" title="Click to sort by Bond Name">
                                         Bond Name / ISIN <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
                                     </th>
-                                    <th>Category</th>
-                                    <th class="text-end">Units Held</th>
-                                    <th>Coupon & Frequency</th>
+                                    <th class="text-end">Units</th>
+                                    <th>Coupon</th>
                                     <th class="cursor-pointer sortable-bond-th" data-col="maturity" role="button" title="Click to sort by Maturity Date">
                                         Maturity Date <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
                                     </th>
@@ -163,8 +162,8 @@
                                         Current (₹) <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
                                     </th>
                                     <th class="text-end">Capital P&L</th>
-                                    <th class="cursor-pointer sortable-bond-th" data-col="interest" role="button" title="Click to sort by Last Interest Paid Date">
-                                        Last Interest Paid Date <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
+                                    <th class="cursor-pointer sortable-bond-th" data-col="interest" role="button" title="Click to sort by Last Payout">
+                                        Last Payout <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
                                     </th>
                                     <th class="text-center" style="min-width: 160px;">Action</th>
                                 </tr>
@@ -178,45 +177,41 @@
                                         data-current="<?= (float)$h['current_value'] ?>"
                                         data-interest="<?= esc($h['last_interest_paid_date'] ?? '') ?>">
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <div class="fw-semibold text-dark mb-0"><?= esc($h['bond_name']) ?></div>
-                                                    <div class="d-flex align-items-center gap-1">
-                                                        <span class="badge bg-light text-secondary border font-monospace" style="font-size: 0.65rem;">
-                                                            <?= esc($h['isin']) ?>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($h['bond_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
+                                                    <?php
+                                                    $catBadge = match($h['category']) {
+                                                        'SGB'            => 'bg-warning-subtle text-warning-emphasis border-warning-subtle',
+                                                        'GOVT_SECURITY'  => 'bg-success-subtle text-success border-success-subtle',
+                                                        'CORPORATE_NCD'  => 'bg-primary-subtle text-primary border-primary-subtle',
+                                                        'TAX_FREE'       => 'bg-info-subtle text-info-emphasis border-info-subtle',
+                                                        default          => 'bg-light text-secondary border',
+                                                    };
+                                                    $catLabel = match($h['category']) {
+                                                        'SGB'            => 'SGB Gold',
+                                                        'GOVT_SECURITY'  => 'G-Sec',
+                                                        'CORPORATE_NCD'  => 'Corp NCD',
+                                                        'TAX_FREE'       => 'Tax-Free',
+                                                        default          => esc($h['category']),
+                                                    };
+                                                    ?>
+                                                    <span class="badge <?= $catBadge ?> border px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                        <?= $catLabel ?>
+                                                    </span>
+                                                    <span class="badge bg-light text-secondary border font-monospace" style="font-size: 0.65rem;">
+                                                        <?= esc($h['isin']) ?>
+                                                    </span>
+                                                    <?php if (!empty($h['bond_symbol'])): ?>
+                                                        <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
+                                                            <?= esc($h['bond_symbol']) ?>
                                                         </span>
-                                                        <?php if (!empty($h['bond_symbol'])): ?>
-                                                            <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
-                                                                <?= esc($h['bond_symbol']) ?>
-                                                            </span>
-                                                        <?php endif; ?>
-                                                    </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <?php
-                                             $catBadge = match($h['category']) {
-                                                 'SGB'            => 'bg-warning-subtle text-warning-emphasis border-warning-subtle',
-                                                 'GOVT_SECURITY'  => 'bg-success-subtle text-success border-success-subtle',
-                                                 'CORPORATE_NCD'  => 'bg-primary-subtle text-primary border-primary-subtle',
-                                                 'TAX_FREE'       => 'bg-info-subtle text-info-emphasis border-info-subtle',
-                                                 default          => 'bg-light text-secondary border',
-                                             };
-                                             $catLabel = match($h['category']) {
-                                                 'SGB'            => 'SGB Gold',
-                                                 'GOVT_SECURITY'  => 'G-Sec',
-                                                 'CORPORATE_NCD'  => 'Corp NCD',
-                                                 'TAX_FREE'       => 'Tax-Free',
-                                                 default          => esc($h['category']),
-                                             };
-                                            ?>
-                                            <span class="badge <?= $catBadge ?> border px-2 py-1 small">
-                                                <?= $catLabel ?>
-                                            </span>
-                                        </td>
                                         <td class="text-end fw-semibold">
-                                            <?= number_format($h['active_quantity'], 4) ?>
+                                            <?= number_format($h['active_quantity'], 0) ?>
                                             <div class="text-muted small" style="font-size: 0.7rem;">
                                                 <?= $h['category'] === 'SGB' ? 'grams' : 'units' ?>
                                             </div>
@@ -263,7 +258,7 @@
                                             <?= format_inr($h['current_value']) ?>
                                         </td>
                                         <td class="text-end">
-                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent']) ?>
+                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent'], false, true) ?>
                                         </td>
                                         <td>
                                             <!-- LAST INTEREST PAID DATE (Moved to last before Action) -->
@@ -408,7 +403,6 @@
                             <thead class="table-light text-muted small text-uppercase">
                                 <tr>
                                     <th>Bond Name / ISIN</th>
-                                    <th>Category</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-end">CMP (₹)</th>
                                     <th class="text-end">Realized Capital P&L</th>
@@ -430,26 +424,22 @@
                                     ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <div class="fw-bold text-dark"><?= esc($ph['bond_name']) ?></div>
-                                                    <div class="d-flex align-items-center gap-1">
-                                                        <span class="badge bg-light text-secondary border font-monospace" style="font-size: 0.65rem;">
-                                                            <?= esc($ph['isin']) ?>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($ph['bond_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
+                                                    <span class="badge border <?= $catBadge ?> px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                        <?= esc($ph['category']) ?>
+                                                    </span>
+                                                    <span class="badge bg-light text-secondary border font-monospace" style="font-size: 0.65rem;">
+                                                        <?= esc($ph['isin']) ?>
+                                                    </span>
+                                                    <?php if (!empty($ph['bond_symbol'])): ?>
+                                                        <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
+                                                            <?= esc($ph['bond_symbol']) ?>
                                                         </span>
-                                                        <?php if (!empty($ph['bond_symbol'])): ?>
-                                                            <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">
-                                                                <?= esc($ph['bond_symbol']) ?>
-                                                            </span>
-                                                        <?php endif; ?>
-                                                    </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge border <?= $catBadge ?> px-2 py-1">
-                                                <?= esc($ph['category']) ?>
-                                            </span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
@@ -1243,7 +1233,7 @@
                                                 <span class="badge bg-dark-subtle text-dark border border-dark-subtle px-2 py-1">REDEMPTION</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="text-end fw-semibold"><?= number_format($t['quantity'], 4) ?></td>
+                                        <td class="text-end fw-semibold"><?= number_format($t['quantity'], 0) ?></td>
                                         <td class="text-end"><?= format_inr($t['price']) ?></td>
                                         <td class="text-end text-muted"><?= format_inr($t['brokerage_charges']) ?></td>
                                         <td class="text-end text-muted"><?= format_inr($t['accrued_interest']) ?></td>
@@ -1613,11 +1603,10 @@
                         <div class="col-md-4">
                             <label class="form-label small fw-semibold text-secondary">Category <span class="text-danger">*</span></label>
                             <select class="form-select" name="category" id="editBondCategory" required>
-                                <option value="SGB">Sovereign Gold Bond (SGB)</option>
-                                <option value="G_SEC">Government Security (G-Sec)</option>
                                 <option value="CORPORATE_NCD">Corporate Bond / NCD</option>
+                                <option value="GOVT_SECURITY">Government Security (G-Sec / SDL)</option>
+                                <option value="SGB">Sovereign Gold Bond (SGB)</option>
                                 <option value="TAX_FREE">Tax-Free PSU Bond</option>
-                                <option value="STATE_DEVELOPMENT_LOAN">State Dev Loan (SDL)</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -1852,7 +1841,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.getElementById('modalBondId').value = currentBond.id;
             document.getElementById('modalBondName').textContent = currentBond.name;
-            document.getElementById('modalBondSubtitle').textContent = 'ISIN: ' + currentBond.isin + ' | Available: ' + currentBond.qty.toFixed(4) + ' | CMP: ₹ ' + currentBond.cmp.toFixed(2);
+            document.getElementById('modalBondSubtitle').textContent = 'ISIN: ' + currentBond.isin + ' | Available: ' + Math.round(currentBond.qty) + ' | CMP: ₹ ' + currentBond.cmp.toFixed(2);
 
             // Set defaults in Buy Panel
             document.getElementById('buyBondPrice').value = currentBond.cmp.toFixed(2);
@@ -1862,7 +1851,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('buyBondTotalPreview').textContent = '₹ 0.00';
 
             // Set defaults in Sell Panel
-            document.getElementById('sellBondAvailableBadge').textContent = currentBond.qty.toFixed(4) + ' units/grams';
+            document.getElementById('sellBondAvailableBadge').textContent = Math.round(currentBond.qty) + ' units/grams';
             document.getElementById('sellBondQty').max = currentBond.qty;
             document.getElementById('sellBondQty').value = '';
             document.getElementById('sellBondPrice').value = currentBond.cmp.toFixed(2);
@@ -2019,10 +2008,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('maturityModalBondSubtitle').textContent = `${cat} • ISIN: ${isin} • Matured on ${maturity}`;
 
             const defPrice = (cat === 'SGB' ? cmp : face);
-            matQty.value = qty.toFixed(4);
+            matQty.value = Math.round(qty);
             matQty.max = qty;
             matPrice.value = defPrice.toFixed(2);
-            document.getElementById('maturityMaxQtyHint').textContent = `Max eligible units: ${qty.toFixed(4)} ${cat === 'SGB' ? 'grams' : 'units'}`;
+            document.getElementById('maturityMaxQtyHint').textContent = `Max eligible units: ${Math.round(qty)} ${cat === 'SGB' ? 'grams' : 'units'}`;
 
             const sgbAlert = document.getElementById('maturitySgbExemptAlert');
             if (sgbAlert) sgbAlert.classList.toggle('d-none', cat !== 'SGB');

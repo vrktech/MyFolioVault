@@ -219,6 +219,47 @@ document.addEventListener('DOMContentLoaded', function() {
         [sellQty, sellPrice, sellCharges].forEach(el => el.addEventListener('input', calcSell));
     }
 
+    // Live calculations in Dividend sub-form (Add Transaction modal)
+    const divSharesHeld = document.getElementById('divSharesHeld');
+    const divPerShare = document.getElementById('divPerShare');
+    const divTds = document.getElementById('divTds');
+    const divAmount = document.getElementById('divAmount');
+
+    function calcDividend() {
+        if (!divSharesHeld || !divPerShare || !divAmount) return;
+        const shares = parseFloat(divSharesHeld.value) || 0;
+        const perShare = parseFloat(divPerShare.value) || 0;
+        const tds = parseFloat(divTds ? divTds.value : 0) || 0;
+
+        if (shares > 0 && perShare > 0) {
+            const gross = shares * perShare;
+            const net = Math.max(0, gross - tds);
+            divAmount.value = net.toFixed(2);
+        }
+    }
+
+    if (divSharesHeld) divSharesHeld.addEventListener('input', calcDividend);
+    if (divPerShare) divPerShare.addEventListener('input', calcDividend);
+    if (divTds) divTds.addEventListener('input', calcDividend);
+
+    // Live calculations in Edit Dividend modal
+    const editDivShares = document.getElementById('editEquityDivShares');
+    const editDivPerShare = document.getElementById('editEquityDivPerShare');
+    const editDivTotal = document.getElementById('editEquityDivTotal');
+
+    function calcEditDividend() {
+        if (!editDivShares || !editDivPerShare || !editDivTotal) return;
+        const shares = parseFloat(editDivShares.value) || 0;
+        const perShare = parseFloat(editDivPerShare.value) || 0;
+        if (shares > 0 && perShare > 0) {
+            editDivTotal.value = (shares * perShare).toFixed(2);
+        }
+    }
+
+    if (editDivShares) editDivShares.addEventListener('input', calcEditDividend);
+    if (editDivPerShare) editDivPerShare.addEventListener('input', calcEditDividend);
+
+
     // ==========================================
     // 2. FINANCIAL YEAR & FORMATTING UTILITIES
     // ==========================================

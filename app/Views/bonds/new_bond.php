@@ -71,9 +71,9 @@
                         <div class="col-md-4">
                             <label for="category" class="form-label small fw-semibold text-secondary">Bond Category <span class="text-danger">*</span></label>
                             <select class="form-select" id="category" name="category" required>
-                                <option value="SGB" <?= old('category') === 'SGB' ? 'selected' : '' ?>>Sovereign Gold Bond (SGB)</option>
+                                <option value="CORPORATE_NCD" <?= old('category', 'CORPORATE_NCD') === 'CORPORATE_NCD' ? 'selected' : '' ?>>Corporate NCD / Debenture</option>
                                 <option value="GOVT_SECURITY" <?= old('category') === 'GOVT_SECURITY' ? 'selected' : '' ?>>Government Security (G-Sec / SDL)</option>
-                                <option value="CORPORATE_NCD" <?= old('category') === 'CORPORATE_NCD' ? 'selected' : '' ?>>Corporate NCD / Debenture</option>
+                                <option value="SGB" <?= old('category') === 'SGB' ? 'selected' : '' ?>>Sovereign Gold Bond (SGB)</option>
                                 <option value="TAX_FREE" <?= old('category') === 'TAX_FREE' ? 'selected' : '' ?>>Tax-Free PSU Bond</option>
                             </select>
                         </div>

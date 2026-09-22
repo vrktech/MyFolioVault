@@ -189,15 +189,13 @@
                                         data-invested="<?= (float)$h['invested_value'] ?>"
                                         data-current="<?= (float)$h['current_value'] ?>">
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="brand-badge-sm me-2 bg-primary bg-opacity-10 text-primary rounded px-2 py-1 small fw-bold">
-                                                    <?= esc($h['symbol']) ?>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold text-dark mb-0"><?= esc($h['company_name']) ?></div>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($h['company_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($h['exchange']) ?>
                                                     </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($h['symbol']) ?></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -211,7 +209,13 @@
                                             <?= format_inr($h['avg_buy_price']) ?>
                                         </td>
                                         <td class="text-end fw-semibold text-dark">
-                                            <?= format_inr($h['current_price']) ?>
+                                            <div><?= format_inr($h['current_price']) ?></div>
+                                            <?php $priceUpdate = $h['price_updated_at'] ?? $h['updated_at'] ?? null; ?>
+                                            <?php if (!empty($priceUpdate)): ?>
+                                                <div class="text-muted fw-normal" style="font-size: 0.68rem;" title="Last price update">
+                                                    <?= date('d M H:i', strtotime($priceUpdate)) ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-end small text-muted">
                                             <div class="fw-semibold text-dark"><?= format_inr($h['invested_value']) ?></div>
@@ -224,7 +228,7 @@
                                             <div class="text-secondary fw-normal" style="font-size: 0.72rem;"><?= number_format($currPct, 2) ?>% of total</div>
                                         </td>
                                         <td class="text-end">
-                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent']) ?>
+                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent'], false, true) ?>
                                         </td>
                                         <td class="text-end small text-success fw-medium">
                                             <?= $h['total_dividends'] > 0 ? format_inr($h['total_dividends']) : '—' ?>
@@ -324,15 +328,13 @@
                                 <?php foreach ($pastHoldings as $ph): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="brand-badge-sm me-2 bg-secondary bg-opacity-10 text-secondary rounded px-2 py-1 small fw-bold">
-                                                    <?= esc($ph['symbol']) ?>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold text-dark mb-0"><?= esc($ph['company_name']) ?></div>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($ph['company_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($ph['exchange']) ?>
                                                     </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($ph['symbol']) ?></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -345,7 +347,13 @@
                                             </span>
                                         </td>
                                         <td class="text-end fw-semibold text-dark">
-                                            <?= format_inr($ph['current_price']) ?>
+                                            <div><?= format_inr($ph['current_price']) ?></div>
+                                            <?php $priceUpdate = $ph['price_updated_at'] ?? $ph['updated_at'] ?? null; ?>
+                                            <?php if (!empty($priceUpdate)): ?>
+                                                <div class="text-muted fw-normal" style="font-size: 0.68rem;" title="Last price update">
+                                                    <?= date('d M H:i', strtotime($priceUpdate)) ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-end">
                                             <?= format_pnl($ph['realized_pnl']) ?>
@@ -1383,11 +1391,11 @@
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-semibold text-secondary">TDS Deducted (₹)</label>
-                                <input type="number" class="form-control" name="tds_deducted" min="0" step="0.01" value="0.00" disabled>
+                                <input type="number" class="form-control" name="tds_deducted" id="divTds" min="0" step="0.01" value="0.00" disabled>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-semibold text-secondary">Dividend Per Share (₹)</label>
-                                <input type="number" class="form-control" name="amount_per_share" min="0" step="0.01" placeholder="Optional" disabled>
+                                <input type="number" class="form-control" name="amount_per_share" id="divPerShare" min="0" step="0.01" placeholder="Optional" disabled>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small fw-semibold text-secondary">Shares Held on Record Date</label>

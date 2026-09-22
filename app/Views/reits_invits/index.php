@@ -215,21 +215,19 @@
                                         data-current="<?= (float)($h['current_value'] ?? 0) ?>">
                                         <!-- Security / Trust -->
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <div class="fw-bold text-dark">
-                                                        <?= esc($h['symbol']) ?>
-                                                        <span class="badge bg-light text-secondary border ms-1" style="font-size: 0.68rem;"><?= esc($h['exchange']) ?></span>
-                                                    </div>
-                                                    <div class="text-secondary small" style="font-size: 0.78rem;">
-                                                        <?= esc($h['trust_name']) ?>
-                                                    </div>
-                                                    <?php if (!empty($h['sponsor'])): ?>
-                                                        <div class="text-muted" style="font-size: 0.7rem;">
-                                                            Sponsor: <?= esc($h['sponsor']) ?>
-                                                        </div>
-                                                    <?php endif; ?>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($h['trust_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
+                                                    <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                        <?= esc($h['exchange']) ?>
+                                                    </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($h['symbol']) ?></span>
                                                 </div>
+                                                <?php if (!empty($h['sponsor'])): ?>
+                                                    <div class="text-muted" style="font-size: 0.7rem;">
+                                                        Sponsor: <?= esc($h['sponsor']) ?>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
 
@@ -248,7 +246,7 @@
 
                                         <!-- Units -->
                                         <td class="text-end fw-semibold">
-                                            <?= number_format($h['active_units'], 4) ?>
+                                            <?= number_format($h['active_units'], 0) ?>
                                         </td>
 
                                         <!-- Avg Cost -->
@@ -267,18 +265,22 @@
                                         </td>
 
                                         <!-- Invested -->
-                                        <td class="text-end">
-                                            <?= format_inr($h['invested_value']) ?>
+                                        <td class="text-end small text-muted">
+                                            <div class="fw-semibold text-dark"><?= format_inr($h['invested_value']) ?></div>
+                                            <?php $invPct = ($summary['total_invested'] ?? 0) > 0 ? (($h['invested_value'] / $summary['total_invested']) * 100) : 0; ?>
+                                            <div class="text-secondary" style="font-size: 0.72rem;"><?= number_format($invPct, 2) ?>% of total</div>
                                         </td>
 
                                         <!-- Current Value -->
-                                        <td class="text-end fw-semibold">
-                                            <?= format_inr($h['current_value']) ?>
+                                        <td class="text-end fw-bold text-dark">
+                                            <div><?= format_inr($h['current_value']) ?></div>
+                                            <?php $currPct = ($summary['total_current_value'] ?? 0) > 0 ? (($h['current_value'] / $summary['total_current_value']) * 100) : 0; ?>
+                                            <div class="text-secondary fw-normal" style="font-size: 0.72rem;"><?= number_format($currPct, 2) ?>% of total</div>
                                         </td>
 
                                         <!-- Unrealized P&L -->
                                         <td class="text-end">
-                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent']) ?>
+                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent'], false, true) ?>
                                         </td>
 
                                         <!-- Distributions Earned -->
@@ -399,15 +401,13 @@
                                 <?php foreach ($pastHoldings as $ph): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <div class="fw-bold text-dark">
-                                                        <?= esc($ph['symbol']) ?>
-                                                        <span class="badge bg-light text-secondary border ms-1" style="font-size: 0.68rem;"><?= esc($ph['exchange']) ?></span>
-                                                    </div>
-                                                    <div class="text-secondary small" style="font-size: 0.78rem;">
-                                                        <?= esc($ph['trust_name']) ?>
-                                                    </div>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($ph['trust_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
+                                                    <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                        <?= esc($ph['exchange']) ?>
+                                                    </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($ph['symbol']) ?></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -719,7 +719,7 @@
                                             <span class="badge bg-light text-dark border" style="font-size: 0.65rem;">FY <?= esc($d['financial_year']) ?></span>
                                         </td>
                                         <td class="text-end fw-semibold">
-                                            <?= !empty($d['eligible_units']) && (float)$d['eligible_units'] > 0 ? number_format($d['eligible_units'], 4) : '—' ?>
+                                            <?= !empty($d['eligible_units']) && (float)$d['eligible_units'] > 0 ? number_format($d['eligible_units'], 0) : '—' ?>
                                         </td>
                                         <td class="text-end text-muted">
                                             <?= !empty($d['dpu']) && (float)$d['dpu'] > 0 ? '₹ ' . number_format($d['dpu'], 4) : '—' ?>
@@ -897,7 +897,7 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white border-start border-primary border-4">
                                 <div class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Matched Units</div>
-                                <div class="fs-5 fw-bold text-dark mb-0 mt-1" id="kpiTaxUnits"><?= number_format($totalMatchedUnits, 4) ?></div>
+                                <div class="fs-5 fw-bold text-dark mb-0 mt-1" id="kpiTaxUnits"><?= number_format($totalMatchedUnits, 0) ?></div>
                                 <div class="text-muted small" style="font-size: 0.72rem;" id="kpiTaxQtyCount"><?= count($capitalGains) ?> FIFO lots</div>
                             </div>
                         </div>
@@ -1119,7 +1119,7 @@
                                             <span class="text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.5px;">Total Purchases (BUY)</span>
                                             <h5 class="fw-bold text-success mb-0 mt-1" id="kpiBuyAmount"><?= format_inr($overallBuyAmount) ?></h5>
                                             <div class="text-muted small mt-1" id="kpiBuyDetails" style="font-size: 0.75rem;">
-                                                <?= $overallBuyCount ?> buys • <?= number_format($overallBuyQty, 2) ?> units
+                                                <?= $overallBuyCount ?> buys • <?= number_format($overallBuyQty, 0) ?> units
                                             </div>
                                         </div>
                                         <div class="bg-success-subtle text-success rounded-3 p-2">
@@ -1137,7 +1137,7 @@
                                             <span class="text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.5px;">Total Sales (SELL)</span>
                                             <h5 class="fw-bold text-danger mb-0 mt-1" id="kpiSellAmount"><?= format_inr($overallSellAmount) ?></h5>
                                             <div class="text-muted small mt-1" id="kpiSellDetails" style="font-size: 0.75rem;">
-                                                <?= $overallSellCount ?> sells • <?= number_format($overallSellQty, 2) ?> units
+                                                <?= $overallSellCount ?> sells • <?= number_format($overallSellQty, 0) ?> units
                                             </div>
                                         </div>
                                         <div class="bg-danger-subtle text-danger rounded-3 p-2">
@@ -1224,12 +1224,12 @@
                                                  <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-0.5">SELL</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="text-end fw-semibold"><?= number_format($t['quantity'], 4) ?></td>
+                                        <td class="text-end fw-semibold"><?= number_format($t['quantity'], 0) ?></td>
                                         <td class="text-end"><?= format_inr($t['price']) ?></td>
                                         <td class="text-end text-muted"><?= format_inr(((float)$t['brokerage']) + ((float)$t['stt_taxes'])) ?></td>
                                         <td class="text-end fw-semibold"><?= format_inr($t['total_amount']) ?></td>
                                         <td class="text-end text-muted">
-                                            <?= $t['transaction_type'] === 'BUY' ? number_format($t['remaining_quantity'], 4) : '—' ?>
+                                            <?= $t['transaction_type'] === 'BUY' ? number_format($t['remaining_quantity'], 0) : '—' ?>
                                         </td>
                                         <td class="text-secondary"><?= esc($t['notes'] ?: '—') ?></td>
                                         <td class="text-center">
@@ -1338,7 +1338,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-secondary">Quantity (Units) <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="quantity" id="buyReitQty" min="0.0001" step="0.0001" placeholder="e.g. 50" required>
+                                <input type="number" class="form-control" name="quantity" id="buyReitQty" min="1" step="1" placeholder="e.g. 50" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-secondary">Buy Price per Unit (₹) <span class="text-danger">*</span></label>
@@ -1371,7 +1371,7 @@
                     <div id="panelReitSell" class="reit-trans-panel d-none">
                         <div class="alert alert-warning py-1.5 px-3 mb-3 small d-flex justify-content-between align-items-center rounded-3">
                             <span>Available Units to Sell:</span>
-                            <strong id="sellReitAvailableBadge">0.0000 units</strong>
+                            <strong id="sellReitAvailableBadge">0 units</strong>
                         </div>
 
                         <div class="row g-3">
@@ -1381,7 +1381,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-secondary">Quantity to Sell <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="quantity" id="sellReitQty" min="0.0001" step="0.0001" placeholder="Quantity" disabled>
+                                <input type="number" class="form-control" name="quantity" id="sellReitQty" min="1" step="1" placeholder="Quantity" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-secondary">Sell Price per Unit (₹) <span class="text-danger">*</span></label>
@@ -1434,7 +1434,7 @@
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-secondary">Eligible Held Quantity (Units) <span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control fw-semibold" name="eligible_units" id="distEligibleUnits" min="0.0001" step="0.0001" placeholder="Units held on Record Date" required disabled>
+                                    <input type="number" class="form-control fw-semibold" name="eligible_units" id="distEligibleUnits" min="1" step="1" placeholder="Units held on Record Date" required disabled>
                                     <span class="input-group-text small text-muted">units</span>
                                 </div>
                                 <div class="form-text small" style="font-size: 0.72rem;">Units held on Record Date (edit if you bought more later)</div>
@@ -1598,7 +1598,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-secondary">Quantity (Units) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control fw-semibold" name="quantity" id="editReitTransQty" min="0.0001" step="0.0001" required>
+                            <input type="number" class="form-control fw-semibold" name="quantity" id="editReitTransQty" min="1" step="1" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-secondary">Price per Unit (₹) <span class="text-danger">*</span></label>
@@ -1660,7 +1660,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-secondary">Eligible Units Held</label>
-                            <input type="number" class="form-control" name="eligible_units" id="editDistEligibleUnits" min="0" step="0.0001">
+                            <input type="number" class="form-control" name="eligible_units" id="editDistEligibleUnits" min="0" step="1">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-secondary">DPU - Distribution Per Unit (₹)</label>
@@ -1734,7 +1734,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.getElementById('modalTrustId').value = currentTrust.id;
             document.getElementById('modalReitTitle').textContent = currentTrust.symbol + ' (' + currentTrust.exchange + ')';
-            document.getElementById('modalReitSubtitle').textContent = currentTrust.name + ' | Held: ' + currentTrust.qty.toFixed(4) + ' units | CMP: ₹ ' + currentTrust.cmp.toFixed(2);
+            document.getElementById('modalReitSubtitle').textContent = currentTrust.name + ' | Held: ' + Math.round(currentTrust.qty) + ' units | CMP: ₹ ' + currentTrust.cmp.toFixed(2);
 
             // Set defaults in Buy Panel
             document.getElementById('buyReitPrice').value = currentTrust.cmp > 0 ? currentTrust.cmp.toFixed(2) : '';
@@ -1744,7 +1744,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('buyReitTotalPreview').textContent = '₹ 0.00';
 
             // Set defaults in Sell Panel
-            document.getElementById('sellReitAvailableBadge').textContent = currentTrust.qty.toFixed(4) + ' units';
+            document.getElementById('sellReitAvailableBadge').textContent = Math.round(currentTrust.qty) + ' units';
             document.getElementById('sellReitQty').max = currentTrust.qty;
             document.getElementById('sellReitQty').value = '';
             document.getElementById('sellReitPrice').value = currentTrust.cmp > 0 ? currentTrust.cmp.toFixed(2) : '';
@@ -1754,7 +1754,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sellReitPnlPreview').textContent = '₹ 0.00';
 
             // Reset Distribution Panel
-            document.getElementById('distEligibleUnits').value = currentTrust.qty > 0 ? currentTrust.qty.toFixed(4) : '';
+            document.getElementById('distEligibleUnits').value = currentTrust.qty > 0 ? Math.round(currentTrust.qty) : '';
             document.getElementById('distDpu').value = '';
             document.getElementById('distInterest').value = '0.00';
             document.getElementById('distDividend').value = '0.00';

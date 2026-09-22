@@ -159,7 +159,6 @@
                                         ETF Symbol / Name <i class="bi bi-arrow-down-up text-muted small ms-1"></i>
                                     </th>
                                     <th>Category</th>
-                                    <th>AMC / Fund House</th>
                                     <th class="text-end">Units Held</th>
                                     <th class="text-end">Avg Cost (₹)</th>
                                     <th class="text-end">CMP (₹)</th>
@@ -180,21 +179,19 @@
                                         data-invested="<?= (float)$h['invested_value'] ?>"
                                         data-current="<?= (float)$h['current_value'] ?>">
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="brand-badge-sm me-2 bg-info bg-opacity-10 text-info rounded px-2 py-1 small fw-bold">
-                                                    <?= esc($h['symbol']) ?>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold text-dark mb-0"><?= esc($h['etf_name']) ?></div>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($h['etf_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($h['exchange']) ?>
                                                     </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($h['symbol']) ?></span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <?php
-                                            $catBadge = match($h['category']) {
+                                             $catBadge = match($h['category']) {
                                                 'Commodity - Gold'   => 'bg-warning-subtle text-warning-emphasis border-warning-subtle',
                                                 'Commodity - Silver' => 'bg-secondary-subtle text-secondary border-secondary-subtle',
                                                 'Index'              => 'bg-primary-subtle text-primary border-primary-subtle',
@@ -207,9 +204,6 @@
                                                 <?= esc($h['category']) ?>
                                             </span>
                                         </td>
-                                        <td>
-                                            <span class="text-secondary small"><?= esc($h['amc_name'] ?: '—') ?></span>
-                                        </td>
                                         <td class="text-end fw-semibold">
                                             <?= number_format($h['active_quantity']) ?>
                                         </td>
@@ -217,16 +211,26 @@
                                             <?= format_inr($h['avg_buy_price']) ?>
                                         </td>
                                         <td class="text-end fw-semibold text-dark">
-                                            <?= format_inr($h['current_price']) ?>
+                                            <div><?= format_inr($h['current_price']) ?></div>
+                                            <?php $priceUpdate = $h['price_updated_at'] ?? $h['updated_at'] ?? null; ?>
+                                            <?php if (!empty($priceUpdate)): ?>
+                                                <div class="text-muted fw-normal" style="font-size: 0.68rem;" title="Last price update">
+                                                    <?= date('d M H:i', strtotime($priceUpdate)) ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-end small text-muted">
-                                            <?= format_inr($h['invested_value']) ?>
+                                            <div class="fw-semibold text-dark"><?= format_inr($h['invested_value']) ?></div>
+                                            <?php $invPct = ($summary['total_invested'] ?? 0) > 0 ? (($h['invested_value'] / $summary['total_invested']) * 100) : 0; ?>
+                                            <div class="text-secondary" style="font-size: 0.72rem;"><?= number_format($invPct, 2) ?>% of total</div>
                                         </td>
                                         <td class="text-end fw-bold text-dark">
-                                            <?= format_inr($h['current_value']) ?>
+                                            <div><?= format_inr($h['current_value']) ?></div>
+                                            <?php $currPct = ($summary['total_current_value'] ?? 0) > 0 ? (($h['current_value'] / $summary['total_current_value']) * 100) : 0; ?>
+                                            <div class="text-secondary fw-normal" style="font-size: 0.72rem;"><?= number_format($currPct, 2) ?>% of total</div>
                                         </td>
                                         <td class="text-end">
-                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent']) ?>
+                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent'], false, true) ?>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
@@ -309,7 +313,6 @@
                                 <tr>
                                     <th>ETF Symbol / Name</th>
                                     <th>Category</th>
-                                    <th>AMC / Fund House</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-end">CMP (₹)</th>
                                     <th class="text-end">Realized P&L</th>
@@ -320,15 +323,13 @@
                                 <?php foreach ($pastHoldings as $ph): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="brand-badge-sm me-2 bg-secondary bg-opacity-10 text-secondary rounded px-2 py-1 small fw-bold">
-                                                    <?= esc($ph['symbol']) ?>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold text-dark mb-0"><?= esc($ph['etf_name']) ?></div>
+                                            <div>
+                                                <div class="fw-semibold text-dark mb-0"><?= esc($ph['etf_name']) ?></div>
+                                                <div class="d-flex align-items-center gap-1 mt-0.5">
                                                     <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
                                                         <?= esc($ph['exchange']) ?>
                                                     </span>
+                                                    <span class="text-muted small font-monospace fw-semibold" style="font-size: 0.75rem;"><?= esc($ph['symbol']) ?></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -337,16 +338,19 @@
                                                 <?= esc($ph['category']) ?>
                                             </span>
                                         </td>
-                                        <td class="text-muted small">
-                                            <?= esc($ph['amc_name'] ?: '—') ?>
-                                        </td>
                                         <td class="text-center">
                                             <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
                                                 <i class="bi bi-check2-all me-1"></i>Closed
                                             </span>
                                         </td>
                                         <td class="text-end fw-semibold text-dark">
-                                            <?= format_inr($ph['current_price']) ?>
+                                            <div><?= format_inr($ph['current_price']) ?></div>
+                                            <?php $priceUpdate = $ph['price_updated_at'] ?? $ph['updated_at'] ?? null; ?>
+                                            <?php if (!empty($priceUpdate)): ?>
+                                                <div class="text-muted fw-normal" style="font-size: 0.68rem;" title="Last price update">
+                                                    <?= date('d M H:i', strtotime($priceUpdate)) ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-end">
                                             <?= format_pnl($ph['realized_pnl']) ?>

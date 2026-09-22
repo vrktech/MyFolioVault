@@ -130,9 +130,6 @@
                             <thead class="table-light text-muted small text-uppercase">
                                 <tr>
                                     <th>Scheme / AMFI Code</th>
-                                    <th>Folio Number</th>
-                                    <th>Category</th>
-                                    <th>AMC / Fund House</th>
                                     <th class="text-end">Units Held</th>
                                     <th class="text-end">Avg NAV (₹)</th>
                                     <th class="text-end">Latest NAV (₹)</th>
@@ -146,32 +143,29 @@
                                 <?php foreach (($activeHoldings ?? $holdings) as $h): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-start">
                                                 <div class="brand-badge-sm me-2 bg-success bg-opacity-10 text-success rounded px-2 py-1 small fw-bold">
                                                     <?= esc($h['amfi_code']) ?>
                                                 </div>
                                                 <div>
                                                     <div class="fw-semibold text-dark mb-0"><?= esc($h['scheme_name']) ?></div>
-                                                    <?php if (!empty($h['nav_date'])): ?>
-                                                        <small class="text-muted" style="font-size: 0.72rem;">
-                                                            NAV as of <?= date('d-M-Y', strtotime($h['nav_date'])) ?>
-                                                        </small>
-                                                    <?php endif; ?>
+                                                    <div class="d-flex align-items-center gap-1.5 flex-wrap mt-0.5">
+                                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                            <?= esc($h['category']) ?>
+                                                        </span>
+                                                        <?php if (!empty($h['folio_number'])): ?>
+                                                            <span class="badge bg-light text-secondary border font-monospace px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                                Folio: <?= esc($h['folio_number']) ?>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                        <?php if (!empty($h['nav_date'])): ?>
+                                                            <small class="text-muted" style="font-size: 0.7rem;">
+                                                                NAV as of <?= date('d-M-Y', strtotime($h['nav_date'])) ?>
+                                                            </small>
+                                                        <?php endif; ?>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-light text-dark border fw-medium px-2 py-1 font-monospace">
-                                                <?= esc($h['folio_number']) ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">
-                                                <?= esc($h['category']) ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-secondary small"><?= esc($h['fund_house'] ?: '—') ?></span>
                                         </td>
                                         <td class="text-end fw-semibold">
                                             <?= number_format($h['active_units'], 4) ?>
@@ -189,7 +183,7 @@
                                             <?= format_inr($h['current_value']) ?>
                                         </td>
                                         <td class="text-end">
-                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent']) ?>
+                                            <?= format_pnl($h['unrealized_pnl'], $h['unrealized_pnl_percent'], false, true) ?>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
@@ -273,9 +267,6 @@
                             <thead class="table-light text-muted small text-uppercase">
                                 <tr>
                                     <th>Scheme / AMFI Code</th>
-                                    <th>Folio Number</th>
-                                    <th>Category</th>
-                                    <th>AMC / Fund House</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-end">Latest NAV (₹)</th>
                                     <th class="text-end">Realized P&L</th>
@@ -286,32 +277,29 @@
                                 <?php foreach ($pastHoldings as $ph): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-start">
                                                 <div class="brand-badge-sm me-2 bg-secondary bg-opacity-10 text-secondary rounded px-2 py-1 small fw-bold">
                                                     <?= esc($ph['amfi_code']) ?>
                                                 </div>
                                                 <div>
                                                     <div class="fw-semibold text-dark mb-0"><?= esc($ph['scheme_name']) ?></div>
-                                                    <?php if (!empty($ph['nav_date'])): ?>
-                                                        <small class="text-muted" style="font-size: 0.72rem;">
-                                                            NAV as of <?= date('d-M-Y', strtotime($ph['nav_date'])) ?>
-                                                        </small>
-                                                    <?php endif; ?>
+                                                    <div class="d-flex align-items-center gap-1.5 flex-wrap mt-0.5">
+                                                        <span class="badge bg-light text-dark border px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                            <?= esc($ph['category']) ?>
+                                                        </span>
+                                                        <?php if (!empty($ph['folio_number'])): ?>
+                                                            <span class="badge bg-light text-secondary border font-monospace px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                                                Folio: <?= esc($ph['folio_number']) ?>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                        <?php if (!empty($ph['nav_date'])): ?>
+                                                            <small class="text-muted" style="font-size: 0.7rem;">
+                                                                NAV as of <?= date('d-M-Y', strtotime($ph['nav_date'])) ?>
+                                                            </small>
+                                                        <?php endif; ?>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-light text-dark border fw-medium px-2 py-1 font-monospace">
-                                                <?= esc($ph['folio_number']) ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-light text-dark border fw-medium px-2 py-1">
-                                                <?= esc($ph['category']) ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-muted small">
-                                            <?= esc($ph['amc_name'] ?: '—') ?>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
@@ -327,15 +315,16 @@
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <button type="button" 
-                                                        class="btn btn-sm btn-outline-success rounded-start-3 px-2 py-1 open-trans-modal"
+                                                        class="btn btn-sm btn-outline-success rounded-start-3 px-2 py-1 open-mf-modal"
                                                         data-bs-toggle="modal" 
-                                                        data-bs-target="#transactionModal"
+                                                        data-bs-target="#mfTransactionModal"
                                                         data-id="<?= $ph['id'] ?>"
+                                                        data-code="<?= esc($ph['amfi_code']) ?>"
                                                         data-name="<?= esc($ph['scheme_name']) ?>"
                                                         data-folio="<?= esc($ph['folio_number']) ?>"
-                                                        data-amfi="<?= esc($ph['amfi_code']) ?>"
+                                                        data-units="0"
                                                         data-nav="<?= $ph['current_nav'] ?>"
-                                                        data-units="0">
+                                                        data-avg="0">
                                                     <i class="bi bi-plus-circle me-1"></i>Invest Again
                                                 </button>
                                                 <button type="button" 
@@ -916,8 +905,8 @@
                             <div class="col-6">
                                 <label class="form-label small fw-semibold text-secondary">Purchase Type <span class="text-danger">*</span></label>
                                 <select class="form-select" name="buy_type" id="buyMfType" required>
-                                    <option value="BUY_SIP" selected>SIP Installment</option>
-                                    <option value="BUY_LUMPSUM">Lumpsum Purchase</option>
+                                    <option value="BUY_LUMPSUM" selected>Lumpsum Purchase</option>
+                                    <option value="BUY_SIP">SIP Installment</option>
                                 </select>
                             </div>
                             <div class="col-6">
@@ -1185,6 +1174,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalMfSubtitle').textContent = currentMf.name + ' (Folio: ' + currentMf.folio + ')';
             
             // Set defaults in inputs
+            const buyTypeEl = document.getElementById('buyMfType');
+            if (buyTypeEl) buyTypeEl.value = 'BUY_LUMPSUM';
             document.getElementById('buyMfNav').value = currentMf.nav.toFixed(4);
             document.getElementById('buyMfAmount').value = '';
             document.getElementById('buyMfUnits').value = '';
@@ -1248,63 +1239,75 @@ document.addEventListener('DOMContentLoaded', function() {
     const buyCharges = document.getElementById('buyMfCharges');
     const buyTotalPreview = document.getElementById('buyMfTotalPreview');
 
-    let isUpdatingFromAmount = false;
-    let isUpdatingFromUnits = false;
-
-    buyAmount.addEventListener('input', function() {
-        if (isUpdatingFromUnits) return;
-        isUpdatingFromAmount = true;
-
-        const amt = parseFloat(buyAmount.value) || 0;
-        const nav = parseFloat(buyNav.value) || 0;
-
-        // Auto calculate 0.005% stamp duty on mutual funds in India
-        const stampDuty = +(amt * 0.00005).toFixed(2);
-        buyCharges.value = stampDuty.toFixed(2);
-
-        if (nav > 0 && amt > 0) {
-            const netInvest = Math.max(0, amt - stampDuty);
-            const units = netInvest / nav;
-            buyUnits.value = units.toFixed(4);
-        }
-
-        calcBuyTotal();
-        isUpdatingFromAmount = false;
-    });
-
-    buyUnits.addEventListener('input', function() {
-        if (isUpdatingFromAmount) return;
-        isUpdatingFromUnits = true;
-
-        const u = parseFloat(buyUnits.value) || 0;
-        const nav = parseFloat(buyNav.value) || 0;
-
-        if (nav > 0 && u > 0) {
-            const grossAmt = +(u * nav).toFixed(2);
-            buyAmount.value = grossAmt.toFixed(2);
-            const stampDuty = +(grossAmt * 0.00005).toFixed(2);
-            buyCharges.value = stampDuty.toFixed(2);
-        }
-
-        calcBuyTotal();
-        isUpdatingFromUnits = false;
-    });
-
-    buyNav.addEventListener('input', function() {
-        if (buyAmount.value && parseFloat(buyAmount.value) > 0) {
-            buyAmount.dispatchEvent(new Event('input'));
-        } else if (buyUnits.value && parseFloat(buyUnits.value) > 0) {
-            buyUnits.dispatchEvent(new Event('input'));
-        }
-    });
-
-    buyCharges.addEventListener('input', calcBuyTotal);
+    let activeInputSource = 'units';
 
     function calcBuyTotal() {
-        const amt = parseFloat(buyAmount.value) || 0;
-        const chg = parseFloat(buyCharges.value) || 0;
+        const amt = parseFloat(buyAmount ? buyAmount.value : 0) || 0;
+        const chg = parseFloat(buyCharges ? buyCharges.value : 0) || 0;
         const total = amt + chg;
-        buyTotalPreview.textContent = '₹ ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (buyTotalPreview) {
+            buyTotalPreview.textContent = '₹ ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+    }
+
+    function recalcFromUnits() {
+        const u = parseFloat(buyUnits ? buyUnits.value : 0) || 0;
+        const nav = parseFloat(buyNav ? buyNav.value : 0) || 0;
+        if (u > 0 && nav > 0) {
+            const grossAmt = +(u * nav).toFixed(2);
+            if (buyAmount) buyAmount.value = grossAmt.toFixed(2);
+            const stampDuty = +(grossAmt * 0.00005).toFixed(2);
+            if (buyCharges) buyCharges.value = stampDuty.toFixed(2);
+        } else if (u === 0) {
+            if (buyAmount) buyAmount.value = '';
+            if (buyCharges) buyCharges.value = '0.00';
+        }
+        calcBuyTotal();
+    }
+
+    function recalcFromAmount() {
+        const amt = parseFloat(buyAmount ? buyAmount.value : 0) || 0;
+        const nav = parseFloat(buyNav ? buyNav.value : 0) || 0;
+        const stampDuty = +(amt * 0.00005).toFixed(2);
+        if (buyCharges) buyCharges.value = stampDuty.toFixed(2);
+
+        if (amt > 0 && nav > 0) {
+            const units = amt / nav;
+            if (buyUnits) buyUnits.value = units.toFixed(4);
+        } else if (amt === 0) {
+            if (buyUnits) buyUnits.value = '';
+        }
+        calcBuyTotal();
+    }
+
+    if (buyUnits) {
+        buyUnits.addEventListener('input', function() {
+            activeInputSource = 'units';
+            recalcFromUnits();
+        });
+    }
+
+    if (buyAmount) {
+        buyAmount.addEventListener('input', function() {
+            activeInputSource = 'amount';
+            recalcFromAmount();
+        });
+    }
+
+    if (buyNav) {
+        buyNav.addEventListener('input', function() {
+            if (activeInputSource === 'units' && buyUnits && parseFloat(buyUnits.value) > 0) {
+                recalcFromUnits();
+            } else if (buyAmount && parseFloat(buyAmount.value) > 0) {
+                recalcFromAmount();
+            } else if (buyUnits && parseFloat(buyUnits.value) > 0) {
+                recalcFromUnits();
+            }
+        });
+    }
+
+    if (buyCharges) {
+        buyCharges.addEventListener('input', calcBuyTotal);
     }
 
     // 4. Live calculations in REDEEM modal
@@ -1533,17 +1536,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Deep link handling on page load
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialFundId = urlParams.get('fund_id');
-    const initialFy     = urlParams.get('fy');
-    const initialTab    = urlParams.get('tab');
-
-    if (initialFundId && ledgerFundFilter) {
-        ledgerFundFilter.value = initialFundId;
-    }
-    if (initialFy && ledgerDateFilter) {
-        ledgerDateFilter.value = initialFy;
     // ==========================================
     // FIFO TAX LOG FILTERING (Scheme, Gain Type, Date Range)
     // ==========================================

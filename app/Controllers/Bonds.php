@@ -373,7 +373,7 @@ class Bonds extends BaseController
             'bond_name'          => 'required|min_length[3]|max_length[150]',
             'isin'               => 'required|min_length[5]|max_length[20]',
             'bond_symbol'        => 'permit_empty|max_length[50]',
-            'category'           => 'required|in_list[SGB,G_SEC,CORPORATE_NCD,TAX_FREE,STATE_DEVELOPMENT_LOAN]',
+            'category'           => 'required|in_list[SGB,G_SEC,GOVT_SECURITY,CORPORATE_NCD,TAX_FREE]',
             'issuer'             => 'permit_empty|max_length[100]',
             'face_value'         => 'required|numeric|greater_than[0]',
             'coupon_rate'        => 'required|numeric|greater_than_equal_to[0]',
@@ -386,11 +386,16 @@ class Bonds extends BaseController
             return redirect()->to('/bonds')->with('errors', $this->validator->getErrors());
         }
 
+        $category = $this->request->getPost('category');
+        if ($category === 'G_SEC') {
+            $category = 'GOVT_SECURITY';
+        }
+
         $this->bondModel->update($id, [
             'bond_name'          => trim($this->request->getPost('bond_name')),
             'isin'               => strtoupper(trim($this->request->getPost('isin'))),
             'bond_symbol'        => trim($this->request->getPost('bond_symbol')) ?: null,
-            'category'           => $this->request->getPost('category'),
+            'category'           => $category,
             'issuer'             => trim($this->request->getPost('issuer')) ?: null,
             'face_value'         => (float) $this->request->getPost('face_value'),
             'coupon_rate'        => (float) $this->request->getPost('coupon_rate'),

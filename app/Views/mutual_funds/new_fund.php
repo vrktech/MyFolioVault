@@ -115,8 +115,8 @@
                         <div class="col-md-4">
                             <label for="transaction_type" class="form-label small fw-semibold text-secondary">Investment Type <span class="text-danger">*</span></label>
                             <select class="form-select" id="transaction_type" name="transaction_type" required>
-                                <option value="BUY_SIP" <?= old('transaction_type') === 'BUY_SIP' ? 'selected' : '' ?>>SIP (Systematic Plan)</option>
                                 <option value="BUY_LUMPSUM" <?= old('transaction_type', 'BUY_LUMPSUM') === 'BUY_LUMPSUM' ? 'selected' : '' ?>>Lumpsum (One-Time)</option>
+                                <option value="BUY_SIP" <?= old('transaction_type') === 'BUY_SIP' ? 'selected' : '' ?>>SIP (Systematic Plan)</option>
                             </select>
                         </div>
 
