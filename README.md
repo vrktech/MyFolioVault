@@ -94,8 +94,9 @@ cd RupeeFolio
 ### Step 3: Run the Web Setup Wizard
 Open your browser and navigate to:
 ```
-http://localhost/Portfolio/public/install.php
+http://localhost/[your_installation_folder]/public/install.php
 ```
+
 The wizard will:
 1. Validate PHP extensions and directory write permissions.
 2. Connect to MySQL and automatically create the `investment_portfolio` database.
