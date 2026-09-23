@@ -62,6 +62,11 @@
                 <span>NPS (Tier 1)</span>
             </a>
 
+            <a href="<?= base_url('expenses') ?>" class="nav-link <?= strpos(uri_string(), 'expenses') === 0 && strpos(uri_string(), 'reports/expenses') === false ? 'active' : '' ?>">
+                <i class="bi bi-wallet2 text-danger"></i>
+                <span>Expenses</span>
+            </a>
+
             <div class="nav-section-title">Analytics & Reports</div>
             <a href="<?= base_url('reports') ?>" class="nav-link <?= strpos(uri_string(), 'reports') === 0 ? 'active' : '' ?>">
                 <i class="bi bi-file-earmark-bar-graph text-primary"></i>
@@ -172,7 +177,7 @@
         <!-- Footer -->
         <footer class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
-                &copy; <?= date('Y') ?> <strong>RupeeFolio</strong> &bull; Indian Financial Market Portfolio Tracker
+                &copy; <?= date('Y') ?> <strong>RupeeFolio v<?= esc(APP_VERSION) ?></strong> &bull; Indian Financial Market Portfolio Tracker
             </div>
             <div class="text-muted small">
                 Developed by <a href="https://vrktech.com" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold text-primary">VRK Tech</a> &bull; Built with CodeIgniter 4 &amp; Bootstrap 5

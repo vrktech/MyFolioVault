@@ -6,7 +6,13 @@
 [![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205.3.3%20(Offline)-7952B3.svg)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**RupeeFolio** is a high-performance, private, and 100% offline-compatible investment portfolio management system designed specifically for Indian capital market investors. Track equities, REITs, InvITs, ETFs, Sovereign Gold Bonds (SGBs), Mutual Funds, and NPS across multiple brokers and family accounts with comprehensive Indian corporate actions and tax engine support.
+## About RupeeFolio
+
+**RupeeFolio** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+
+Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
+
+**RupeeFolio** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
 
 ---
 
@@ -45,6 +51,11 @@
 ### 6. National Pension System (NPS)
 - PRAN-level account tracking for **Tier I** (Tax-saving pension account) and **Tier II** (Volatile withdrawal account).
 - Multi-PFRDA pension fund manager allocation and asset class splits (Equity `E`, Corporate Debt `C`, Government Securities `G`, Alternative Assets `A`).
+
+### 7. Consolidated Brokerage & Expenses Ledger
+- Record daily contract notes, broker turnover commissions, and statutory charges in one central place.
+- Automatic integration with **Cash Flow & Capital Activity** and **Expenses & Statutory Friction** reports.
+- Categorization into **Brokerage**, **STT & Statutory Taxes**, and **Platform & Misc Fees** (Demat AMC, DP charges).
 
 ---
 

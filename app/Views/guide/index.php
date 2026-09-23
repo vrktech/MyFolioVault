@@ -49,11 +49,14 @@
                 <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-nps-btn" data-bs-toggle="pill" data-bs-target="#tab-nps" type="button" role="tab">
                     <i class="bi bi-shield-check me-2 text-secondary"></i> 7. NPS Tier 1 (4-Scheme E/C/G/A)
                 </button>
+                <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-expenses-btn" data-bs-toggle="pill" data-bs-target="#tab-expenses" type="button" role="tab">
+                    <i class="bi bi-wallet2 me-2 text-danger"></i> 8. Brokerage &amp; Expenses Ledger
+                </button>
                 <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-reports-btn" data-bs-toggle="pill" data-bs-target="#tab-reports" type="button" role="tab">
-                    <i class="bi bi-file-earmark-bar-graph me-2 text-primary"></i> 8. Tax Reports &amp; Capital Gains
+                    <i class="bi bi-file-earmark-bar-graph me-2 text-primary"></i> 9. Tax Reports &amp; Capital Gains
                 </button>
                 <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-ops-btn" data-bs-toggle="pill" data-bs-target="#tab-ops" type="button" role="tab">
-                    <i class="bi bi-hdd-network me-2 text-dark"></i> 9. Backup, Cleanup &amp; Production
+                    <i class="bi bi-hdd-network me-2 text-dark"></i> 10. Backup, Cleanup &amp; Production
                 </button>
             </div>
         </div>
@@ -70,34 +73,108 @@
                     <h5 class="fw-bold text-dark mb-0">1. Getting Started &amp; System Configuration</h5>
                 </div>
                 
-                <p class="text-secondary">
-                    Welcome to <strong>RupeeFolio</strong>. This platform provides complete self-hosted wealth tracking across Indian asset classes in <strong>INR (₹)</strong> with 100% offline capability and automated FIFO tax computation.
-                </p>
+                <!-- About RupeeFolio & Author Purpose -->
+                <div class="card border-0 shadow-sm rounded-4 bg-light p-4 mb-4 border-start border-primary border-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-stars text-primary me-2"></i>About RupeeFolio</h6>
+                    <p class="text-secondary small mb-2">
+                        <strong>RupeeFolio</strong> is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+                    </p>
+                    <p class="text-secondary small mb-0">
+                        Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox) and hold diverse assets—<strong>Direct Equities</strong>, <strong>InvITs &amp; REITs</strong>, <strong>ETFs</strong>, <strong>Bonds &amp; SGBs</strong>, <strong>Mutual Funds</strong>, and <strong>NPS (Tier 1)</strong>. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes. RupeeFolio solves this completely locally on your private machine with zero external dependencies, no third-party CDNs, and zero tracking.
+                    </p>
+                </div>
 
                 <div class="alert alert-primary bg-primary bg-opacity-10 border-primary rounded-3 small mb-4">
                     <i class="bi bi-shield-lock-fill me-1 text-primary"></i>
                     <strong>Privacy &amp; Offline Architecture:</strong> All assets (Bootstrap 5.3.3, Bootstrap Icons 1.11.3, custom styling) run locally from your server. The app uses the native system font stack (<code>-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto</code>). No internet connection is required, and your financial data never leaves your computer.
                 </div>
 
-                <h6 class="fw-bold text-dark mb-2">Step-by-Step: Initial Setup &amp; Configuration</h6>
+                <!-- Step-by-Step Installation Guide -->
+                <div class="card border p-3 rounded-3 mb-4 bg-white">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-download me-1 text-success"></i>1.1 Step-by-Step: How to Install RupeeFolio</h6>
+                    <div class="small text-secondary mb-3">
+                        RupeeFolio features an automated browser-based setup wizard at <code>public/install.php</code>.
+                    </div>
+                    <ol class="small text-secondary mb-3 ps-3">
+                        <li class="mb-2">
+                            <strong>System Prerequisites:</strong> Ensure PHP 8.1+ and MySQL 8.0+ or MariaDB 10.4+ are running (e.g. via XAMPP, WAMP, or standalone Apache).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Download &amp; Extract:</strong> Download <code>rupeefolio-v1.0.0-standalone.zip</code> and extract its contents into your web server's document root folder, e.g. <code>C:\xampp\htdocs\[your_installation_folder]</code> (Windows) or <code>/var/www/html/[your_installation_folder]</code> (Linux).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Launch Wizard:</strong> Open your browser and navigate to <code>http://localhost/[your_installation_folder]/public/install.php</code>. <em>(Change <code>[your_installation_folder]</code> to the actual folder name where you extracted RupeeFolio, for example <code>Portfolio</code>).</em>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 1 (Requirements Check):</strong> The wizard checks PHP version, extensions (<code>mysqli</code>, <code>intl</code>, <code>curl</code>, <code>mbstring</code>), and file permissions.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 2 (Database Configuration):</strong> Enter host (<code>localhost</code>), database name (<code>investment_portfolio</code>), username (<code>root</code>), and password. The wizard can create the database for you if it does not exist.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 3 (Schema &amp; Demo Data Checkbox):</strong>
+                            <div class="bg-light p-2.5 rounded-3 border mt-1">
+                                <strong>The Demo Data Checkbox:</strong> You will see a checkbox: <code>[ ] Install Realistic Sample / Demo Portfolio Data</code> (default: unchecked).
+                                <ul class="mb-0 mt-1 ps-3">
+                                    <li><strong>Unchecked (Recommended for Production):</strong> Creates a completely clean, empty portfolio ready for your personal investments.</li>
+                                    <li><strong>Checked:</strong> Seeds realistic stocks (Reliance, TCS, HDFC Bank), ETFs, SGBs, REITs, Mutual Funds, and contract note charges for testing and evaluation.</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 4 (Admin Account):</strong> Enter your Name, Email, Password, and Financial Year Start Month (April).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 5 &amp; 6 (Auto-Deletion &amp; Login):</strong> The wizard creates your <code>.env</code> file, automatically self-deletes <code>install.php</code> for security, and redirects you to the login screen.
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Live CMP & NAV Updating Guide -->
+                <div class="card border p-3 rounded-3 mb-4 bg-white">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-arrow-repeat me-1 text-info"></i>1.2 Live Current Market Price (CMP) &amp; NAV Updating Guide</h6>
+                    <div class="small text-secondary mb-3">
+                        How live prices and net asset values are maintained across asset classes:
+                    </div>
+                    <ul class="small text-secondary mb-0 ps-3">
+                        <li class="mb-2">
+                            <strong>Equities, ETFs, InvITs &amp; REITs:</strong> Click <strong>"Refresh Live Prices"</strong> at the top right of their respective dashboards. Fetches current market quotes via live feeds with local caching. You can also manually adjust any individual price via the edit modal.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Mutual Funds:</strong> Click <strong>"Refresh Latest NAVs"</strong> on the Mutual Funds dashboard to fetch official daily closing NAVs from the Association of Mutual Funds in India (AMFI) using the 6-digit AMFI code.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Bonds &amp; Fixed Income (Manual CMP):</strong>
+                            <div class="alert alert-warning py-2 px-3 my-1 rounded-2 border">
+                                <i class="bi bi-info-circle me-1"></i> <strong>Important Note on Bonds:</strong> Secondary market G-Secs, Corporate NCDs, and SGBs do not have automated streaming feeds. To update bond prices, use the <strong>Edit Price / CMP</strong> button on the Bond Dashboard to enter the current clean market price per unit.
+                            </div>
+                        </li>
+                        <li class="mb-2">
+                            <strong>National Pension System (NPS Scheme NAVs via npsnav.in):</strong>
+                            <div>RupeeFolio pulls live closing NAVs for Scheme E, C, G, and A directly from <a href="https://npsnav.in" target="_blank" class="fw-semibold text-decoration-none">npsnav.in</a>.</div>
+                            <div class="bg-light p-2.5 rounded-3 border mt-1">
+                                <strong>How to find your NPS Scheme Code on npsnav.in:</strong>
+                                <ol class="mb-0 mt-1 ps-3">
+                                    <li>Visit <a href="https://npsnav.in" target="_blank" class="fw-semibold">npsnav.in</a> and search for your Pension Fund Manager (e.g. <em>ICICI Prudential</em>, <em>HDFC</em>, <em>SBI</em>) and scheme tier.</li>
+                                    <li>Click on the fund to view its page. The 8-character Scheme Code is at the end of the URL.</li>
+                                    <li><strong>Example:</strong> The <a href="https://npsnav.in/funds/SM007001" target="_blank" class="fw-semibold">ICICI PRUDENTIAL SCHEME E - TIER I</a> scheme code is <code>SM007001</code>.</li>
+                                    <li>Enter this code in your NPS Account scheme configuration in RupeeFolio so clicking <strong>"Update Scheme NAVs"</strong> fetches live prices automatically.</li>
+                                </ol>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <h6 class="fw-bold text-dark mb-2">1.3 Financial Year &amp; System Preferences</h6>
                 <ol class="text-secondary small">
                     <li class="mb-2">
-                        <strong>Log In:</strong> Navigate to <code>/login</code> and sign in using your administrator credentials (default: <code>admin@portfolio.local</code> / <code>password123</code>).
-                    </li>
-                    <li class="mb-2">
-                        <strong>Financial Year Configuration:</strong> Navigate to <a href="<?= base_url('settings') ?>" class="text-decoration-none fw-semibold">Admin Settings</a>. For India, confirm that <strong>Financial Year Start Month</strong> is set to <code>April (Month 4)</code>.
-                        <div class="bg-light p-2.5 rounded-3 border mt-1">
-                            <strong>How It Works:</strong> When set to April, all trade ledgers, dividend audits, capital gains summaries, and cash flow reports automatically calculate ranges from April 1 to March 31 of the following year (e.g., Current FY 2024-25 = <code>2024-04-01</code> to <code>2025-03-31</code>; Last FY 2023-24 = <code>2023-04-01</code> to <code>2024-03-31</code>).
-                        </div>
+                        <strong>Financial Year Configuration:</strong> Navigate to <a href="<?= base_url('settings') ?>" class="text-decoration-none fw-semibold">Admin Settings</a>. Confirm <strong>Financial Year Start Month</strong> is set to <code>April (Month 4)</code>. All trade ledgers and reports will automatically align to April 1 &ndash; March 31.
                     </li>
                     <li class="mb-2">
                         <strong>Default Records Per Page:</strong> In Admin Settings, select your default table pagination size (<code>20</code>, <code>40</code>, <code>50</code>, <code>80</code>, or <code>100</code>).
-                        <div class="bg-light p-2.5 rounded-3 border mt-1">
-                            <strong>How It Works:</strong> Stored in your user database profile (<code>users.records_per_page</code>) and loaded into your active session. All interactive tables across all modules automatically initialize with this page size.
-                        </div>
                     </li>
                     <li class="mb-2">
-                        <strong>Sector Master:</strong> Go to <a href="<?= base_url('settings/sectors') ?>" class="text-decoration-none fw-semibold">Manage Sectors</a>. Pre-seeded with 18 standard Indian equity sectors (IT, Banking, FMCG, Energy, Automobile, Pharmaceuticals, Metals &amp; Mining, etc.). You can add custom industry sectors anytime.
+                        <strong>Sector Master:</strong> In <a href="<?= base_url('settings/sectors') ?>" class="text-decoration-none fw-semibold">Manage Sectors</a>, customize or add new industry sectors to track equity concentration.
                     </li>
                 </ol>
             </div>
@@ -293,6 +370,43 @@
                         <li><strong>Past Holdings:</strong> Any security with <code>0</code> active quantity is automatically organized into this tab. Shows lifetime Realized Capital Gains (STCG &amp; LTCG), cumulative income earned (dividends, interest, or distributions), net returns, and a convenient <strong>+ Buy Again</strong> button to seamlessly re-enter a position.</li>
                     </ul>
                 </div>
+
+                <!-- 2.7 HOW TO EDIT A STOCK -->
+                <div class="card bg-light border p-3 rounded-3 mt-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-pencil-square me-1 text-primary"></i>2.7 How to Edit a Stock</h6>
+                    <div class="small text-secondary mb-2">
+                        <strong>When to use:</strong> To correct or update company name, ticker symbol, ISIN, sector, or exchange.
+                    </div>
+                    <ol class="small text-secondary mb-3 ps-3">
+                        <li class="mb-1">On the <a href="<?= base_url('equities') ?>" class="fw-semibold text-decoration-none">Equities Dashboard</a>, locate the stock in the Active Holdings table.</li>
+                        <li class="mb-1">In the <strong>Action</strong> column, click the dropdown toggle and select <strong>"Edit Stock Details"</strong> (or click the edit pencil icon).</li>
+                        <li class="mb-1">Update Company Name, Symbol, ISIN, Sector, or Exchange (NSE/BSE).</li>
+                        <li class="mb-1">Click <strong>"Save Changes"</strong>.</li>
+                    </ol>
+                    <div class="p-2.5 bg-white rounded-3 border small">
+                        <strong>Tip:</strong> To update the Current Market Price (CMP), use the inline CMP edit link on the dashboard or click <strong>"Refresh Live Prices"</strong> to fetch live quotes automatically from Yahoo Finance.
+                    </div>
+                </div>
+
+                <!-- 2.8 HOW TO DELETE A STOCK -->
+                <div class="card bg-light border p-3 rounded-3 mt-4 border-danger border-opacity-25">
+                    <h6 class="fw-bold text-danger mb-2"><i class="bi bi-trash3-fill me-1 text-danger"></i>2.8 How to Delete a Stock (and What Happens to Related Transactions)</h6>
+                    <div class="small text-secondary mb-2">
+                        In the <strong>Action</strong> dropdown on the stock row, click <strong>"Delete Stock"</strong> and confirm the browser prompt.
+                    </div>
+                    <div class="alert alert-danger bg-danger bg-opacity-10 border-danger rounded-3 small mb-0">
+                        <div class="fw-bold text-danger mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> What Happens to Related Transactions When a Stock is Deleted:</div>
+                        RupeeFolio enforces strict database cascading integrity (<code>ON DELETE CASCADE</code>):
+                        <ul class="mb-2 ps-3">
+                            <li><strong>All Trades Erased:</strong> Every buy and sell transaction in the trade ledger is permanently deleted.</li>
+                            <li><strong>Capital Gains Purged:</strong> All historical realized capital gains (STCG/LTCG) and matched FIFO audit records are permanently erased.</li>
+                            <li><strong>Dividends Deleted:</strong> All dividend entries and TDS withholding records for this stock are removed.</li>
+                            <li><strong>Corporate Actions Cleared:</strong> Any past split, bonus, or rights records are deleted.</li>
+                        </ul>
+                        <strong>Important Best Practice:</strong>
+                        If you simply sold all shares of a stock, <strong>DO NOT delete the stock</strong>! Instead, record a <strong>SELL</strong> transaction. The system will reduce your active shares to 0 and automatically move the security to the <strong>Past Holdings</strong> tab, preserving your full historical tax records, realized P&amp;L, and cash flow reports. Only use <strong>Delete Stock</strong> if you added an entry by mistake and want to purge it completely.
+                    </div>
+                </div>
             </div>
 
             <!-- 3. INVITs & REITs -->
@@ -412,6 +526,30 @@
                 <p class="text-secondary small">
                     Click <strong>+ Interest</strong> on the bond row. Gross interest is auto-computed based on held quantity and coupon rate. Enter TDS deducted under Section 193 (0% for G-Secs and SGBs; 10% for unlisted corporate bonds). The net credit updates your annual income ledger.
                 </p>
+
+                <h6 class="fw-bold text-dark mb-2 mt-4">5.3 How to Record Redemption After Expiry / Maturity Date</h6>
+                <div class="small text-secondary mb-2">
+                    When a bond or SGB reaches or passes its maturity date (<code>Maturity Date &le; Today</code>):
+                </div>
+                <div class="p-3 bg-light rounded-3 border small mb-3">
+                    <div class="fw-bold text-dark mb-1"><i class="bi bi-award-fill text-warning me-1"></i> Automated Maturity Detection &amp; The Redeem Button:</div>
+                    <ul class="mb-0 ps-3">
+                        <li class="mb-1">The dashboard automatically flags the bond with a red <strong>"Matured"</strong> label under the Maturity Date column.</li>
+                        <li class="mb-1">A dedicated dark <strong>"Redeem"</strong> button (with a gold award badge) automatically appears on the bond row in the Action column next to <em>"Add Trans"</em> (also available in the split dropdown).</li>
+                    </ul>
+                </div>
+                <ol class="small text-secondary mb-3 ps-3">
+                    <li class="mb-1">Click the <strong>"Redeem"</strong> button to open the <strong>Maturity Redemption Modal</strong>.</li>
+                    <li class="mb-1"><strong>Redemption Date:</strong> Date when principal was credited to your bank account (defaults to today).</li>
+                    <li class="mb-1"><strong>Redeemed Quantity:</strong> Number of units or grams to redeem (pre-filled with all active units).</li>
+                    <li class="mb-1"><strong>Redemption Price per Unit (₹):</strong> Enter final settlement price (for SGB: RBI published gold redemption price; for G-Secs/NCDs: Face Value e.g. ₹1,000).</li>
+                    <li class="mb-1"><strong>Notes:</strong> Optional remark (e.g. <code>RBI SGB Final Redemption</code>).</li>
+                    <li class="mb-1">Click <strong>"Confirm Maturity Redemption"</strong>.</li>
+                </ol>
+                <div class="p-2.5 bg-white rounded-3 border small">
+                    <strong>Tax &amp; Portfolio Impact:</strong>
+                    For Sovereign Gold Bonds (SGBs), capital gains are <strong>100% Tax-Exempt</strong> under Section 47(viic) and logged under the exempt section in reports. Once redeemed, the bond active units become 0 and it moves automatically to the <strong>Past Holdings / Fully Redeemed</strong> table.
+                </div>
             </div>
 
             <!-- 6. MUTUAL FUNDS -->
@@ -448,36 +586,168 @@
                 </div>
 
                 <p class="text-secondary">
-                    Tracks voluntary retirement contributions under Section 80CCD(1B) (additional ₹50,000 tax deduction).
+                    Tracks voluntary retirement contributions under Section 80CCD(1B) (additional ₹50,000 tax deduction) and Employer contributions under Section 80CCD(2).
                 </p>
 
-                <h6 class="fw-bold text-dark mb-2">7.1 Recording Contributions with 4-Scheme Split</h6>
-                <ol class="small text-secondary mb-3">
-                    <li>Click <strong>+ Contribution</strong>.</li>
-                    <li>Enter Contribution Date and Gross Amount (e.g. ₹ 50,000).</li>
-                    <li>Enter POP/gateway friction fee (e.g. ₹ 25). Net allocated = ₹ 49,975.</li>
-                    <li>Allocate across the 4 asset classes:
-                        <div class="row g-2 mt-1">
-                            <div class="col-sm-6"><strong>Scheme E (Equity):</strong> e.g. 50% &rarr; ₹ 24,987.50</div>
-                            <div class="col-sm-6"><strong>Scheme C (Corporate Debt):</strong> e.g. 30% &rarr; ₹ 14,992.50</div>
-                            <div class="col-sm-6"><strong>Scheme G (Govt Bonds):</strong> e.g. 15% &rarr; ₹ 7,496.25</div>
-                            <div class="col-sm-6"><strong>Scheme A (Alternative):</strong> e.g. 5% &rarr; ₹ 2,498.75</div>
-                        </div>
-                    </li>
-                    <li>Enter the NAV for each scheme; allotted units are calculated automatically.</li>
-                </ol>
+                <!-- 7.1 FIRST-TIME SETUP -->
+                <div class="card bg-light border p-3 rounded-3 mb-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-person-plus-fill me-1 text-primary"></i>7.1 First-Time Setup: PRAN, Pension Fund Manager &amp; Scheme Details</h6>
+                    <div class="small text-secondary mb-2">
+                        When you open the NPS module for the first time without an active PRAN account, you will be automatically directed to the <strong>Setup NPS Tier 1 Account</strong> page (<code>/nps/new</code>).
+                    </div>
+                    <ol class="small text-secondary mb-3 ps-3">
+                        <li class="mb-2">
+                            <strong>Step 1 (Subscriber &amp; PRAN Identification):</strong>
+                            <ul class="mt-1 ps-3">
+                                <li><strong>PRAN:</strong> Enter your 12-digit Permanent Retirement Account Number (e.g. <code>110012345678</code>).</li>
+                                <li><strong>Subscriber Name:</strong> Full name matching your CRA registration.</li>
+                                <li><strong>Pension Fund Manager (PFM):</strong> Select or enter your fund house (e.g. <em>HDFC Pension Management, ICICI Prudential Pension Fund, SBI Pension Funds, UTI Retirement Solutions</em>).</li>
+                                <li><strong>Investment Choice:</strong> Choose <code>Active Choice</code> (customizable equity/debt split) or <code>Auto Choice</code> (lifecycle).</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 2 (Target Asset Allocation Across 4 Schemes):</strong>
+                            Enter your allocation percentages across the asset classes (<strong>must total exactly 100%</strong>):
+                            <ul class="mt-1 ps-3">
+                                <li><strong>Scheme E (Equity):</strong> Up to 75% for Active Choice (e.g. <code>50%</code>).</li>
+                                <li><strong>Scheme C (Corporate Debt):</strong> Up to 100% (e.g. <code>30%</code>).</li>
+                                <li><strong>Scheme G (Government Bonds):</strong> Up to 100% (e.g. <code>15%</code>).</li>
+                                <li><strong>Scheme A (Alternative Assets):</strong> Up to 5% (e.g. <code>5%</code>).</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 3 (Scheme Codes for Automated NAV Updates):</strong>
+                            Enter the 8-character Scheme Codes from <a href="https://npsnav.in" target="_blank" rel="noopener" class="text-decoration-none fw-semibold">npsnav.in</a> (e.g. <code>SM007001</code> for ICICI Prudential Scheme E Tier 1). This enables automated one-click daily NAV sync.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Step 4 (Initial Contribution &amp; Allotment):</strong>
+                            Enter your initial deposit date, gross amount (₹), contribution type (<code>Voluntary</code> / <code>Employee</code> / <code>Employer</code>), optional POP friction charges, and the units/NAV for each scheme from your CRA transaction receipt.
+                        </li>
+                        <li class="mb-0">
+                            Click <strong>"Save &amp; Setup NPS Account"</strong> to launch your Tier 1 portfolio.
+                        </li>
+                    </ol>
+                </div>
 
-                <h6 class="fw-bold text-dark mb-2">7.2 Quarterly Fee Deductions</h6>
-                <p class="text-secondary small">
-                    Click <strong>Record Fee Deduction</strong> to enter CRA and Custodian units cancelled at the end of each quarter. This ensures your dashboard balance precisely matches your official quarterly Protean / KFintech NPS statement.
-                </p>
+                <!-- 7.2 HOW TO EDIT SCHEME DETAILS LATER -->
+                <div class="card bg-light border p-3 rounded-3 mb-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-pencil-square me-1 text-primary"></i>7.2 How to Edit Scheme Details, PFM &amp; Target Allocation Later</h6>
+                    <div class="small text-secondary mb-2">
+                        If your target allocation rebalances, your PFM changes, or you need to update/insert scheme codes:
+                    </div>
+                    <ol class="small text-secondary mb-3 ps-3">
+                        <li class="mb-1">On the <a href="<?= base_url('nps') ?>" class="fw-semibold text-decoration-none">NPS Dashboard</a>, look at the top <strong>PRAN Account Card</strong>.</li>
+                        <li class="mb-1">Click the options dropdown menu on the right and select <strong>"Edit Account &amp; Allocation"</strong> (or click the edit pencil button).</li>
+                        <li class="mb-1">In the <strong>Edit Account &amp; Target Allocation</strong> modal, you can update:
+                            <ul class="mt-1 ps-3">
+                                <li><strong>Subscriber Name &amp; PFM Name</strong> (e.g. if switching to another fund house).</li>
+                                <li><strong>Investment Choice</strong> (<code>Active</code> or <code>Auto</code>).</li>
+                                <li><strong>Target Allocation %</strong> across Scheme E, Scheme C, Scheme G, and Scheme A (ensuring they sum to 100%).</li>
+                                <li><strong>Scheme Codes</strong> for automated NAV updates via <code>npsnav.in</code>.</li>
+                            </ul>
+                        </li>
+                        <li class="mb-1">Click <strong>"Update Account"</strong> to apply the changes immediately.</li>
+                    </ol>
+                    <div class="p-2.5 bg-white rounded-3 border small">
+                        <strong>Updating Scheme NAVs:</strong>
+                        Click <strong>"Sync NAVs"</strong> at the top of the dashboard for automatic real-time fetching from <code>npsnav.in</code>, or click <strong>"Update NAVs"</strong> to manually enter the latest NAV values and valuation date.
+                    </div>
+                </div>
+
+                <!-- 7.3 CONTRIBUTIONS -->
+                <div class="card bg-light border p-3 rounded-3 mb-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-wallet-fill me-1 text-success"></i>7.3 Recording Subsequent Contributions</h6>
+                    <ol class="small text-secondary mb-2 ps-3">
+                        <li class="mb-1">Click <strong>+ Add Transaction</strong> &rarr; select the <strong>Contribution</strong> tab.</li>
+                        <li class="mb-1">Enter Contribution Date, Gross Amount (e.g. ₹ 50,000), and Contribution Type (<code>Voluntary</code>, <code>Employee</code>, <code>Employer</code>).</li>
+                        <li class="mb-1">Enter any POP cash charges (e.g. ₹ 25).</li>
+                        <li class="mb-1">Enter the NAV and allotted units for each scheme from your official CRA receipt.</li>
+                        <li class="mb-0">Click <strong>Confirm Contribution</strong>.</li>
+                    </ol>
+                </div>
+
+                <!-- 7.4 FEE DEDUCTIONS -->
+                <div class="card bg-light border p-3 rounded-3 mb-0">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-pie-chart me-1 text-danger"></i>7.4 Recording Quarterly Fee Deductions</h6>
+                    <p class="small text-secondary mb-2">
+                        At the end of each quarter (June, September, December, March), CRA and Custodian charges are deducted by canceling fractional units.
+                    </p>
+                    <ol class="small text-secondary mb-0 ps-3">
+                        <li class="mb-1">Click <strong>+ Add Transaction</strong> &rarr; select the <strong>Quarterly Unit Deduction</strong> tab.</li>
+                        <li class="mb-1">Enter Deduction Date and the exact fractional units cancelled from each scheme (e.g. <code>0.1850</code> from Scheme E).</li>
+                        <li class="mb-0">Click <strong>Confirm Fee Deduction</strong> to keep your dashboard balances in 100% agreement with your official statement.</li>
+                    </ol>
+                </div>
             </div>
 
-            <!-- 8. TAX REPORTS -->
+            <!-- 8. CONSOLIDATED BROKERAGE & EXPENSES -->
+            <div class="tab-pane fade" id="tab-expenses" role="tabpanel">
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                    <span class="badge bg-danger rounded-circle p-2"><i class="bi bi-wallet2 fs-6 text-white"></i></span>
+                    <h5 class="fw-bold text-dark mb-0">8. Consolidated Brokerage &amp; Expenses Ledger</h5>
+                </div>
+
+                <p class="text-secondary">
+                    Indian brokers (Zerodha, Groww, AngelOne, Upstox, ICICI Direct, Kotak Securities, HDFC Sky) provide consolidated daily contract notes at the end of each trading day where turnover fees, STT, and stamp duty are totaled across all trades. In addition, demat Annual Maintenance Charges (AMC) and CDSL/NSDL DP transaction fees (e.g. ₹15.93 per scrip debit on stock sales) are debited to your trading ledger.
+                </p>
+
+                <div class="card bg-light border p-3 rounded-3 mb-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-plus-circle me-1 text-danger"></i>8.1 How to Record an Expense</h6>
+                    <ol class="small text-secondary mb-3 ps-3">
+                        <li class="mb-2">
+                            Navigate to <a href="<?= base_url('expenses') ?>" class="fw-semibold text-decoration-none text-danger">Expenses</a> in the sidebar (under Asset Modules).
+                        </li>
+                        <li class="mb-2">
+                            Click <strong>"+ Record Expense"</strong>.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Expense Date:</strong> Enter the date from your broker contract note or bank/demat statement debit.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Amount (₹):</strong> Enter the total charge in rupees (e.g. <code>47.20</code>).
+                        </li>
+                        <li class="mb-2">
+                            <strong>Expense Type:</strong>
+                            <ul class="mb-0 mt-1 ps-3">
+                                <li><strong>Brokerage Charges:</strong> Direct broker execution commissions and delivery turnover brokerage.</li>
+                                <li><strong>STT &amp; Statutory Taxes:</strong> Securities Transaction Tax (STT), Exchange Turnover charges, SEBI Regulatory fees, Stamp Duty, and GST (18%).</li>
+                                <li><strong>Platform &amp; Misc Fees:</strong> Demat AMC, CDSL/NSDL DP charges on stock sales, call-and-trade charges, and payment gateway fees.</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Related Module:</strong> Allocate the expense to <code>Equities</code>, <code>Exchange Traded Funds (ETFs)</code>, <code>Bonds &amp; Fixed Income</code>, <code>InvITs &amp; REITs</code>, or <code>Mutual Funds</code>.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Notes / Reference:</strong> Enter contract note number, broker name, or remarks (e.g. <code>Zerodha Contract Note #20260923</code>, <code>CDSL DP charges on Tata Motors</code>).
+                        </li>
+                        <li>Click <strong>Save Expense</strong>.</li>
+                    </ol>
+                </div>
+
+                <div class="card bg-light border p-3 rounded-3 mb-4">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-diagram-3 me-1 text-primary"></i>8.2 Automatic Flow into Reports</h6>
+                    <p class="small text-secondary mb-2">
+                        Expenses recorded here <strong>automatically add up on top of any trade-level friction</strong> across your reports:
+                    </p>
+                    <ul class="small text-secondary mb-0 ps-3">
+                        <li class="mb-1">
+                            <strong>Cash Flow &amp; Capital Activity Report:</strong> Summed into the module's total expenses, reducing net cash flow and incrementing activity counts.
+                        </li>
+                        <li class="mb-1">
+                            <strong>Expenses &amp; Statutory Friction Report:</strong> Categorized into Brokerage, STT, and Platform friction, updating grand totals and CSV exports.
+                        </li>
+                        <li class="mb-1">
+                            <strong>Welcome Dashboard:</strong> Reflected in the Consolidated Brokerage &amp; Charges summary card.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 9. TAX REPORTS -->
             <div class="tab-pane fade" id="tab-reports" role="tabpanel">
                 <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                     <span class="badge bg-primary rounded-circle p-2"><i class="bi bi-file-earmark-bar-graph fs-6 text-white"></i></span>
-                    <h5 class="fw-bold text-dark mb-0">8. Analytics &amp; Capital Gains Tax Audit</h5>
+                    <h5 class="fw-bold text-dark mb-0">9. Analytics &amp; Capital Gains Tax Audit</h5>
                 </div>
 
                 <p class="text-secondary">
@@ -512,14 +782,14 @@
                 </div>
             </div>
 
-            <!-- 9. BACKUP & MAINTENANCE -->
+            <!-- 10. BACKUP & MAINTENANCE -->
             <div class="tab-pane fade" id="tab-ops" role="tabpanel">
                 <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
                     <span class="badge bg-dark rounded-circle p-2"><i class="bi bi-hdd-network fs-6 text-white"></i></span>
-                    <h5 class="fw-bold text-dark mb-0">9. Backup, Cleanup &amp; Production Setup</h5>
+                    <h5 class="fw-bold text-dark mb-0">10. Backup, Cleanup &amp; Production Setup</h5>
                 </div>
 
-                <h6 class="fw-bold text-dark mb-2">9.1 How to Clean Sample Data for Production Use</h6>
+                <h6 class="fw-bold text-dark mb-2">10.1 How to Clean Sample Data for Production Use</h6>
                 <p class="text-secondary small">
                     If you tested the platform with sample records and are now ready to track your personal investments:
                 </p>
@@ -528,27 +798,46 @@
                 </div>
                 <div class="p-2.5 bg-light rounded-3 border small mb-4">
                     <strong>What It Does:</strong>
-                    Automatically creates a complete safety snapshot in <code>backup_sample_data.sql</code>, truncates all 22 transaction and holding tables, preserves your administrator user account and all 18 standard equity sectors, and resets all auto-increment IDs to 1.
+                    Automatically creates a complete safety snapshot in <code>backup_sample_data.sql</code>, truncates all 23 transaction and holding tables, preserves your administrator user account and all 18 standard equity sectors, and resets all auto-increment IDs to 1.
                 </div>
 
-                <h6 class="fw-bold text-dark mb-2">9.2 Creating Manual Database Backups</h6>
+                <h6 class="fw-bold text-dark mb-2">10.2 Creating Manual Database Backups</h6>
                 <div class="bg-dark text-light p-3 rounded-3 font-monospace small mb-2">
                     mysqldump -u root investment_portfolio > backup_my_portfolio.sql
                 </div>
-                <p class="small text-secondary mb-4">
+                <p class="small text-secondary mb-0">
                     To restore from backup: <code>mysql -u root investment_portfolio &lt; backup_my_portfolio.sql</code>.
-                </p>
-
-                <h6 class="fw-bold text-dark mb-2">9.3 First-Time Setup Wizard (install.php)</h6>
-                <p class="text-secondary small">
-                    If deploying on a new computer or server, navigate in your browser to:
-                    <code>http://your-server/Portfolio/install.php</code>.
-                    The 3-step wizard performs system health checks, provisions all 25 tables, and creates your administrator account.
-                    After installation, click the one-click <strong>"Delete install.php Now"</strong> button to permanently delete the setup wizard from disk.
                 </p>
             </div>
 
         </div>
+    </div>
+
+    <!-- DISCLAIMER & LIMITATION OF LIABILITY -->
+    <div class="card border-0 shadow-sm rounded-4 bg-light p-4 mt-4 border-start border-warning border-4">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-warning-subtle text-warning-emphasis p-2 rounded-circle">
+                <i class="bi bi-shield-exclamation fs-5"></i>
+            </span>
+            <h5 class="fw-bold text-dark mb-0">Disclaimer &amp; Limitation of Liability</h5>
+        </div>
+        <div class="small text-secondary mb-3">
+            <strong>Please read carefully before using this application:</strong>
+        </div>
+        <ol class="small text-secondary mb-0 ps-3">
+            <li class="mb-2">
+                <strong>"As Is" Software:</strong> This application is open-source software provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, either express or implied, including but not limited to merchantability, fitness for a particular purpose, or freedom from defects.
+            </li>
+            <li class="mb-2">
+                <strong>No Liability for Data Loss or Damages:</strong> In no event shall the author(s), contributor(s), or copyright holder(s) be held liable for any direct, indirect, incidental, special, consequential, or punitive damages (including, without limitation, loss of data, database corruption, software errors, downtime, or business interruption) arising out of the installation, use, or inability to use this software.
+            </li>
+            <li class="mb-2">
+                <strong>Not Financial or Tax Advice:</strong> This tool is developed strictly for personal portfolio tracking, bookkeeping, and educational utility. It does <strong>not</strong> constitute financial, legal, investment, or tax advice under SEBI regulations or the Indian Income Tax Act. Tax calculations, corporate action formulas (bonus, splits, mergers), and capital gains treatments should always be independently validated against official broker contract notes, depository statements (CDSL/NSDL), and certified tax professionals before filing returns.
+            </li>
+            <li class="mb-0">
+                <strong>Backup Responsibility:</strong> You are solely responsible for securing your environment, maintaining regular database backups, protecting passwords/encryption keys, and verifying calculation results.
+            </li>
+        </ol>
     </div>
 </div>
 

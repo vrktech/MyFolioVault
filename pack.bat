@@ -6,7 +6,3 @@ if exist "C:\xampp\php\php.exe" set PHP_BIN="C:\xampp\php\php.exe"
 
 %PHP_BIN% "%~dp0package.php" %*
 
-if "%~1"=="" (
-    echo.
-    pause
-)

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\BondModel;
 use App\Models\EquityModel;
 use App\Models\EtfModel;
+use App\Models\ExpenseModel;
 use App\Models\MutualFundModel;
 use App\Models\NpsAccountModel;
 use App\Models\ReitInvitModel;
@@ -137,11 +138,22 @@ class Home extends BaseController
                 ],
             ];
 
+            $expenseModel = new ExpenseModel();
+            $expensesSummary = $expenseModel->getExpensesSummary($userId);
+
             foreach ($modules as $m) {
                 $totalInvested += $m['invested'];
                 $totalCurrent  += $m['current'];
                 $totalHoldings += $m['holdings_count'];
             }
+        } else {
+            $expensesSummary = [
+                'total_count'     => 0,
+                'total_amount'    => 0.0,
+                'total_brokerage' => 0.0,
+                'total_stt'       => 0.0,
+                'total_platform'  => 0.0,
+            ];
         }
 
         $totalPnl    = $totalCurrent - $totalInvested;
@@ -166,21 +178,22 @@ class Home extends BaseController
             'environment'   => ENVIRONMENT,
             'timezone'      => date_default_timezone_get(),
             'currency'      => 'INR (₹)',
-            'last_update'   => '2026-09-21',
+            'last_update'   => '2026-09-23',
             'server_os'     => PHP_OS_FAMILY . ' (' . php_uname('s') . ')',
         ];
 
         return view('welcome', [
-            'title'         => 'Welcome - RupeeFolio',
-            'userName'      => $session->get('userName') ?? 'Investor',
-            'userEmail'     => $session->get('userEmail') ?? '',
-            'modules'       => $modules,
-            'totalInvested' => $totalInvested,
-            'totalCurrent'  => $totalCurrent,
-            'totalPnl'      => $totalPnl,
-            'totalPnlPct'   => $totalPnlPct,
-            'totalHoldings' => $totalHoldings,
-            'systemInfo'    => $systemInfo,
+            'title'           => 'Welcome - RupeeFolio',
+            'userName'        => $session->get('userName') ?? 'Investor',
+            'userEmail'       => $session->get('userEmail') ?? '',
+            'modules'         => $modules,
+            'totalInvested'   => $totalInvested,
+            'totalCurrent'    => $totalCurrent,
+            'totalPnl'        => $totalPnl,
+            'totalPnlPct'     => $totalPnlPct,
+            'totalHoldings'   => $totalHoldings,
+            'expensesSummary' => $expensesSummary,
+            'systemInfo'      => $systemInfo,
         ]);
     }
 }

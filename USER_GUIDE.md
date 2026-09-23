@@ -3,719 +3,731 @@
 
 ---
 
+## About RupeeFolio
+
+**RupeeFolio** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+
+Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
+
+**RupeeFolio** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
+
+---
+
 ## Table of Contents
-1. [System Architecture & Core Principles](#1-system-architecture--core-principles)
-2. [Initial Setup, Profile & Preferences](#2-initial-setup-profile--preferences)
+1. [Installation & First-Time Setup (Step-by-Step)](#1-installation--first-time-setup-step-by-step)
+   - [1.1 System Prerequisites](#11-system-prerequisites)
+   - [1.2 Download & Extract Archive](#12-download--extract-archive)
+   - [1.3 Web Setup Wizard (install.php) Walkthrough](#13-web-setup-wizard-installphp-walkthrough)
+   - [1.4 The Demo Data Checkbox Explained](#14-the-demo-data-checkbox-explained)
+   - [1.5 Manual Installation Alternative (CLI / phpMyAdmin)](#15-manual-installation-alternative-cli--phpmyadmin)
+2. [Welcome Dashboard, Navigation & Live CMP Updates](#2-welcome-dashboard-navigation--live-cmp-updates)
+   - [2.1 Welcome Dashboard KPI Metrics & Portfolio Net Worth](#21-welcome-dashboard-kpi-metrics--portfolio-net-worth)
+   - [2.2 Financial Year (FY) Date Filtering](#22-financial-year-fy-date-filtering)
+   - [2.3 Live CMP & NAV Updating Mechanics](#23-live-cmp--nav-updating-mechanics)
+     - [2.3.1 Equities, ETFs & REITs Live Quotes](#231-equities-etfs--reits-live-quotes)
+     - [2.3.2 Mutual Funds AMFI NAV Refresh](#232-mutual-funds-amfi-nav-refresh)
+     - [2.3.3 Bonds & Fixed Income (Manual CMP Editing)](#233-bonds--fixed-income-manual-cmp-editing)
+     - [2.3.4 NPS NAV Updating & Scheme Code Lookup (npsnav.in)](#234-nps-nav-updating--scheme-code-lookup-npsnavin)
 3. [Module 1: Equities (Stocks & Shares)](#3-module-1-equities-stocks--shares)
    - [3.1 How to Add a New Stock](#31-how-to-add-a-new-stock)
    - [3.2 How to Record a BUY Transaction](#32-how-to-record-a-buy-transaction)
    - [3.3 How to Record a SELL Transaction & FIFO Capital Gains](#33-how-to-record-a-sell-transaction--fifo-capital-gains)
    - [3.4 How to Record Dividend Payouts & TDS](#34-how-to-record-dividend-payouts--tds)
-   - [3.5 How to Record Corporate Actions](#35-how-to-record-corporate-actions)
-     - [3.5.1 Stock Splits](#351-stock-splits)
-     - [3.5.2 Bonus Issues](#352-bonus-issues)
-     - [3.5.3 Rights Issues](#353-rights-issues)
-     - [3.5.4 Mergers](#354-mergers)
-     - [3.5.5 Demergers](#355-demergers)
-   - [3.6 Active Holdings vs. Past Holdings (Closed Positions)](#36-active-holdings-vs-past-holdings-closed-positions)
+   - [3.5 How to Record Corporate Actions (Splits, Bonus, Rights, Mergers, Demergers)](#35-how-to-record-corporate-actions)
+   - [3.6 Active Holdings vs. Past Holdings](#36-active-holdings-vs-past-holdings)
+   - [3.7 How to Edit a Stock](#37-how-to-edit-a-stock)
+   - [3.8 How to Delete a Stock (and What Happens to Related Transactions)](#38-how-to-delete-a-stock-and-what-happens-to-related-transactions)
 4. [Module 2: InvITs & REITs](#4-module-2-invits--reits)
    - [4.1 How to Add a New Trust](#41-how-to-add-a-new-trust)
-   - [4.2 How to Record Buy & Sell Transactions](#42-how-to-record-buy--sell-transactions)
+   - [4.2 How to Record Buy & Sell Transactions (Whole Units)](#42-how-to-record-buy--sell-transactions-whole-units)
    - [4.3 How to Record 4-Component Quarterly Distributions](#43-how-to-record-4-component-quarterly-distributions)
-   - [4.4 Active Holdings vs. Past Holdings (Closed Trusts)](#44-active-holdings-vs-past-holdings-closed-trusts)
 5. [Module 3: Exchange Traded Funds (ETFs)](#5-module-3-exchange-traded-funds-etfs)
    - [5.1 How to Add a Categorized ETF](#51-how-to-add-a-categorized-etf)
    - [5.2 How to Record Buy & Sell Orders](#52-how-to-record-buy--sell-orders)
    - [5.3 How to Record ETF Splits](#53-how-to-record-etf-splits)
    - [5.4 ETF Taxation Rules (Equity vs Sec 50AA)](#54-etf-taxation-rules-equity-vs-sec-50aa)
-   - [5.5 Active Holdings vs. Past Holdings (Closed ETFs)](#55-active-holdings-vs-past-holdings-closed-etfs)
 6. [Module 4: Bonds & Fixed Income](#6-module-4-bonds--fixed-income)
    - [6.1 How to Add a Bond or SGB](#61-how-to-add-a-bond-or-sgb)
-   - [6.2 How to Record Buy Transactions (Clean Price vs Accrued Interest)](#62-how-to-record-buy-transactions-clean-price-vs-accrued-interest)
+   - [6.2 Clean Price vs. Accrued Interest in Buy Orders](#62-clean-price-vs-accrued-interest-in-buy-orders)
    - [6.3 How to Record Coupon / Interest Payouts & TDS](#63-how-to-record-coupon--interest-payouts--tds)
    - [6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption](#64-sovereign-gold-bond-sgb-sec-47viic-tax-exemption)
-   - [6.5 Active Holdings vs. Past Holdings (Matured & Redeemed Bonds)](#65-active-holdings-vs-past-holdings-matured--redeemed-bonds)
+   - [6.5 How to Record Redemption After Expiry / Maturity Date](#65-how-to-record-redemption-after-expiry--maturity-date)
 7. [Module 5: Mutual Funds](#7-module-5-mutual-funds)
    - [7.1 How to Add a Fund & Folio](#71-how-to-add-a-fund--folio)
    - [7.2 How to Record SIP & Lumpsum Investments](#72-how-to-record-sip--lumpsum-investments)
    - [7.3 How to Record Redemptions (FIFO Units Matching)](#73-how-to-record-redemptions-fifo-units-matching)
-   - [7.4 Active Holdings vs. Past Holdings (Fully Redeemed Funds)](#74-active-holdings-vs-past-holdings-fully-redeemed-funds)
 8. [Module 6: National Pension System (NPS Tier 1)](#8-module-6-national-pension-system-nps-tier-1)
-   - [8.1 How to Set Up PRAN & Pension Fund Manager](#81-how-to-set-up-pran--pension-fund-manager)
-   - [8.2 How to Record Voluntary Contributions (Scheme E/C/G/A Split)](#82-how-to-record-voluntary-contributions-scheme-ecga-split)
-   - [8.3 How to Record Quarterly Fee & Unit Deductions](#83-how-to-record-quarterly-fee--unit-deductions)
-9. [Analytics, Reports & Capital Gains Tax Audit](#9-analytics-reports--capital-gains-tax-audit)
-10. [Production Deployment, Data Cleanup & Backup](#10-production-deployment-data-cleanup--backup)
-11. [Disclaimer & Limitation of Liability](#11-disclaimer--limitation-of-liability)
-12. [Feedback & Issues](#12-feedback--issues)
-13. [Credits & Technology Stack Acknowledgements](#13-credits--technology-stack-acknowledgements)
+   - [8.1 First-Time Setup: PRAN, Pension Fund Manager & Scheme Details (Step-by-Step)](#81-first-time-setup-pran-pension-fund-manager--scheme-details-step-by-step)
+   - [8.2 How to Edit Scheme Details, PFM & Target Allocation Later](#82-how-to-edit-scheme-details-pfm--target-allocation-later)
+   - [8.3 How to Record Contributions (Scheme E/C/G/A Split)](#83-how-to-record-contributions-scheme-ecga-split)
+   - [8.4 How to Record Quarterly Fee & Unit Deductions](#84-how-to-record-quarterly-fee--unit-deductions)
+9. [Module 7: Consolidated Brokerage & Expenses Ledger (NEW)](#9-module-7-consolidated-brokerage--expenses-ledger)
+   - [9.1 Why This Module Exists (Consolidated Contract Notes)](#91-why-this-module-exists-consolidated-contract-notes)
+   - [9.2 How to Record an Expense Transaction](#92-how-to-record-an-expense-transaction)
+   - [9.3 What to Enter in the Fields (Brokerage vs STT vs Platform Charges)](#93-what-to-enter-in-the-fields)
+   - [9.4 How Expenses Add Up in Cash Flow & Friction Reports](#94-how-expenses-add-up-in-cash-flow--friction-reports)
+   - [9.5 How to Edit & Delete Expense Records](#95-how-to-edit--delete-expense-records)
+10. [Analytics, Reports & Capital Gains Tax Audit](#10-analytics-reports--capital-gains-tax-audit)
+    - [10.1 Cash Flow & Capital Activity Report](#101-cash-flow--capital-activity-report)
+    - [10.2 Capital Gains & Tax Audit Report (ITR Filing)](#102-capital-gains--tax-audit-report-itr-filing)
+    - [10.3 Passive Income & Distribution Report](#103-passive-income--distribution-report)
+    - [10.4 Expenses & Statutory Friction Report](#104-expenses--statutory-friction-report)
+    - [10.5 Asset Allocation & Valuation Snapshot](#105-asset-allocation--valuation-snapshot)
+    - [10.6 CSV Exporting & Spreadsheet Compatibility](#106-csv-exporting--spreadsheet-compatibility)
+11. [Production Deployment, Data Cleanup & Backup](#11-production-deployment-data-cleanup--backup)
+12. [Credits & Technology Stack Acknowledgements](#12-credits--technology-stack-acknowledgements)
+13. [Disclaimer & Limitation of Liability](#13-disclaimer--limitation-of-liability)
 
 ---
 
-## 1. System Architecture & Core Principles
+## 1. Installation & First-Time Setup (Step-by-Step)
 
-**RupeeFolio** is engineered specifically for Indian retail investors, HNIs, and family offices managing multiple asset classes denominated in **Indian Rupees (₹ INR)**.
-
-### Core Architecture Pillars:
-1. **100% Offline by Design**:
-   - The application does not contact Google Fonts, third-party CDNs, or external tracking analytics.
-   - All vendor stylesheets (Bootstrap 5.3.3) and icon fonts (Bootstrap Icons 1.11.3) are bundled locally in `public/assets/`.
-   - The user interface renders with the clean native system font stack (`-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif`).
-   - Your financial records, trade entries, and personal net worth remain strictly confidential on your host machine.
-2. **Indian Tax & Statutory Conformity**:
-   - Built around the Indian Financial Year cycle (April 1 to March 31).
-   - Automated FIFO (First-In, First-Out) queue management complying with Section 45 and Section 48 of the Indian Income Tax Act.
-   - Computes Short-Term Capital Gains (STCG) and Long-Term Capital Gains (LTCG) with accurate holding periods in days.
-   - Incorporates updated capital gains tax rates under the Finance Act (e.g. STCG @ 20%, LTCG @ 12.5% with ₹1.25 Lakh annual exemption under Sec 112A).
-   - Captures statutory friction: Securities Transaction Tax (STT), Stamp Duty, Exchange Turnover charges, SEBI turnover fees, and GST.
+### 1.1 System Prerequisites
+Before running RupeeFolio, ensure your local web environment satisfies the following requirements:
+- **PHP Version**: PHP 8.1 or higher (PHP 8.2 or 8.3 recommended).
+- **Database Server**: MySQL 8.0+ or MariaDB 10.4+.
+- **Web Server**: Apache (via XAMPP, WAMP, Laragon, or standalone) with `mod_rewrite` enabled.
+- **Required PHP Extensions**: `mysqli`, `pdo_mysql`, `intl`, `mbstring`, `curl`, `openssl`, `json`.
+- **Local URL**: For example, `http://localhost/[your_installation_folder]/public/` or virtual host `http://rupeefolio.local/`.
 
 ---
 
-## 2. Initial Setup, Profile & Preferences
+### 1.2 Download & Extract Archive
+1. Download the latest standalone distribution archive: `rupeefolio-v1.0.0-standalone.zip`.
+2. Extract the archive into your web server's document root directory:
+   - **XAMPP (Windows)**: `C:\xampp\htdocs\[your_installation_folder]`
+   - **WAMP (Windows)**: `C:\wamp64\www\[your_installation_folder]`
+   - **Laragon (Windows)**: `C:\laragon\www\[your_installation_folder]`
+   - **Linux / Apache**: `/var/www/html/[your_installation_folder]`
+3. *(Note: Replace `[your_installation_folder]` with your chosen folder name, for example `Portfolio` or `rupeefolio`).*
 
-### 2.1 First-Time Login
-1. Open your browser and navigate to the application URL (e.g., `http://localhost/Portfolio/public/` or `http://localhost/Portfolio/`).
-2. Log in using your administrator credentials:
-   - **Email**: `admin@portfolio.local`
-   - **Password**: `password123`
+---
 
-### 2.2 Configuring Financial Year & System Preferences
-Navigate to **Admin Settings** (gear icon in sidebar):
-- **Financial Year Start Month**:
-  - For India, select **April (Month 4)**.
-  - *How It Works*: Every report, trade ledger, dividend filter, and tax audit evaluates the financial year as starting on April 1 and ending on March 31 of the following year (e.g., FY 2024-25 = `2024-04-01` to `2025-03-31`).
-- **Default Records Per Page**:
-  - Choose between `20`, `40`, `50`, `80`, or `100` records per page.
-  - *How It Works*: Stored in your user session and database profile (`users.records_per_page`). All interactive tables in Equities, ETFs, Bonds, InvITs, Mutual Funds, and NPS default to this page size.
-- **Sector Master Management**:
-  - Accessible via **Admin Settings &rarr; Manage Sectors** (`/settings/sectors`).
-  - Pre-seeded with 18 standard Indian equity sectors (Banking & Financial Services, Information Technology, Energy, Automobiles, FMCG, Pharmaceuticals, Metals & Mining, Power, Real Estate, etc.). You can add custom sectors anytime.
+### 1.3 Web Setup Wizard (`install.php`) Walkthrough
+RupeeFolio includes an automated browser-based setup wizard at `public/install.php`.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   INSTALLER SETUP FLOW                          │
+│                                                                 │
+│   [ Step 1: Requirements ] ──► [ Step 2: Database Config ]      │
+│                                           │                     │
+│   [ Step 4: Admin Account ] ◄── [ Step 3: Schema & Demo Check ] │
+│             │                                                   │
+│   [ Step 5: .env Config ]  ──► [ Step 6: Self-Deletion ]        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+1. **Launch Wizard**: Open your browser and navigate to:
+   `http://localhost/[your_installation_folder]/public/install.php`
+   *(Change `[your_installation_folder]` to the actual folder name where you extracted RupeeFolio, for example `Portfolio`).*
+2. **Step 1: System Checks**:
+   - The installer verifies PHP version, required PHP extensions, and write permissions for `.env` and `writable/`.
+   - Click **Next: Database Configuration**.
+3. **Step 2: Database Setup**:
+   - Enter your MySQL server details:
+     - **Database Host**: `localhost` (or `127.0.0.1`)
+     - **Port**: `3306`
+     - **Database Name**: `investment_portfolio` (the wizard can automatically create it if it doesn't exist)
+     - **Username**: `root` (or your database user)
+     - **Password**: *(leave blank if default XAMPP, or enter your MySQL root password)*
+   - Click **Test & Initialize Database**.
+4. **Step 3: Database Initialization & Demo Data**:
+   - The wizard executes `schema.sql` to create all 20+ tables.
+   - **Install Demo / Sample Data Checkbox**:
+     - *Default*: **Unchecked (No)**.
+     - *When to Check*: If you are evaluating the software and want realistic sample stocks (Reliance, TCS, HDFC Bank), REITs, ETFs, Sovereign Gold Bonds, Mutual Funds, NPS, and contract note charges pre-loaded.
+     - *When to Leave Unchecked*: If you are setting up your own clean personal portfolio for live production use.
+5. **Step 4: Create Administrator Account**:
+   - Enter your **Full Name** (e.g. `Karthik Investor`).
+   - Enter your **Email Address** (used as your login username, e.g. `karthik@myfamily.in`).
+   - Enter a **Strong Password** (minimum 6 characters).
+   - Select your **Financial Year Start Month** (Default: **April (Month 4)** for India).
+6. **Step 5: Write Configuration (`.env`)**:
+   - The installer automatically sets up encryption keys, database credentials, session handler, and app base URL.
+7. **Step 6: Security Auto-Deletion**:
+   - Click **Delete Installer & Proceed to Login**.
+   - The installer permanently removes `public/install.php` to prevent unauthorized re-installation.
+
+---
+
+### 1.4 The Demo Data Checkbox Explained
+During Step 3 of the installer, you are presented with a checkbox:
+- **`[ ] Install Realistic Sample / Demo Portfolio Data`**
+- If you check this box, RupeeFolio imports `sample_data.sql`. You will have an active multi-asset portfolio with historical purchases, sales, dividends, bonus shares, corporate actions, and contract note charges.
+- If you leave this box unchecked, the database will be created completely empty, pre-seeded only with standard Indian equity sectors (IT, Banking, Pharma, FMCG, Auto, Energy, etc.).
+
+---
+
+### 1.5 Manual Installation Alternative (CLI / phpMyAdmin)
+If you prefer manual setup or are deploying on a headless Linux server:
+1. Create a MySQL database:
+   ```sql
+   CREATE DATABASE `investment_portfolio` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
+2. Import the database schema:
+   ```bash
+   mysql -u root -p investment_portfolio < schema.sql
+   ```
+   *(Optional: If you want demo data, also run: `mysql -u root -p investment_portfolio < sample_data.sql`)*
+3. Copy the environment configuration:
+   ```bash
+   cp env .env
+   ```
+4. Open `.env` and configure:
+   - `app.baseURL = 'http://localhost/[your_installation_folder]/public/'`
+   - `database.default.hostname = 'localhost'`
+   - `database.default.database = 'investment_portfolio'`
+   - `database.default.username = 'root'`
+   - `database.default.password = ''`
+5. Generate an encryption key or keep the pre-generated key in `.env`.
+6. Log in at `/login` with credentials `admin@portfolio.local` / `password123` (if demo data was imported) or create a user in the `users` table with password hash generated via `password_hash('your_password', PASSWORD_DEFAULT)`.
+
+---
+
+## 2. Welcome Dashboard, Navigation & Live CMP Updates
+
+### 2.1 Welcome Dashboard KPI Metrics & Portfolio Net Worth
+When you sign in, the Welcome Dashboard provides an instantaneous snapshot of your total wealth:
+- **Consolidated Portfolio Net Worth**: Total current valuation of all active assets in INR (₹).
+- **Total Invested Capital**: Net cost basis of your active holdings.
+- **Total Unrealized P&L**: Profit or loss on paper across active holdings in absolute rupees and return percentage.
+- **Active Asset Positions**: Count of open holdings currently held.
+- **Consolidated Brokerage & Statutory Charges Card**: Summarizes total recorded broker commissions, STT, and platform fees from your daily contract notes, with quick links to view or record an expense.
+- **Asset Class Breakdown Cards**: Quick cards for Equities, InvITs/REITs, ETFs, Bonds, Mutual Funds, and NPS with invested capital, valuation, and unrealized return.
+
+---
+
+### 2.2 Financial Year (FY) Date Filtering
+RupeeFolio is tailored for the Indian financial cycle (April 1 to March 31):
+- **Current FY**: For example, FY 2026-27 (`2026-04-01` to `2027-03-31`). Default for all activity ledgers and reports.
+- **Last FY**: Previous financial year (e.g. FY 2025-26). Essential when filing annual Income Tax Returns (ITR-2 or ITR-3).
+- **All Time**: Unfiltered full historical view from your very first trade.
+
+---
+
+### 2.3 Live CMP & NAV Updating Mechanics
+
+#### 2.3.1 Equities, ETFs & REITs Live Quotes
+- In **Equities** (`/equities`), **ETFs** (`/etfs`), and **InvITs/REITs** (`/reits-invits`), click the **"Refresh Live Prices"** button at the top right of the dashboard.
+- The system fetches current market quotes using Yahoo Finance / NSE feeds and saves the latest timestamp.
+- You can also manually update any stock price by clicking the pencil/edit icon on the stock card.
+
+#### 2.3.2 Mutual Funds AMFI NAV Refresh
+- In **Mutual Funds** (`/mutual-funds`), click **"Refresh Latest NAVs"**.
+- RupeeFolio queries the daily official NAV feed from the **Association of Mutual Funds in India (AMFI)** using the fund's 6-digit AMFI Scheme Code.
+
+#### 2.3.3 Bonds & Fixed Income (Manual CMP Editing)
+> [!IMPORTANT]
+> **Secondary Market Bonds & SGBs Do Not Have Live Streaming Feeds**:
+> Unlike equities, Indian Government Securities (G-Secs), Corporate NCDs, and Sovereign Gold Bonds (SGBs) traded on NSE/BSE debt segments do not offer public automated real-time price feeds.
+> - **How to Update Bond Prices**: On the **Bonds Dashboard** (`/bonds`), locate the bond in the Active Holdings table and click the **Edit Price / CMP** icon (or use the bond action menu).
+> - Enter the current clean market price per unit (e.g. ₹ 985.50 for a ₹ 1,000 face value NCD, or ₹ 7,450 for 1 gram of SGB). The dashboard recalculates your current valuation and unrealized returns immediately.
+
+#### 2.3.4 NPS NAV Updating & Scheme Code Lookup (`npsnav.in`)
+The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Scheme E, C, G, A) directly via [npsnav.in](https://npsnav.in).
+
+**How to Find Your NPS Scheme Code on `npsnav.in`**:
+1. Open your browser and go to [npsnav.in](https://npsnav.in).
+2. In the search box, enter your **Pension Fund Manager** (e.g. `ICICI Prudential`, `HDFC Pension`, `SBI Pension Funds`, `UTI Retirement Solutions`, `Kotak Pension Fund`) and the scheme name (e.g. `Scheme E Tier I`).
+3. Click on the scheme from the search results to open its dedicated page.
+4. Note the **8-character Scheme Code** shown at the end of the URL or on the page title:
+   - For example: **[ICICI PRUDENTIAL SCHEME E - TIER I](https://npsnav.in/funds/SM007001)** &rarr; Scheme code is **`SM007001`**.
+   - HDFC Pension Management Scheme E (Tier I) &rarr; **`SM008001`**.
+   - SBI Pension Funds Scheme E (Tier I) &rarr; **`SM001001`**.
+5. In RupeeFolio, navigate to **NPS (Tier 1)** &rarr; **Account Settings / Edit Account** and enter this scheme code for Scheme E, Scheme C, Scheme G, and Scheme A.
+6. Whenever you click **"Update Scheme NAVs"**, RupeeFolio pulls the latest closing NAVs automatically from `npsnav.in`!
 
 ---
 
 ## 3. Module 1: Equities (Stocks & Shares)
 
-The Equities module tracks direct shares listed on the National Stock Exchange (NSE) and Bombay Stock Exchange (BSE).
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    EQUITIES LIFECYCLE                       │
-│                                                             │
-│   [ Add Stock ] ──► [ BUY Order ] ──► Establishes FIFO Lot  │
-│                           │                                 │
-│                           ├──► [ Corporate Action ]         │
-│                           │     (Split / Bonus / Rights)    │
-│                           │                                 │
-│                           ├──► [ Dividend Received ]        │
-│                           │     (Gross, TDS, Net Payout)    │
-│                           │                                 │
-│                           └──► [ FIFO SELL Order ]          │
-│                                      │                      │
-│                                      ▼                      │
-│                               [ FIFO Matching ]             │
-│                                (Earliest Lot First)         │
-│                                      │                      │
-│                                      ▼                      │
-│                          Holding Days Calculation           │
-│                           ├── <= 365 days ──► STCG (20%)    │
-│                           └── > 365 days  ──► LTCG (12.5%)  │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
 ### 3.1 How to Add a New Stock
-
-Use this action whenever you wish to track a new equity security in your portfolio before recording purchase orders.
-
-#### Step-by-Step Instructions:
-1. Navigate to **Equities** from the sidebar.
-2. Click the **Add New Stock** button in the top right corner.
-3. Complete the stock master form:
-   - **Symbol**: Enter the official ticker symbol on NSE (e.g. `HDFCBANK`, `RELIANCE`, `TCS`, `INFY`). The symbol is automatically formatted in uppercase.
-   - **Company Name**: Enter the full registered legal name (e.g. `HDFC Bank Limited`).
-   - **Exchange**: Select `NSE` (default) or `BSE`.
-   - **ISIN**: Enter the 12-character International Securities Identification Number (e.g. `INE040A01034`).
-   - **Sector**: Select the industry sector from the dropdown (e.g. `Banking & Financial Services`).
-   - **Current Market Price (CMP)**: Enter the latest market closing price in ₹ (e.g. `1640.50`).
-4. Click **Save Stock**.
-
-#### How It Works:
-- The system checks for duplicate symbols under your user account.
-- Creates a master row in `equities`.
-- Initializes holding metrics (`total_quantity = 0`, `invested_amount = 0.00`).
-- The CMP serves as the benchmark against which unrealized gain/loss is calculated once buy lots are added.
+1. Navigate to **Equities** &rarr; Click **"+ Add New Stock"**.
+2. **Field Explanations**:
+   - **Company Name**: Official registered company name (e.g. `Reliance Industries Ltd`).
+   - **Stock Symbol**: Trading ticker symbol (e.g. `RELIANCE`). Renders as a colorful badge throughout the application.
+   - **Exchange**: Select `NSE` (National Stock Exchange) or `BSE` (Bombay Stock Exchange).
+   - **ISIN**: 12-character International Securities Identification Number (e.g. `INE002A01018`). Optional, but useful for demat reconciliation.
+   - **Sector**: Select the industry sector (e.g. `Energy, Oil & Gas`, `Information Technology`). Drives the equity sector breakdown in the allocation report.
+   - **Current Market Price (CMP)**: Initial price per share in INR.
 
 ---
 
 ### 3.2 How to Record a BUY Transaction
-
-Use this action whenever you purchase shares through your broker (Zerodha, Groww, ICICI Direct, HDFC Sky, AngelOne, etc.).
-
-#### Step-by-Step Instructions:
-1. On the **Equities** dashboard, locate the stock row in the **Active Holdings** table.
-2. Click the green **+ Trans** button on that stock's row (or click the main **Add Transaction** button and pick the stock from the dropdown).
-3. The Transaction modal opens. Ensure the **Buy More** tab is selected (green button).
-4. Fill in the transaction parameters:
-   - **Transaction Date**: Enter the trade execution date (e.g. `2024-05-15`).
-   - **Quantity**: Enter the number of shares bought (e.g. `50`).
-   - **Buy Price (per share)**: Enter the executed purchase price in ₹ (e.g. `1520.00`). Defaults to the current CMP.
-   - **Brokerage & Statutory Taxes**: Enter the sum of Brokerage + STT + Stamp Duty + GST + Exchange Turn-over charges (e.g. `120.00`).
-   - **Notes / Demat Account**: Optional reference note (e.g. `Zerodha Demat - Long term SIP`).
-5. Observe the live preview:
-   $$\text{Total Cash Outlay} = (\text{Quantity} \times \text{Price}) + \text{Charges} = (50 \times 1520.00) + 120.00 = ₹\text{ }76,120.00$$
-6. Click **Confirm Purchase Lot**.
-
-#### How It Works Behind the Scenes:
-- Inserts a record into `equity_transactions` with `transaction_type = 'BUY'`.
-- Initializes `remaining_quantity = 50.0000`. This creates an independent **FIFO lot** that preserves its acquisition date (`2024-05-15`) and unit cost (`₹ 1,520.00`).
-- Updates the parent stock metrics:
-  - Total Active Shares increases by `50`.
-  - Invested capital increases by `₹ 76,000.00` (excluding charges which are logged under statutory friction).
-  - Weighted Average Buy Price is recalculated across all active open lots:
-    $$\text{Average Price} = \frac{\sum (\text{Remaining Quantity}_i \times \text{Buy Price}_i)}{\sum \text{Remaining Quantity}_i}$$
-  - Unrealized Gain/Loss is updated in real time against CMP:
-    $$\text{Unrealized P\&L} = (\text{CMP} - \text{Average Price}) \times \text{Active Shares}$$
+1. In the Equities Dashboard, find the stock &rarr; Click **"Buy"** (or use the transaction modal).
+2. **Field Explanations**:
+   - **Transaction Date**: Trade execution date from your broker contract note.
+   - **Quantity**: Whole number of shares purchased (e.g. `50`).
+   - **Price Per Share (₹)**: Execution price per share (e.g. `2450.00`).
+   - **Brokerage (₹)**: Direct broker commission if itemized on the trade note. *(Leave 0 if you record consolidated daily contract note expenses in the Expenses module!)*
+   - **STT & Other Taxes (₹)**: Securities Transaction Tax and turnover fees if itemized.
+   - **Total Amount (₹)**: Auto-calculated as `(Quantity * Price) + Brokerage + STT`.
+   - **Notes**: Trade rationale or broker order ID.
+3. Submitting the form creates a new FIFO lot with `remaining_quantity = quantity`.
 
 ---
 
 ### 3.3 How to Record a SELL Transaction & FIFO Capital Gains
-
-Use this action whenever you exit all or part of your shareholding.
-
-#### Step-by-Step Instructions:
-1. Locate the stock on the **Equities** dashboard.
-2. Click the **+ Trans** button on that row.
-3. In the modal, select the **Sell Holding** tab (red button).
-4. Fill in the sell parameters:
-   - **Sell Date**: Enter the date shares were sold (e.g. `2025-06-20`).
-   - **Sell Quantity**: Enter shares to sell (e.g. `20`). The system strictly restricts this input to $\le$ your currently held active quantity.
-   - **Sell Price (per share)**: Enter executed selling price (e.g. `1750.00`).
-   - **Brokerage & STT**: Enter total brokerage and selling STT (e.g. `85.00`).
-   - **Notes**: e.g., `Partial profit booking`.
-5. Observe the live preview:
-   - Net Cash Proceeds: $(20 \times 1750.00) - 85.00 = ₹\text{ }34,915.00$.
-   - Estimated Realized Gain: $₹\text{ }34,915.00 - (20 \times 1520.00) = +₹\text{ }4,515.00$.
-6. Click **Execute FIFO Sell**.
-
-#### How the FIFO Matching Engine Works:
-1. The engine queries all open purchase lots for this stock ordered by `transaction_date ASC, id ASC`.
-2. It takes the earliest available lot:
-   - Lot 1 (`2024-05-15`): Held 50 shares @ ₹ 1,520.00.
-3. Matches 20 shares from Lot 1:
-   - Deducts 20 from Lot 1: Lot 1 `remaining_quantity` becomes `30.0000`.
-4. Calculates the exact holding duration:
-   $$\text{Holding Period} = \text{Date}(\text{2025-06-20}) - \text{Date}(\text{2024-05-15}) = 401\text{ days}$$
-5. **Tax Classification**:
-   - For Indian listed equities, holding period $> 365\text{ days}$ qualifies as **Long-Term Capital Gain (LTCG)** under Section 112A.
-   - If holding was $\le 365\text{ days}$, it qualifies as **Short-Term Capital Gain (STCG)** under Section 111A.
-6. Computes Capital Gain:
-   $$\text{Cost Basis} = 20 \times 1520.00 = ₹\text{ }30,400.00$$
-   $$\text{Net Sell Proceeds} = (20 \times 1750.00) - 85.00 = ₹\text{ }34,915.00$$
-   $$\text{Realized LTCG} = ₹\text{ }34,915.00 - ₹\text{ }30,400.00 = +₹\text{ }4,515.00$$
-7. Creates an immutable audit row in `equity_capital_gains` linking the exit transaction ID to the purchase lot ID.
-8. If the quantity sold was greater than Lot 1, the engine drains Lot 1 to 0 and continues matching remaining shares against Lot 2, Lot 3, etc., generating distinct tax lots for each vintage.
+1. Locate the stock in the Active Holdings table &rarr; Click **"Sell"**.
+2. **Field Explanations**:
+   - **Transaction Date**: Sale date.
+   - **Quantity**: Number of shares sold (cannot exceed total available active units).
+   - **Selling Price Per Share (₹)**: Execution sale price.
+   - **Brokerage & STT (₹)**: Any itemized sale charges.
+3. **Automated FIFO Lot Matching & Tax Classification**:
+   - The engine automatically exhausts buy lots from oldest to newest in strict FIFO order (Indian Income Tax Act Sec 45 & 48).
+   - Computes **Holding Days**: `Sell Date - Buy Date`.
+   - **STCG vs LTCG**:
+     - Holding period &le; 365 days &rarr; **Short-Term Capital Gain (STCG)** (Taxed @ 20% under Section 111A).
+     - Holding period > 365 days &rarr; **Long-Term Capital Gain (LTCG)** (Taxed @ 12.5% above ₹1.25 Lakh exemption under Section 112A).
 
 ---
 
 ### 3.4 How to Record Dividend Payouts & TDS
-
-Use this action whenever a company credits dividends to your bank account.
-
-#### Step-by-Step Instructions:
-1. Click **+ Trans** on the stock row.
-2. Select the **Record Dividend** tab (blue button).
-3. Enter dividend details:
-   - **Payout Date**: Enter the date dividend was credited to your bank account (e.g. `2024-08-10`).
-   - **Dividend Type**: Select `Final`, `Interim`, or `Special`.
-   - **Shares Held on Record Date**: Enter eligible shares (e.g. `50`).
-   - **Dividend Per Share**: Enter dividend per share in ₹ (e.g. `19.50`).
-   - **Total Gross Dividend**: Automatically calculates $50 \times 19.50 = ₹\text{ }975.00$ (or enter custom gross amount).
-   - **TDS Deducted**: Under Section 194 of the IT Act, companies deduct 10% TDS if total dividend paid to an Indian resident in a financial year exceeds ₹5,000. Enter TDS if deducted (e.g. `97.50`), else enter `0.00`.
-   - **Notes**: e.g., `Final Dividend FY24 @ ₹19.50/share`.
-4. Click **Record Dividend**.
-
-#### How It Works:
-- Inserts a record into `equity_dividends`.
-- Net Dividend credited = $\text{Gross} - \text{TDS} = 975.00 - 97.50 = ₹\text{ }877.50$.
-- Does **not** modify your active share quantity or cost basis.
-- Immediately appears in the **Dividend Ledger** tab with Financial Year filters.
-- Summarizes into the **Income Report** for easy comparison with your Form 26AS / Annual Information Statement (AIS).
+1. In Equities Dashboard &rarr; Click **"Record Dividend"**.
+2. Enter the **Dividend Date** and select the stock.
+3. Enter **Dividend Per Share (DPS)** or **Total Gross Amount** (the calculator auto-computes the other based on shares held on the record date).
+4. Enter **TDS Deducted (₹)** (Tax Deducted at Source under Section 194, typically 10% if dividend exceeds ₹5,000).
+5. Net Received in bank = `Gross Amount - TDS Deducted`.
 
 ---
 
 ### 3.5 How to Record Corporate Actions
-
-All corporate actions are managed through the dedicated **Record Corporate Action** button located at the top of the Equities dashboard.
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                 CORPORATE ACTIONS MATRIX                    │
-│                                                             │
-│   Stock Split   ──► Multiplies shares, divides cost/share.  │
-│                     Total invested capital invariant.       │
-│                                                             │
-│   Bonus Issue   ──► Allots zero-cost shares (Price = ₹0.00).│
-│                     Enters FIFO queue as of Record Date.    │
-│                                                             │
-│   Rights Issue  ──► Allots shares at discounted rights price│
-│                     Creates new purchase lot at rights cost.│
-│                                                             │
-│   Merger        ──► Swaps parent shares into target stock.  │
-│                     Inherits historical cost & holding days.│
-│                                                             │
-│   Demerger      ──► Splits parent cost into spun-off entity │
-│                     using IT Dept cost apportionment %.     │
-└─────────────────────────────────────────────────────────────┘
-```
-
-#### Real-Time Eligibility Verification Engine
-Before saving any corporate action, select the stock and enter the **Record Date**. The application automatically sends an asynchronous request to verify how many shares you held on that exact date:
-$$\text{Eligible Shares} = \sum \text{BUY Quantity}_{(\text{date} \le \text{Record Date})} - \sum \text{SELL Quantity}_{(\text{date} \le \text{Record Date})}$$
-A green verification badge confirms:
-`Eligible shares on 2024-09-01: 50 shares`
+1. **Stock Splits**: Specify split ratio (e.g. 1:2 or 1:10). Increases share quantity proportionally and scales down average price, keeping cost basis constant.
+2. **Bonus Issues**: Specify bonus ratio (e.g. 1:1). Adds new bonus shares at ₹0 cost basis with their own acquisition date for future FIFO capital gains.
+3. **Rights Issues**: Add subscribed shares with application price.
+4. **Mergers & Demergers**: Apportion cost basis across resultant entities according to the court-approved ratio.
 
 ---
 
-#### 3.5.1 Stock Splits
-
-Used when a company subdivides its face value (e.g. ₹10 face value split into ₹2 face value &rarr; 1:5 split; or ₹2 into ₹1 &rarr; 1:2 split).
-
-- **Example**: HDFC Bank executes a **1:2 Split** with Record Date `2024-09-01`.
-- **Inputs**:
-  - **Action Type**: Select `Stock Split`.
-  - **Stock**: `HDFCBANK`.
-  - **Record Date**: `2024-09-01`.
-  - **Ratio (Old)**: `1`.
-  - **Ratio (New)**: `2`.
-- **How It Works**:
-  1. The split multiplier is:
-     $$M = \frac{\text{Ratio New}}{\text{Ratio Old}} = \frac{2}{1} = 2.0$$
-  2. For every open purchase lot acquired on or before `2024-09-01`:
-     $$\text{New Quantity} = \text{Remaining Quantity} \times 2.0 = 50 \times 2 = 100\text{ shares}$$
-     $$\text{New Buy Price} = \frac{\text{Original Buy Price}}{2.0} = \frac{1520.00}{2} = ₹\text{ }760.00$$
-  3. Total invested capital remains identical:
-     $$100 \times 760.00 = ₹\text{ }76,000.00$$
-  4. The stock CMP is updated proportionally ($1640.50 / 2 = ₹\text{ }820.25$).
-  5. An entry is recorded in `corporate_actions` documenting the ratio and action date.
+### 3.6 Active Holdings vs. Past Holdings
+- **Active Holdings Tab**: Stocks where you currently own at least 1 share. Displays CMP, WAP, invested value, current value, and stacked unrealized P&L.
+- **Past Holdings Tab**: Stocks where you have sold 100% of your position. Shows historical cost, realized exit value, and total realized capital gain.
 
 ---
 
-#### 3.5.2 Bonus Issues
-
-Used when a company issues free bonus shares to existing shareholders (e.g. 1:1, 1:2, or 2:1 bonus).
-
-- **Example**: TCS announces a **1:1 Bonus Issue** with Record Date `2024-09-15`. You hold 35 shares.
-- **Inputs**:
-  - **Action Type**: Select `Bonus Issue`.
-  - **Stock**: `TCS`.
-  - **Record Date**: `2024-09-15`.
-  - **Ratio (Existing)**: `1`.
-  - **Ratio (Bonus)**: `1`.
-- **How It Works**:
-  1. The engine checks eligible shares as of `2024-09-15` (35 shares).
-  2. Calculates bonus shares to allocate:
-     $$\text{Allotted Bonus Shares} = \frac{35}{1} \times 1 = 35\text{ shares}$$
-  3. Under **Section 55(2)(aa)** of the Indian Income Tax Act, the cost of acquisition of bonus shares is **NIL (₹ 0.00)**.
-  4. The engine inserts a new BUY transaction lot into `equity_transactions`:
-     - `transaction_type = 'BUY'`
-     - `transaction_date = '2024-09-15'`
-     - `quantity = 35`
-     - `price = 0.00`
-     - `total_amount = 0.00`
-     - `brokerage = 0.00`, `stt_taxes = 0.00`
-     - `notes = 'Bonus Issue (1:1) allotment on record date 2024-09-15'`
-  5. Your total holding becomes $35 + 35 = 70\text{ shares}$.
-  6. **Why this preserves FIFO tax accuracy**:
-     - The original 35 shares retain their original purchase date (e.g. `2023-01-10`) and cost basis (e.g. ₹ 3,200).
-     - The 35 bonus shares enter the FIFO queue as of `2024-09-15` with zero cost basis.
-     - When you sell shares in the future, the older lot is taxed first using its original purchase date. Once exhausted, the bonus lot is sold with cost basis ₹0.00 and acquisition date `2024-09-15`, generating 100% accurate capital gains tax audits.
+### 3.7 How to Edit a Stock
+1. On the **Equities Dashboard** (`/equities`), locate the stock in the Active Holdings table.
+2. In the **Action** column on that stock's row, click the dropdown toggle and select **"Edit Stock Details"** (or click the edit pencil icon).
+3. In the **Edit Stock Details** modal, you can modify:
+   - **Company Name**: Full legal or recognizable name (e.g. `HDFC Bank Limited`).
+   - **Symbol**: Stock ticker in uppercase (e.g. `HDFCBANK`).
+   - **ISIN**: 12-character alphanumeric international security code (e.g. `INE040A01034`).
+   - **Sector**: Industry classification (e.g. `Banking & Financial Services`, `Information Technology`).
+   - **Exchange**: Primary market `NSE` or `BSE`.
+4. Click **"Save Changes"** to update the metadata immediately.
+5. *(Note: To update the Current Market Price (CMP), use the inline CMP edit link on the dashboard or click **"Refresh Live Prices"** to automatically pull real-time market prices from Yahoo Finance).*
 
 ---
 
-#### 3.5.3 Rights Issues
+### 3.8 How to Delete a Stock (and What Happens to Related Transactions)
+1. On the **Equities Dashboard**, click the **Action** dropdown next to the stock you wish to delete and select **"Delete Stock"** (red trash icon).
+2. A confirmation prompt will appear: *"Are you sure you want to remove this stock from your portfolio?"*. Confirm to proceed.
 
-Used when an existing company offers additional shares to existing shareholders at a discounted price.
-
-- **Inputs**:
-  - **Action Type**: `Rights Issue`.
-  - **Stock**: Select stock.
-  - **Record Date**: Date of rights entitlement.
-  - **Subscribed Quantity**: Number of rights shares accepted.
-  - **Subscription Price**: Offer price per share (e.g. ₹ 1,250.00).
-- **How It Works**:
-  - Creates a new BUY lot with the subscribed quantity, subscription price, and allotment date.
-  - Enters the FIFO queue at the discounted purchase cost basis.
-
----
-
-#### 3.5.4 Mergers
-
-Used when a company merges into another listed company (e.g. HDFC Limited merged into HDFC Bank Limited in July 2023).
-
-- **Example**: 25 shares of HDFC Ltd swapped for 42 shares of HDFC Bank.
-- **Inputs**:
-  - **Action Type**: `Merger`.
-  - **Source Stock**: `HDFC` (HDFC Limited).
-  - **Destination Merged Stock**: `HDFCBANK`.
-  - **Ratio**: `25 Old` : `42 New`.
-- **How It Works**:
-  1. The engine calculates the shares of the target company to be issued.
-  2. The parent stock lots are closed out (deactivated).
-  3. Corresponding lots are created under the destination merged stock.
-  4. **Cost & Holding Period Grandfathering**: Under Section 47(vii) and Section 49(2) of the Indian Income Tax Act, the cost of acquisition of the parent shares is transferred to the merged shares, and the holding period includes the period for which the parent shares were held.
-
----
-
-#### 3.5.5 Demergers
-
-Used when a company spins off an operating division into a separately listed entity (e.g. Reliance Industries spinning off Jio Financial Services Limited in July 2023).
-
-- **Example**: Holding 100 shares of Reliance Industries. 1 share of JFSL received per 1 share of RIL. Official cost of acquisition split: 91.1% retained in RIL, 8.9% allocated to JFSL.
-- **Inputs**:
-  - **Action Type**: `Demerger`.
-  - **Parent Stock**: `RELIANCE`.
-  - **Spun-off Resulting Stock**: `JIOFIN`.
-  - **Record Date**: Demerger record date.
-  - **Cost Apportionment %**: `8.9%`.
-- **How It Works**:
-  1. Eligible shares in the parent company on the record date are determined.
-  2. For every active parent lot, the cost per share is reduced by the apportionment factor:
-     $$\text{New Parent Cost} = \text{Original Cost} \times (1 - 0.089) = \text{Original Cost} \times 91.1\%$$
-  3. Corresponding new lots are created under the spun-off stock (`JIOFIN`) with:
-     $$\text{Demerged Share Cost} = \text{Original Parent Cost} \times 8.9\%$$
-  4. Acquisition date of the demerged shares is grandfathered to the original acquisition date of the parent lot (Section 49(2C) of the IT Act).
-
----
-
-### 3.6 Active Holdings vs. Past Holdings (Closed Positions)
-
-RupeeFolio automatically segregates your live investments from fully liquidated positions using dedicated navigation tabs on the Equities dashboard:
-
-#### Active Holdings Tab:
-- **Zero-Quantity Suppression**: Stocks where all shares have been sold (`quantity = 0`) are completely hidden from this view, keeping your active portfolio concise and uncluttered.
-- **Metrics Tracked**: Shows currently held share count, weighted average cost basis, current market price (CMP), live portfolio market value, and unrealized profit & loss.
-- **Counter Badge**: The tab counter strictly reflects the count of companies where you currently own shares.
-
-#### Past Holdings Tab (Closed Positions):
-- **Automatic Filing**: When an exit order brings your remaining shares to 0, the stock is automatically filed into the **Past Holdings** tab placed directly next to Active Holdings.
-- **Lifetime Financial Ledger**: Displays your full historical audit for that company, including:
-  - **Realized Capital P&L**: Total profit or loss realized across all past FIFO sales (with STCG and LTCG breakdown).
-  - **Lifetime Dividends**: Total dividend cash credited to your bank account while you held the stock.
-  - **Net Gain / Return**: Realized Capital P&L + Total Dividends Earned.
-- **Re-entering a Position (+ Buy Again)**:
-  - Each closed position provides a green **+ Buy Again** button.
-  - Clicking this button opens the purchase modal pre-populated with the company's ticker, name, and current CMP, allowing you to re-acquire shares without re-creating the stock master.
-- **Audit Access**: Includes direct split-action links to the company's full historical **Trade Ledger**, **Dividend History**, and **FIFO Capital Gains Tax Lot Log**.
+> [!CAUTION]
+> **What Happens to Related Transactions When a Stock is Deleted:**
+> RupeeFolio enforces strict relational integrity with cascading deletions (`ON DELETE CASCADE`):
+> 1. **All Transactions Erased**: Every single BUY and SELL trade executed for this stock in `equity_transactions` is permanently deleted.
+> 2. **Capital Gains History Purged**: All historical realized capital gains (STCG/LTCG) and matched FIFO tax records in `equity_capital_gains` are permanently erased.
+> 3. **Dividend Records Removed**: All cash dividends, TDS withheld records, and dividend history in `equity_dividends` are deleted.
+> 4. **Corporate Actions Erased**: All splits, bonuses, rights, and mergers tied to this stock are removed.
+>
+> **Best Practice Recommendation:**
+> - If you no longer own shares because you sold your entire holding, **DO NOT delete the stock**! Instead, record a **SELL** transaction. This reduces your active units to 0 and automatically moves the stock to the **Past Holdings** tab. This preserves your historical realized profit/loss, historical cash flows, and tax audit trail for ITR filing.
+> - Only use **Delete Stock** if you entered a stock by mistake or want to purge all historical records of that security entirely.
 
 ---
 
 ## 4. Module 2: InvITs & REITs
 
-Tracks Infrastructure Investment Trusts (InvITs) like PowerGrid InvIT, IRB InvIT, and Real Estate Investment Trusts (REITs) like Embassy Office Parks REIT, Mindspace Business Parks REIT, and Brookfield India Real Estate Trust.
-
 ### 4.1 How to Add a New Trust
-1. Click **InvITs / REITs** in the sidebar &rarr; **Add New Trust**.
-2. Enter:
-   - **Symbol**: `EMBASSY`
-   - **Name**: `Embassy Office Parks REIT`
-   - **Type**: Select `REIT` or `InvIT`.
-   - **ISIN**: `INE041025011`
-   - **CMP**: `₹ 385.00`
-3. Click **Save Trust**.
+1. Navigate to **InvITs & REITs** &rarr; Click **"+ Add New Trust"**.
+2. Select **Trust Type**:
+   - `REIT`: Real Estate Investment Trust (e.g. Embassy Office Parks REIT, Mindspace Business Parks REIT, Brookfield India Real Estate Trust, Nexus Select Trust).
+   - `INVIT`: Infrastructure Investment Trust (e.g. PowerGrid InvIT, IRB InvIT Fund).
+3. Enter Trust Name, Trading Symbol, Exchange, and Sponsor.
 
-### 4.2 How to Record Buy & Sell Transactions
-- Follows the identical strict FIFO queue architecture as equities.
-- Holding period threshold for Long-Term Capital Gains on listed REIT/InvIT units is **36 months (3 years)** for acquisitions prior to Finance Act 2024, or **12 months** for listed units under recent amendments.
+---
+
+### 4.2 How to Record Buy & Sell Transactions (Whole Units)
+- InvITs and REITs trade in minimum lot sizes of 1 unit. Units must be whole numbers without decimals.
+- Buy orders establish cost basis; Sell orders trigger FIFO lot matching and capital gains calculation (Holding period > 365 days for LTCG).
+
+---
 
 ### 4.3 How to Record 4-Component Quarterly Distributions
-REIT/InvIT managers (Embassy, Mindspace, etc.) send quarterly distribution notices detailing 4 distinct components:
-1. Click **+ Dist** on the trust row.
-2. Enter the distribution breakdown:
-   - **Distribution Date**: Payout credit date.
-   - **Units Held**: Total units held on record date.
-   - **1. Dividend Component (per unit)**: Check whether exempt or taxable based on whether the SPV opted for Section 115BAA concessional tax.
-   - **2. Interest Component (per unit)**: Taxable in the hands of the unit holder at their applicable slab rate.
-   - **3. Rental Income Component (per unit)**: Taxable at slab rate.
-   - **4. Return of Capital / Repayment of Debt (per unit)**:
-     - *How It Works*: Return of Capital is **not** taxed as immediate income. Instead, the application systematically deducts this amount from the unit cost basis of your active purchase lots.
-     - If the cumulative return of capital exceeds your original purchase price, the excess is taxed under Section 56(2)(xii).
-3. Click **Save Distribution**. The transaction is logged in the **Distribution Ledger** and updates your annual income report.
-
-### 4.4 Active Holdings vs. Past Holdings (Closed Trusts)
-- **Active Holdings**: Displays exclusively trusts with `active_units > 0`. Shows current market value, invested capital, and unrealized gains calculated against your net adjusted cost basis.
-- **Past Holdings**: Trusts where all units have been sold out (`active_units = 0`) transition into the adjacent **Past Holdings** tab. Shows lifetime Realized Capital P&L, cumulative 4-component distributions earned, net gains, and a **+ Buy Again** quick action button.
+Indian REITs and InvITs distribute cash quarterly with 4 distinct tax components:
+1. In the InvITs/REITs Dashboard &rarr; Click **"Record Distribution"**.
+2. Enter the components from your broker's distribution statement or AMC notice:
+   - **Interest Component (₹)**: Taxable in the hands of unitholders at your applicable income tax slab rate.
+   - **Dividend Component (₹)**: Exempt under Sec 10(23FD) if the underlying SPV did not opt for the concessional 22% tax regime under Sec 115BAA; otherwise taxable at slab.
+   - **Return of Capital / Amortization of SPV Debt (ROC) (₹)**: Reduces your unit acquisition cost basis. Any cumulative ROC exceeding original cost is taxed under Section 56(2)(xii).
+   - **Other Income (₹)**: Taxable at slab.
+   - **TDS Deducted (₹)**: Tax withheld by the trust.
+3. Net Received = `(Interest + Dividend + ROC + Other) - TDS`.
 
 ---
 
 ## 5. Module 3: Exchange Traded Funds (ETFs)
 
 ### 5.1 How to Add a Categorized ETF
-1. Click **ETFs** &rarr; **Add New ETF**.
-2. Complete the form:
-   - **Symbol**: e.g., `NIFTYBEES`
-   - **ETF Name**: `Nippon India ETF Nifty 50 BeES`
-   - **Category**: Select from:
-     - `Index`: Nifty 50, Nifty Next 50, Bank Nifty
-     - `Gold`: Sovereign gold tracking funds
-     - `Silver`: Physical silver tracking funds
-     - `Liquid`: Overnight and liquid debt funds
-     - `International`: Nasdaq 100, S&P 500
-   - **AMC**: `Nippon India Mutual Fund`
-   - **CMP**: Current trading price in ₹.
-3. Click **Save ETF**.
+1. Navigate to **ETFs** &rarr; Click **"+ Add New ETF"**.
+2. Enter Name (e.g. `Nippon India Nifty 50 BeES ETF`), Symbol (`NIFTYBEES`), and Exchange.
+3. Select **Category**:
+   - `Equity Index / Large Cap`: Tracks Nifty 50, Sensex, Nifty Next 50.
+   - `Equity Sectoral / Thematic`: Bank BeES, IT ETF, Pharma ETF.
+   - `Commodity Gold`: Gold BeES, HDFC Gold ETF.
+   - `Commodity Silver`: Silver BeES, ICICI Silver ETF.
+   - `Debt / Liquid`: Liquid BeES, G-Sec ETFs.
+   - `International`: Nasdaq 100 ETF, S&P 500 ETF.
+
+---
 
 ### 5.2 How to Record Buy & Sell Orders
-- Standard lot-by-lot FIFO matching.
-- Captures brokerage and STT.
+- Enter Transaction Date, Quantity, Price, Brokerage, and STT.
+- The dashboard calculates your weighted average cost and unrealized returns.
+
+---
 
 ### 5.3 How to Record ETF Splits
-Certain ETFs execute unit splits (e.g. Nippon India ETF Nifty 50 BeES executed a **1:10 split** where ₹1,700 units were split into ₹170 units).
-1. Click **Record ETF Split** at the top of the ETFs module.
-2. Select the ETF, enter the Record Date, and specify the split ratio (`1 Old` : `10 New`).
-3. *How It Works*: All open purchase lots as of the record date have their unit count multiplied by 10 and their cost basis per unit divided by 10. Overall invested capital remains unchanged.
+- When high-priced ETFs (e.g. Gold BeES or Junior BeES) execute face value splits, use **"Record Split"** to scale up units without altering total cost.
+
+---
 
 ### 5.4 ETF Taxation Rules (Equity vs Sec 50AA)
-- **Equity ETFs** (e.g. `NIFTYBEES`, `JUNIORBEES`, `BANKBEES` with $\ge 65\%$ Indian equity exposure):
-  - Holding $> 365\text{ days}$: LTCG @ 12.5% (with ₹1.25L annual exemption).
-  - Holding $\le 365\text{ days}$: STCG @ 20%.
-- **Debt / Gold / Silver ETFs** (`GOLDBEES`, `SILVERBEES`, `LIQUIDBEES` acquired on or after April 1, 2023):
-  - Governed by **Section 50AA** of the Income Tax Act.
-  - Deemed Short-Term Capital Gains regardless of holding period and taxed at your marginal slab rate.
-
-### 5.5 Active Holdings vs. Past Holdings (Closed ETFs)
-- **Active Holdings**: Displays exclusively ETFs with `active_units > 0`. Shows category badges (Index, Gold, Silver, Debt, Global), live market value, and unrealized P&L.
-- **Past Holdings**: When an ETF is sold in full (`active_units = 0`), it is catalogued into **Past Holdings** with lifetime Realized P&L (STCG/LTCG), category tags, and a **+ Buy Again** shortcut.
+- **Equity ETFs** (holding &ge; 65% domestic equity): STCG @ 20% (&le; 365 days), LTCG @ 12.5% (> 365 days with ₹1.25 Lakh exemption).
+- **Gold, Silver & Debt ETFs** (holding < 65% equity acquired on or after April 1, 2023): Governed by **Section 50AA**, taxed as Short-Term Capital Gains at investor's slab rate regardless of holding period.
 
 ---
 
 ## 6. Module 4: Bonds & Fixed Income
 
-Tracks Sovereign Gold Bonds (SGB), Government of India Dated Securities (G-Secs), State Development Loans (SDLs), and Corporate Non-Convertible Debentures (NCDs).
-
 ### 6.1 How to Add a Bond or SGB
-1. Click **Bonds** in the sidebar &rarr; **Add New Bond**.
-2. Select **Bond Category**:
-   - `Sovereign Gold Bond (SGB)`
-   - `Government Security (G-Sec)`
-   - `State Development Loan (SDL)`
-   - `Corporate NCD`
-3. Enter Bond Details:
-   - **Symbol / Tranche**: e.g., `SGBMAY29` (SGB 2021-22 Series I).
-   - **ISIN**: e.g., `IN0020210058`.
-   - **Face Value**: ₹ 1,000.00 for G-Secs/NCDs or 1 Gram issue price for SGBs.
-   - **Coupon Rate (%)**: e.g. `2.50%` for SGBs, `7.18%` for 10-year benchmark G-Sec.
-   - **Coupon Frequency**: `Semi-Annual` (standard for GoI bonds & SGBs), `Annual`, `Quarterly`, or `Monthly`.
-   - **Maturity Date**: Official redemption date.
+1. Navigate to **Bonds** &rarr; Click **"+ Add New Bond"**.
+2. Select **Category**:
+   - `CORPORATE_NCD`: Corporate Non-Convertible Debentures (e.g. Tata Capital, L&T Finance). Default selection.
+   - `GOVT_SECURITY`: Central Government Bonds (G-Secs) or State Development Loans (SDLs).
+   - `SGB`: Sovereign Gold Bonds issued by the Reserve Bank of India.
+   - `TAX_FREE`: Tax-Free PSU Bonds (e.g. NHAI, REC, PFC, IREDA).
+3. Enter Bond Name, Symbol, ISIN, Face Value (e.g. ₹ 1,000), Coupon Rate %, and Coupon Frequency (Annual, Semi-Annual, Monthly, Cumulative).
 
-### 6.2 How to Record Buy Transactions (Clean Price vs Accrued Interest)
-When purchasing bonds in the secondary market (e.g. on the NSE/BSE debt segment or via RBI Retail Direct):
-- Enter the **Clean Price** (price of the bond excluding interest).
-- Enter **Accrued Interest Paid** to the seller for the days elapsed since the last coupon date.
-- The engine separates accrued interest from capital cost basis so you do not pay double tax on coupon receipt.
+---
+
+### 6.2 Clean Price vs. Accrued Interest in Buy Orders
+When purchasing bonds in the secondary market between coupon payout dates, understand the two price components:
+- **Clean Price (₹)**: The market quote of the bond itself, excluding accumulated interest.
+- **Accrued Interest (₹)**: Interest that has accrued on the bond from the last coupon payment date up to the trade settlement date. You pay this upfront to the seller, and you will recover it when the issuer pays the next full coupon.
+- **Total Purchase Outlay**:
+  $$\text{Total Amount} = (\text{Quantity} \times \text{Clean Price}) + \text{Accrued Interest} + \text{Brokerage}$$
+- *RupeeFolio separates clean price from accrued interest so your capital gains cost basis is never artificially inflated by interest income!*
+
+---
 
 ### 6.3 How to Record Coupon / Interest Payouts & TDS
-1. Click **+ Interest** on the bond row.
-2. Enter:
-   - **Payout Date**: Date coupon was credited to your bank account.
-   - **Gross Interest**: Automatically computed as:
-     $$\text{Gross Coupon} = \text{Held Quantity} \times \text{Face Value} \times \frac{\text{Coupon Rate}}{100 \times \text{Frequency}}$$
-   - **TDS Deducted**: Enter TDS deducted under Section 193 (0% for G-Secs and SGBs; 10% for unlisted corporate bonds).
-   - **Financial Year**: Assigned automatically.
-3. Click **Save Payout**.
+1. In Bonds Dashboard &rarr; Click **"Record Coupon / Interest"**.
+2. Select the bond and enter the payout date.
+3. Enter **Gross Interest Received** and **TDS Deducted** (Section 193, 10% on listed corporate NCDs if interest exceeds ₹5,000). Tax-Free bonds and G-Secs have ₹0 TDS.
+
+---
 
 ### 6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption
-- **Critical Tax Advantage**: Under **Section 47(viic)** of the Indian Income Tax Act, any capital gain arising to an individual on redemption of Sovereign Gold Bonds upon maturity (after 8 years) is **100% EXEMPT from tax**.
-- When recording a maturity redemption:
-  - The exit transaction is flagged as `EXEMPT_SGB_MATURITY`.
-  - The realized gain is excluded from taxable capital gains in your tax report, while full cash proceeds are logged in your cash flow statement.
+- Under Section 47(viic) of the Indian Income Tax Act, any capital gains arising on redemption of Sovereign Gold Bonds by an individual investor at RBI maturity are **100% EXEMPT FROM CAPITAL GAINS TAX**.
+- When recording a maturity redemption in RupeeFolio, select `MATURITY_REDEMPTION`. The tax engine flags the gain as `EXEMPT_SGB_MATURITY`, completely separating it from taxable LTCG!
 
-### 6.5 Active Holdings vs. Past Holdings (Matured & Redeemed Bonds)
-- **Active Holdings**: Strictly includes active bonds with positive remaining quantity (`quantity > 0`). Displays invested capital, current market value, days to maturity countdown, and next coupon tracking.
-- **Past Holdings**: When a bond is sold or redeemed at maturity (`quantity = 0`), it is organized under the **Past Holdings** tab. Shows lifetime Realized Capital P&L, total coupon interest earned, net returns, and an option to **+ Buy Again**.
+---
+
+### 6.5 How to Record Redemption After Expiry / Maturity Date
+When a Sovereign Gold Bond (SGB), Government Security (G-Sec), or Corporate NCD reaches its maturity date:
+1. **Automated Maturity Recognition**:
+   - As soon as the maturity date arrives or passes (`Maturity Date <= today` or `Days to Maturity <= 0`), the dashboard flags the holding with a prominent red **"Matured"** status in the Maturity Date column.
+   - An interactive dark **"Redeem"** button (with a gold award badge `bi-award`) automatically appears in the Action column next to *"Add Trans"*, as well as inside the split dropdown as *"Redeem at Maturity"*.
+2. **Step-by-Step Maturity Redemption Process**:
+   - Click the **Redeem** button on the matured bond row to open the **Maturity Redemption Modal**.
+   - **Redemption Date**: Enter the date the principal redemption proceeds were credited to your bank account (defaults to today).
+   - **Redeemed Quantity**: Enter the units or grams being redeemed (auto-filled with your current active units/grams).
+   - **Redemption Price per Unit (₹)**:
+     - For **SGBs**: Enter the final redemption rate fixed by RBI (calculated as the simple average of closing gold prices of 999 purity published by IBJA for the week preceding maturity).
+     - For **G-Secs & Corporate NCDs**: Enter the face value returned by the issuer (e.g. ₹ 1,000.00).
+   - **Notes**: Optional audit remark (e.g. `RBI SGB 2018-19 Series IV Final Redemption`).
+   - The preview box instantly calculates the **Total Principal Amount Received** (`Redeemed Quantity * Redemption Price`).
+   - Click **"Confirm Maturity Redemption"**.
+3. **Accounting & Tax Effects**:
+   - For **SGBs**, the redemption is processed under **Section 47(viic)** — the entire capital gain is logged as **100% Tax-Exempt** in the Capital Gains Report.
+   - For **G-Secs & Corporate Bonds**, capital gains or losses (redemption proceeds minus net cost basis) are computed and audited under the Tax & Redemption Log.
+   - The active units drop to 0, and the bond automatically moves to the **Past Holdings / Fully Redeemed Bonds** archive table on the Bonds dashboard.
 
 ---
 
 ## 7. Module 5: Mutual Funds
 
-Tracks Direct and Regular mutual fund folios across AMCs with AMFI scheme codes.
-
 ### 7.1 How to Add a Fund & Folio
-1. Click **Mutual Funds** &rarr; **Add New Fund**.
-2. Enter:
-   - **Scheme Name**: e.g., `Parag Parikh Flexi Cap Fund - Direct Plan - Growth`.
-   - **AMFI Scheme Code**: `122639`.
-   - **Folio Number**: `10293847/91`.
-   - **Category**: `Equity: Flexi Cap`.
-   - **Current NAV**: Latest Net Asset Value (e.g. `₹ 82.45`).
+1. Navigate to **Mutual Funds** &rarr; Click **"+ Add New Fund"**.
+2. Enter Scheme Name (e.g. `Parag Parikh Flexi Cap Fund - Direct Plan - Growth`).
+3. Enter the 6-digit **AMFI Code** (e.g. `122639`) for automated daily NAV refreshes.
+4. Select AMC / Fund House, Category (Equity, Debt, Hybrid, ELSS), and enter your **Folio Number**.
+
+---
 
 ### 7.2 How to Record SIP & Lumpsum Investments
-1. Click **+ Trans** on the fund row &rarr; select **SIP Purchase** or **Lumpsum Purchase**.
-2. Enter:
-   - **Date**: Investment allotment date.
-   - **Investment Amount**: Amount invested in ₹ (e.g. `₹ 10,000.00`).
-   - **Allotted NAV**: Net Asset Value on the allotment date (e.g. `₹ 78.50`).
-   - **Units Allotted**: Automatically calculated as $\text{Amount} / \text{NAV} = 127.3885\text{ units}$.
-   - **Stamp Duty**: Captures the mandatory 0.005% stamp duty.
-3. Click **Confirm Purchase Lot**.
+1. In Mutual Funds Dashboard &rarr; Click **"Record Investment"**.
+2. **Purchase Type**: Defaults to **Lumpsum** (switch to **SIP** for recurring auto-debits).
+3. Enter **Investment Date**, **Purchase NAV**, and **Amount (₹)**.
+4. The calculator automatically computes **Units Allotted**:
+   $$\text{Units} = \frac{\text{Amount} - \text{Stamp Duty}}{\text{NAV}}$$
+   *(Stamp duty on mutual fund purchases is 0.005%)*.
+
+---
 
 ### 7.3 How to Record Redemptions (FIFO Units Matching)
-1. Click **+ Trans** &rarr; select **Redeem Units**.
-2. Enter:
-   - **Redemption Date**: Date units were processed by AMC.
-   - **Units Redeemed**: Number of units to exit.
-   - **Redemption NAV**: Exit NAV.
-   - **Exit Load**: Any exit load deducted by the fund house.
-3. **How It Works**:
-   - Matches redeemed units against earliest SIP installments using FIFO.
-   - For equity funds, units held $> 365\text{ days}$ generate **LTCG**; units held $\le 365\text{ days}$ generate **STCG**.
-   - Generates precise audit records in `mutual_fund_capital_gains`.
-
-### 7.4 Active Holdings vs. Past Holdings (Fully Redeemed Funds)
-- **Active Holdings**: Displays folios with `active_units > 0`. Shows current market value, invested amounts, and live unrealized returns.
-- **Past Holdings**: Folios where all units have been redeemed (`active_units = 0`) appear in the **Past Holdings** tab. Shows lifetime Realized Capital P&L (STCG/LTCG), total returns, and an **+ Invest Again** shortcut button.
+- When selling units, enter the Redemption Date, Units to Redeem, and Exit NAV.
+- The engine matches redeemed units against earliest purchased lots in strict FIFO order, calculating holding periods and capital gains tax.
 
 ---
 
-## 8. Module 6: National Pension System (NPS Tier 1)
+## 8. National Pension System (NPS Tier 1)
 
-Tracks voluntary retirement contributions under Section 80CCD(1B) (additional ₹50,000 income tax deduction).
+### 8.1 First-Time Setup: PRAN, Pension Fund Manager & Scheme Details (Step-by-Step)
+When visiting the NPS module (`/nps`) for the first time without an active account, you are automatically directed to the **Setup NPS Tier 1 Account** wizard (`/nps/new`).
 
-### 8.1 How to Set Up PRAN & Pension Fund Manager
-1. Click **NPS (Tier 1)** &rarr; **Set Up Account**.
-2. Enter:
-   - **PRAN**: 12-digit Permanent Retirement Account Number (e.g. `110022334455`).
-   - **Subscriber Name**: Registered account name.
-   - **Pension Fund Manager (PFM)**: e.g. `HDFC Pension Management Company Limited` or `SBI Pension Funds`.
-   - **Choice Type**: `Active Choice` or `Auto Choice`.
+Follow these step-by-step instructions to initialize your PRAN account:
 
-### 8.2 How to Record Voluntary Contributions (Scheme E/C/G/A Split)
-When you contribute (e.g. ₹ 50,000 for annual tax deduction), your contribution is split across 4 asset classes:
-1. Click **+ Contribution**.
-2. Enter:
-   - **Contribution Date**: Value date on your Protean / KFintech NPS receipt.
-   - **Gross Contribution Amount**: Total contribution in ₹ (e.g. `₹ 50,000.00`).
-   - **POP / Payment Charges**: Gateway fee or POP service charge (e.g. `₹ 25.00`).
-   - **Net Amount Allocated**: $₹\text{ }49,975.00$.
-3. Enter the 4-Scheme allocation breakdown:
-   - **Scheme E** (Equities): e.g. 50% &rarr; ₹ 24,987.50 (Enter Scheme E NAV &rarr; units calculated).
-   - **Scheme C** (Corporate Debt): e.g. 30% &rarr; ₹ 14,992.50 (Enter Scheme C NAV &rarr; units calculated).
-   - **Scheme G** (Government Securities): e.g. 15% &rarr; ₹ 7,496.25 (Enter Scheme G NAV &rarr; units calculated).
-   - **Scheme A** (Alternative Assets): e.g. 5% &rarr; ₹ 2,498.75 (Enter Scheme A NAV &rarr; units calculated).
-4. Click **Save Contribution**.
+1. **Step 1: Subscriber & Account Identification**:
+   - **PRAN**: Enter your 12-digit Permanent Retirement Account Number (e.g. `110012345678`).
+   - **Subscriber Name**: Enter your name as registered with the Central Recordkeeping Agency (CRA - Protean/NSDL or KFintech).
+   - **Pension Fund Manager (PFM)**: Enter your chosen fund house (e.g. *HDFC Pension Management*, *ICICI Prudential Pension Fund*, *SBI Pension Funds*, *UTI Retirement Solutions*, *Kotak Mahindra Pension Fund*, etc.).
+   - **Investment Choice**: Select **Active Choice** (allows customized allocation up to 75% in equity) or **Auto Choice** (lifecycle matrix based on age).
 
-### 8.3 How to Record Quarterly Fee & Unit Deductions
-NRA / Central Recordkeeping Agency (CRA) and Custodian charges are deducted quarterly by cancelling units:
-1. Click **Record Fee Deduction**.
-2. Enter the date and the exact fraction of units cancelled in Scheme E, C, G, and A.
-3. *How It Works*: Subtracts cancelled units directly from your scheme unit balance, ensuring your dashboard portfolio valuation matches your official quarterly eNPS CAS statement to the fourth decimal place.
+2. **Step 2: Target Asset Allocation Across 4 Schemes**:
+   - Specify your target percentage across the 4 asset classes. **The total sum must equal exactly 100%**:
+     - **Scheme E (Equity)**: Up to 75% under Active Choice (e.g. `50.00%`).
+     - **Scheme C (Corporate Debt)**: Up to 100% (e.g. `30.00%`).
+     - **Scheme G (Government Securities)**: Up to 100% (e.g. `15.00%`).
+     - **Scheme A (Alternative Assets)**: Up to 5% (e.g. `5.00%`).
 
----
+3. **Step 3: Configuring Scheme Codes for Automated Live NAV Sync**:
+   - To enable automated one-click NAV updates via [npsnav.in](https://npsnav.in), enter the official 8-character Scheme Code for each selected asset class:
+     - **Scheme E Code**: e.g. `SM007001` for *ICICI PRUDENTIAL SCHEME E - TIER I* or `SM008001` for *HDFC PENSION MANAGEMENT SCHEME E - TIER I*.
+     - **Scheme C Code**: e.g. `SM007002` for *ICICI Scheme C*.
+     - **Scheme G Code**: e.g. `SM007003` for *ICICI Scheme G*.
+     - **Scheme A Code**: e.g. `SM007004` for *ICICI Scheme A*.
+   - *(Tip: To look up your Scheme Code, visit [npsnav.in](https://npsnav.in), search for your PFM name and asset class, and copy the 8-character alphanumeric code from the fund URL or details card).*
 
-## 9. Analytics, Reports & Capital Gains Tax Audit
-
-Access the suite via **Reports** in the sidebar. Every report supports instant filtering by **Current FY**, **Last FY**, or **All Time**.
-
-### 1. Cash Flow & Capital Activity Report (`/reports/cashflow`)
-- Aggregates all gross capital inflows (purchases) and outflows (sales/redemptions) across all 6 asset modules.
-- Displays statutory transaction friction (Brokerage, STT, Exchange charges, GST, Stamp Duty).
-- Shows Net Capital Deployed in the financial year.
-
-### 2. Capital Gains Tax Audit Report (`/reports/tax`)
-- **ITR-2 / ITR-3 Filing Companion**:
-  - Summarizes Short-Term Capital Gains (STCG @ 20% under Section 111A).
-  - Summarizes Long-Term Capital Gains (LTCG @ 12.5% under Section 112A).
-  - Flags tax-exempt transactions (SGB maturity under Section 47(viic)).
-  - Provides lot-by-lot audit drill-down with buy dates, sell dates, holding days, buy costs, sale proceeds, and net gain.
-
-### 3. Annual Income & Dividend Ledger (`/reports/income`)
-- Complete schedule of:
-  - Equity Dividends received.
-  - Bond Coupon & Interest payments.
-  - REIT & InvIT quarterly distributions (interest, dividend, rental).
-- Displays gross income and TDS deducted under Section 194 / Section 193 for instant reconciliation with **Form 26AS** and **Annual Information Statement (AIS)**.
-
-### 4. Expenses & Statutory Friction Report (`/reports/expenses`)
-- Granular breakdown of total friction deducted during trading:
-  - Brokerage
-  - Securities Transaction Tax (STT)
-  - Goods and Services Tax (GST)
-  - Stamp Duty
-
-### 5. Asset Allocation & Net Worth Matrix (`/reports/allocation`)
-- Visual portfolio distribution percentages across:
-  - Equities
-  - InvITs & REITs
-  - ETFs
-  - Bonds & Fixed Income
-  - Mutual Funds
-  - NPS (Tier 1)
-- Identifies portfolio concentration risks and sector weightings.
+4. **Step 4: Initial Contribution & Allotment Details**:
+   - Enter your initial or baseline contribution to establish the portfolio:
+     - **Transaction Date**: Date of deposit or allotment from your CRA transaction receipt.
+     - **Gross Amount (₹)**: Total amount transferred (e.g. `₹ 50,000.00`).
+     - **Contribution Type**: Select `Voluntary` (for Section 80CCD(1B)), `Employee`, or `Employer`.
+     - **Optional POP Charges (₹)**: Payment gateway / POP commissions (e.g. `₹ 25.00`). Net amount allocated becomes `₹ 49,975.00`.
+     - **Scheme Allotments**: Enter the purchase NAV and units allotted for Scheme E, C, G, and A from your official CRA allotment statement.
+   - Click **"Save & Setup NPS Account"**.
 
 ---
 
-## 10. Production Deployment, Data Cleanup & Backup
+### 8.2 How to Edit Scheme Details, PFM & Target Allocation Later
+As your investment journey evolves, you may change your Pension Fund Manager, switch asset allocation percentages, or update scheme codes.
 
-### 10.1 Cleaning Sample Data for Fresh Production Use
-If you explored the system with sample data and are ready to track your real investments:
-1. Open a terminal in the project root:
-   ```bash
-   php cleanup_sample_data.php
-   ```
-2. What the script does:
-   - Automatically saves a complete safety snapshot to `backup_sample_data.sql`.
-   - Truncates all 22 transaction and asset holding tables.
-   - Preserves your administrator login account and all 18 sector master records.
-   - Resets all auto-increment IDs to 1.
+Follow these step-by-step instructions to modify your NPS account settings:
 
-### 10.2 Creating Manual Database Backups
-To create an offline backup of your portfolio database at any time:
-```bash
-# Using mysqldump (Windows XAMPP path)
-D:\xampp\mysql\bin\mysqldump.exe -u root -p investment_portfolio > my_portfolio_backup.sql
+1. **Navigate to Dashboard**: Go to **NPS (Tier 1)** in the sidebar (`/nps`).
+2. **Open the Edit Modal**:
+   - On the top **PRAN Account Information** card, click the three-dots action dropdown (or split button) on the right side and select **"Edit Account & Allocation"** (or click the edit pencil button).
+   - This opens the **Edit Account & Target Allocation** modal.
+3. **Fields You Can Update**:
+   - **Subscriber Name**: Update if there was any clerical spelling error.
+   - **Pension Fund Manager (PFM)**: Update if you switched to a different pension fund manager (e.g. switched from SBI to HDFC).
+   - **Investment Choice**: Switch between `Active` and `Auto`.
+   - **Target Asset Allocation %**: Adjust the percentage split across Scheme E, Scheme C, Scheme G, and Scheme A. *Remember: the sum of the four allocations must equal exactly 100%*.
+   - **Scheme Codes for Auto NAV Updates**: Update or insert the 8-character Scheme Codes from [npsnav.in](https://npsnav.in) for Scheme E, Scheme C, Scheme G, and Scheme A.
+4. **Save Changes**: Click **"Update Account"**. Your revised asset distribution targets and scheme codes are applied immediately.
+5. **Updating Scheme NAVs**:
+   - **One-Click Automated Sync**: Click the **"Sync NAVs"** button at the top right of the NPS dashboard. RupeeFolio calls the `npsnav.in` endpoint and refreshes NAVs for all configured scheme codes simultaneously.
+   - **Manual NAV Edit**: If offline or if your scheme code isn't entered, click the **"Update NAVs"** button to manually enter the latest NAV values and valuation date for Scheme E, C, G, and A.
+6. **Editing Historical Transactions**:
+   - If an error was made on a past contribution or unit deduction, scroll down to the **Contribution History** or **Quarterly Unit Deductions** table and click the **Edit** icon on that specific row to update dates, amounts, or individual scheme units and NAVs.
+
+---
+
+### 8.3 How to Record Contributions (Scheme E/C/G/A Split)
+1. In the NPS Dashboard &rarr; Click **"+ Add Transaction"** &rarr; select the **Contribution** tab.
+2. Enter the **Transaction Date**, **Gross Amount (₹)**, and **Contribution Type** (`Voluntary`, `Employee`, or `Employer`).
+3. Enter any **POP Charges / Platform Deductions** (e.g. `₹ 25.00`).
+4. Enter the units allotted and NAV for Scheme E, Scheme C, Scheme G, and Scheme A as detailed on your CRA contribution acknowledgement slip.
+5. Click **"Confirm Contribution"**. The new units are added to your scheme balances and audited under the Contribution History ledger.
+
+---
+
+### 8.4 How to Record Quarterly Fee & Unit Deductions
+1. Every quarter, the CRA (Protean / KFintech) and Custodian deduct administrative maintenance charges by canceling fractional units from your scheme holdings.
+2. In the NPS Dashboard &rarr; Click **"+ Add Transaction"** &rarr; select the **Quarterly Unit Deduction** tab.
+3. Enter the **Deduction Date** (e.g. end of quarter: June 30, September 30, December 31, March 31).
+4. Enter the fractional units deducted from each scheme (e.g. `0.2345` units cancelled from Scheme E, `0.1120` from Scheme C, etc.).
+5. Click **"Confirm Fee Deduction"**. The units are deducted from scheme balances, keeping your recorded unit balances in exact 100% agreement with your official CRA statement.
+
+---
+
+## 9. Module 7: Consolidated Brokerage & Expenses Ledger (NEW)
+
+### 9.1 Why This Module Exists (Consolidated Contract Notes)
+In India, discount and full-service brokers (Zerodha, Groww, AngelOne, Upstox, ICICI Direct, Kotak Securities, HDFC Sky) generate a **Consolidated Daily Contract Note** at the end of every trading day.
+
+In this statement:
+- Brokerage, exchange turnover fees, SEBI charges, clearing fees, stamp duty, and 18% GST are totaled across the day's trades rather than broken down per security.
+- Furthermore, non-trade charges like **Demat Annual Maintenance Charges (AMC)**, **CDSL/NSDL DP Transaction Charges** (e.g. ₹15.93 per scrip debit on delivery sales), **Call & Trade charges**, and payment gateway fees are debited directly to your trading ledger.
+
+Trying to divide these small charges across individual stocks is cumbersome and prone to rounding errors. **RupeeFolio solves this with the Consolidated Brokerage & Expenses Ledger!**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 EXPENSES FLOW IN REPORTS                    │
+│                                                             │
+│   Daily Contract Note / AMC / DP Debit                      │
+│                           │                                 │
+│                           ▼                                 │
+│          [ Record in Expenses Ledger ]                      │
+│             (Date, Amount, Type, Module)                    │
+│                           │                                 │
+│         ┌─────────────────┴─────────────────┐               │
+│         ▼                                   ▼               │
+│  [ Cash Flow Report ]              [ Expenses Report ]      │
+│  Sums into module total            Categorizes by type:     │
+│  expense & reduces Net Flow        Brokerage / STT / Other  │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 10.3 Restoring from Backup
-```bash
-D:\xampp\mysql\bin\mysql.exe -u root -p investment_portfolio < my_portfolio_backup.sql
-```
+---
 
-### 10.4 First-Time Installation on a New Server (`install.php`)
-1. Place the repository in your web server directory.
-2. Navigate in your browser to:
-   `http://your-server/Portfolio/install.php`
-3. Complete the 3-step setup wizard (verifies system health, creates database, provisions all 25 tables, and sets your admin password).
-4. **Important**: Click the prominent **"Delete install.php Now"** button on the final screen to permanently remove the setup wizard from your server for security.
+### 9.2 How to Record an Expense Transaction
+1. In the sidebar under **Asset Modules**, click **Expenses** (`/expenses`).
+2. Click the **"+ Record Expense"** button.
+3. Fill in the modal form and click **Save Expense**.
 
 ---
 
-## 11. Disclaimer & Limitation of Liability
+### 9.3 What to Enter in the Fields
+- **Expense Date**: Date on your contract note or bank/demat statement debit.
+- **Amount (₹)**: Total rupee amount of the charge (e.g. `47.20`).
+- **Expense Type**:
+  - `Brokerage Charges`: Direct broker commission, delivery turnover brokerage, call-and-trade fees.
+  - `STT & Statutory Taxes`: Securities Transaction Tax (STT), Exchange Turnover Charges, SEBI Regulatory Turnover Fee, State Stamp Duty, and GST (18%).
+  - `Platform & Misc Fees`: Demat Annual Maintenance (AMC), CDSL/NSDL DP charges upon stock sales, depository charges, API subscription fees.
+- **Related Module**:
+  - Select the asset class the charge belongs to: `Equities`, `Exchange Traded Funds (ETFs)`, `Bonds & Fixed Income`, `InvITs & REITs`, or `Mutual Funds`. *(NPS is excluded because NPS charges are deducted via fractional unit cancellations)*.
+- **Notes / Reference**:
+  - Enter the contract note number, broker name, or reason (e.g. `Zerodha Contract Note #20260923`, `CDSL DP charges on Tata Motors sale`, `Groww AMC Q1`).
+
+---
+
+### 9.4 How Expenses Add Up in Cash Flow & Friction Reports
+> [!IMPORTANT]
+> **Automatic Reporting Integration**:
+> Every expense recorded in this module **adds up on top of any trade-level friction** across all financial reports:
+> 1. **Cash Flow & Capital Activity Report (`/reports/cashflow`)**:
+>    - The recorded expense amount is added to that module's `Total Expense (₹)`.
+>    - Decreases the module's and portfolio's `Net Flow (₹)`.
+>    - Increments the module's total `Activities` count.
+> 2. **Expenses & Statutory Friction Report (`/reports/expenses`)**:
+>    - `BROKERAGE` adds directly to the module's Brokerage column.
+>    - `STT_TAXES` adds directly to the module's STT & Taxes column.
+>    - `PLATFORM_MISC` adds directly to the module's Platform & Misc column.
+>    - Recomputes total friction, percentage drag, and exports cleanly into CSV!
+> 3. **Welcome Page Dashboard (`/`)**:
+>    - Included in the **Consolidated Brokerage & Statutory Charges** overview card.
+
+---
+
+### 9.5 How to Edit & Delete Expense Records
+- **Edit**: In the Expenses table, click the pencil icon next to any entry. Update the date, amount, type, module, or notes, and click **Update Expense**.
+- **Delete**: Click the red trash icon. A confirmation modal appears preventing accidental deletion. Confirming removes the expense and instantly updates all reports.
+
+---
+
+## 10. Analytics, Reports & Capital Gains Tax Audit
+
+Navigate to **Analytics & Reports** in the sidebar (`/reports`) to access the 5 dedicated audit views:
+
+### 10.1 Cash Flow & Capital Activity Report (`/reports/cashflow`)
+- Full audit of money moving in and out of your portfolio for the selected financial year.
+- Computes:
+  $$\text{Net Flow} = (\text{Total Sold} + \text{Passive Income}) - (\text{Total Purchases} + \text{Expenses \& TDS})$$
+- Displays breakdown across all 6 asset modules and equity sectors.
+
+### 10.2 Capital Gains & Tax Audit Report (`/reports/tax`)
+- Designed specifically for preparing Indian Income Tax Returns (**ITR-2 / ITR-3**).
+- Itemizes every matched FIFO sale with Buy Date, Sell Date, Holding Days, Buy Price, Sell Price, and Realized Gain.
+- Segregated into:
+  - **Equity STCG @ 20%** (Section 111A)
+  - **Equity LTCG @ 12.5%** (Section 112A with ₹1.25 Lakh exemption)
+  - **Debt / SGB LTCG @ 12.5%** (Section 112)
+  - **Sec 50AA Debt / Commodity Gains** (Taxed at slab rates)
+  - **Exempt SGB Maturity Redemptions** (Section 47(viic))
+
+### 10.3 Passive Income & Distribution Report (`/reports/income`)
+- Consolidates all cash payouts received:
+  - Equity Cash Dividends
+  - Bond Semi-Annual & Annual Coupon Interest
+  - REIT & InvIT Distributions (Interest, Dividend, ROC, Other)
+- Tracks **TDS Deducted** for claiming tax credits in **Schedule TDS / Form 26AS / AIS**.
+
+### 10.4 Expenses & Statutory Friction Report (`/reports/expenses`)
+- Audits trading friction across your portfolio.
+- Combines trade-level fees with standalone daily contract note expenses.
+- Displays Brokerage, STT & Taxes, TDS Withheld, Platform & Misc, and Total Friction.
+
+### 10.5 Asset Allocation & Valuation Snapshot (`/reports/allocation`)
+- Visual portfolio allocation by asset class with percentage share.
+- Deep-dive breakdown of direct equities by sector (Banking, IT, FMCG, Energy, etc.).
+
+### 10.6 CSV Exporting & Spreadsheet Compatibility
+- Click **"Export to CSV"** on any report to download official audit files.
+- All CSVs are encoded with **UTF-8 Byte Order Mark (BOM)** (`\xEF\xBB\xBF`), ensuring that Indian Rupee symbols (₹) and accented characters open cleanly in **Microsoft Excel**, **Apple Numbers**, and **LibreOffice Calc** without character corruption.
+
+---
+
+## 11. Production Deployment, Data Cleanup & Backup
+
+### 11.1 Creating Backup Dumps
+To create an offline backup of your portfolio database:
+```bash
+mysqldump -u root -p investment_portfolio > backup_portfolio_$(date +%Y%m%d).sql
+```
+
+### 11.2 Restoring from Backup
+```bash
+mysql -u root -p investment_portfolio < backup_portfolio_20260923.sql
+```
+
+### 11.3 Packaging Standalone Releases
+Run the automated packaging utility to generate clean distribution zips without sensitive `.env` files or git artifacts:
+```bash
+php package.php v1.0.0
+```
+Outputs: `dist/rupeefolio-v1.0.0-standalone.zip`.
+
+---
+
+## 12. Credits & Technology Stack Acknowledgements
+
+RupeeFolio is proudly built on open-source foundations:
+- **CodeIgniter 4**: High-performance, lightweight, and elegant PHP framework ([codeigniter.com](https://codeigniter.com)).
+- **Bootstrap 5.3.3 & Bootstrap Icons**: Clean, responsive, offline-bundled user interface ([getbootstrap.com](https://getbootstrap.com)).
+- **Chart.js**: Client-side interactive canvas charts for asset allocation and portfolio trends ([chartjs.org](https://chartjs.org)).
+- **npsnav.in**: Open National Pension System NAV repository ([npsnav.in](https://npsnav.in)).
+- **AMFI India**: Daily official mutual fund Net Asset Value data ([amfiindia.com](https://www.amfiindia.com)).
+- **Google Gemini AI**: Architecture engineering, FIFO tax matching algorithms, and documentation design.
+- **PHP & MariaDB/MySQL**: Modern, dependable, and self-hosted database and runtime engines.
+
+---
+
+## 13. Disclaimer & Limitation of Liability
 
 > [!CAUTION]
-> **LEGAL & FINANCIAL DISCLAIMER**:
-> - **As-Is Provision**: This application is provided on an "AS IS" and "AS AVAILABLE" basis without any express or implied warranties.
-> - **No Financial Advisory**: This software is built for personal record-keeping, tracking, and educational purposes. It does not constitute SEBI-registered investment advice or professional tax advice. Always verify capital gains figures, corporate actions, and income schedules with official broker contract notes, depository statements, and a qualified Chartered Accountant before filing tax returns.
-> - **Limitation of Liability**: The authors and contributors shall not be liable for any data loss, computational inaccuracies, financial loss, or damages arising from the use of this software. Users are solely responsible for maintaining regular database backups.
+> **PLEASE READ CAREFULLY BEFORE USING THIS APPLICATION:**
+> 
+> 1. **"As Is" Software**: This application is open-source software provided on an **"AS IS"** and **"AS AVAILABLE"** basis without warranties of any kind, either express or implied, including but not limited to merchantability, fitness for a particular purpose, or freedom from defects.
+> 2. **No Liability for Data Loss or Damages**: In no event shall the author(s), contributor(s), or copyright holder(s) be held liable for any direct, indirect, incidental, special, consequential, or punitive damages (including, without limitation, loss of data, database corruption, software errors, downtime, or business interruption) arising out of the installation, use, or inability to use this software.
+> 3. **Not Financial or Tax Advice**: This tool is developed strictly for personal portfolio tracking, bookkeeping, and educational utility. It does **not** constitute financial, legal, investment, or tax advice under SEBI regulations or the Indian Income Tax Act. Tax calculations, corporate action formulas (bonus, splits, mergers), and capital gains treatments should always be independently validated against official broker contract notes, depository statements (CDSL/NSDL), and certified tax professionals before filing returns.
+> 4. **Backup Responsibility**: You are solely responsible for securing your environment, maintaining regular database backups, protecting passwords/encryption keys, and verifying calculation results.
 
 ---
-
-## 12. Feedback & Issues
-
-- 🐛 **Issues & Feature Requests**: If you discover calculation differences, encounter bugs, or have ideas for new features, please report them by opening an issue on **GitHub**.
-- ⭐ **Support the Project**: If this tracker helps you manage your investments, consider giving the repository a star on GitHub!
-
----
-
-## 13. Credits & Technology Stack Acknowledgements
-
-RupeeFolio is made possible through the following open-source projects and developer tools:
-
-- **CodeIgniter 4**: High-performance, secure PHP MVC framework powering routing, controllers, input validation, and database abstraction. Released under the MIT License by the CodeIgniter Foundation.
-- **Bootstrap 5.3.3**: Responsive UI component framework enabling fluid offline styling across mobile, tablet, and desktop viewports. Released under the MIT License.
-- **Bootstrap Icons 1.11.3**: Crisp offline SVG glyph library powering all dashboard KPIs, action triggers, and status indicators. Released under the MIT License.
-- **Chart.js**: Client-side HTML5 canvas charting library utilized for real-time asset allocation and net worth distribution visuals. Released under the MIT License.
-- **Google Gemini AI**: Architectural engineering, agentic development, complex Indian capital gains tax engine algorithms (STCG/LTCG holding period logic, Section 47(viic) SGB exemption, REIT 4-component income tracking), and end-to-end verification.
-- **PHP 8.1+ & MySQL / MariaDB**: Core language engine, strict typing, and relational database management.
-
----
-*RupeeFolio &bull; Indian Financial Market Edition &bull; Local Offline Wealth Management*
+*RupeeFolio &bull; 100% Offline Personal Wealth Management for Indian Investors.*

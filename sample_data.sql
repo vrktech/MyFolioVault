@@ -70,4 +70,18 @@ INSERT INTO `nps_scheme_units` VALUES (37,1,7,13,'SCHEME_E','HDFC Pension Manage
 -- Data for `corporate_actions`
 INSERT INTO `corporate_actions` VALUES (1,1,'EQUITY',16,'BONUS','2026-09-01',1.0000,2.0000,NULL,NULL,NULL,80.0000,240.0000,'Bonus Issued test','2026-09-20 22:13:09','2026-09-20 22:13:09'),(2,1,'EQUITY',15,'BONUS','2026-09-01',1.0000,1.0000,NULL,NULL,NULL,35.0000,70.0000,'Bonus','2026-09-21 06:37:35','2026-09-21 06:37:35'),(3,1,'EQUITY',14,'RIGHTS','2026-09-01',1.0000,1.0000,1000.0000,NULL,NULL,15.0000,20.0000,'Rights issue subscription of 5 shares @ ₹1000','2026-09-21 06:38:12','2026-09-21 06:38:12'),(4,1,'EQUITY',14,'SPLIT','2026-08-10',1.0000,2.0000,NULL,NULL,NULL,15.0000,30.0000,'Stock Split 1:2','2026-09-21 06:39:39','2026-09-21 06:39:39');
 
+-- Data for `expenses`
+INSERT INTO `expenses` VALUES 
+(1,1,'2025-05-15',47.20,'BROKERAGE','equity','Zerodha Equity Delivery & Order Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(2,1,'2025-05-15',35.50,'STT_TAXES','equity','NSE Turnover charges, STT & Stamp duty','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(3,1,'2025-06-30',354.00,'PLATFORM_MISC','equity','Annual Demat Maintenance Fee (AMC) + GST','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(4,1,'2025-07-20',20.00,'BROKERAGE','etf','ETF Trade Execution Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(5,1,'2025-07-20',12.80,'STT_TAXES','etf','Exchange Turnover & Clearing charges','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(6,1,'2025-09-10',50.00,'BROKERAGE','bond','Corporate NCD Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(7,1,'2025-10-15',25.00,'BROKERAGE','reit_invit','REIT Transaction Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(8,1,'2025-10-15',18.50,'STT_TAXES','reit_invit','STT & Stamp Duty on InvIT purchase','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(9,1,'2025-11-05',100.00,'PLATFORM_MISC','mutual_fund','MF Central / Registrar Folio Maintenance fee','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(10,1,'2026-06-15',15.93,'PLATFORM_MISC','equity','CDSL Demat Debit (DP) Charges on Share Sale','2026-09-20 13:42:33','2026-09-20 13:42:33');
+
 SET FOREIGN_KEY_CHECKS = 1;
+

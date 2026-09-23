@@ -23,8 +23,11 @@
                         <span class="badge bg-light text-dark border px-3 py-2 fw-medium">
                             <i class="bi bi-currency-rupee me-1 text-success"></i> INR (₹)
                         </span>
+                        <a href="<?= base_url('expenses') ?>" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 fw-semibold">
+                            <i class="bi bi-wallet2 me-1"></i> Expenses: <?= format_inr($expensesSummary['total_amount'] ?? 0) ?>
+                        </a>
                         <a href="<?= base_url('reports') ?>" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 fw-semibold">
-                            <i class="bi bi-pie-chart-fill me-1"></i> Full Analytics & Reports
+                            <i class="bi bi-pie-chart-fill me-1"></i> Full Analytics &amp; Reports
                         </a>
                         <a href="<?= base_url('guide') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 fw-semibold">
                             <i class="bi bi-book me-1 text-warning"></i> User Guide
@@ -141,6 +144,59 @@
             </div>
         </div>
     <?php endforeach; ?>
+</div>
+
+<!-- Consolidated Expenses & Friction Section -->
+<div class="card border rounded-4 shadow-sm bg-white p-4 mb-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pb-3 border-bottom">
+        <div class="d-flex align-items-center gap-3">
+            <div class="bg-danger-subtle text-danger rounded-3 p-2.5 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                <i class="bi bi-wallet2 fs-4"></i>
+            </div>
+            <div>
+                <h6 class="fw-bold text-dark mb-0">Consolidated Brokerage &amp; Statutory Charges</h6>
+                <small class="text-muted">Daily contract note charges, turnover fees, stamp duty, and platform expenses</small>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="<?= base_url('expenses') ?>" class="btn btn-primary btn-sm rounded-3 px-3 fw-semibold">
+                <i class="bi bi-wallet2 me-1"></i> View Expense Ledger
+            </a>
+            <a href="<?= base_url('reports/expenses') ?>" class="btn btn-outline-secondary btn-sm rounded-3 px-3">
+                <i class="bi bi-receipt-cutoff me-1"></i> Friction Report
+            </a>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-sm-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 border">
+                <div class="text-muted fs-7 text-uppercase fw-semibold">Total Recorded Charges</div>
+                <div class="fw-bold text-dark fs-5 mt-1"><?= format_inr($expensesSummary['total_amount'] ?? 0) ?></div>
+                <div class="text-muted small fs-8 mt-1"><?= number_format($expensesSummary['total_count'] ?? 0) ?> recorded entries</div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 border">
+                <div class="text-muted fs-7 text-uppercase fw-semibold">Brokerage Paid</div>
+                <div class="fw-bold text-primary fs-5 mt-1"><?= format_inr($expensesSummary['total_brokerage'] ?? 0) ?></div>
+                <div class="text-muted small fs-8 mt-1">Trading commissions</div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 border">
+                <div class="text-muted fs-7 text-uppercase fw-semibold">STT &amp; Taxes</div>
+                <div class="fw-bold text-info fs-5 mt-1"><?= format_inr($expensesSummary['total_stt'] ?? 0) ?></div>
+                <div class="text-muted small fs-8 mt-1">Turnover duties &amp; GST</div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 border">
+                <div class="text-muted fs-7 text-uppercase fw-semibold">Platform &amp; Misc</div>
+                <div class="fw-bold text-secondary fs-5 mt-1"><?= format_inr($expensesSummary['total_platform'] ?? 0) ?></div>
+                <div class="text-muted small fs-8 mt-1">Demat AMC &amp; DP charges</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bottom Application Details & System Specs Card -->

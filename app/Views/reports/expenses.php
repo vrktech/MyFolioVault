@@ -13,6 +13,11 @@
                 Audit of all transaction friction, brokerage commissions, Securities Transaction Tax (STT), and tax deducted at source (TDS).
             </p>
         </div>
+        <div class="d-flex gap-2">
+            <a href="<?= base_url('expenses') ?>" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1.5 fw-semibold shadow-sm">
+                <i class="bi bi-wallet2 me-1"></i> Consolidated Expenses
+            </a>
+        </div>
     </div>
 
     <!-- Multipage Sub-Navigation -->
@@ -20,6 +25,25 @@
 
     <!-- Date Range Filter Toolbar -->
     <?= $this->include('reports/_date_filter') ?>
+
+    <?php if (!empty($consolidatedSummary['total_count'])): ?>
+        <div class="alert alert-light border border-danger-subtle rounded-4 p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2.5">
+                <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <i class="bi bi-info-circle-fill fs-5"></i>
+                </div>
+                <div>
+                    <div class="fw-semibold text-dark small">Includes Consolidated Broker Statement Charges</div>
+                    <div class="text-muted small" style="font-size: 0.76rem;">
+                        This report combines trade-level friction with <strong><?= number_format($consolidatedSummary['total_count']) ?></strong> recorded standalone expenses totaling <strong><?= format_inr($consolidatedSummary['total_amount']) ?></strong>.
+                    </div>
+                </div>
+            </div>
+            <a href="<?= base_url('expenses?fy=' . esc($range['key'])) ?>" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1">
+                View Ledger <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+    <?php endif; ?>
 
     <!-- 4 Hero Friction KPI Cards -->
     <div class="row g-3 mb-4">

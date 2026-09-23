@@ -104,6 +104,12 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('reits-invits/refresh-prices', 'ReitsInvits::refreshPrices');
     $routes->get('reits-invits/delete/(:num)', 'ReitsInvits::deleteTrust/$1');
 
+    // Consolidated Brokerage & Expenses Module
+    $routes->get('expenses', 'Expenses::index');
+    $routes->post('expenses/add', 'Expenses::add');
+    $routes->post('expenses/update', 'Expenses::update');
+    $routes->get('expenses/delete/(:num)', 'Expenses::delete/$1');
+
     // Reports Module (Multipage: Cashflow, Capital Gains / Tax, Income, Expenses, Allocation)
     $routes->group('reports', static function ($routes) {
         $routes->get('', 'Reports::cashflow');

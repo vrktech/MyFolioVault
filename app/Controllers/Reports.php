@@ -8,6 +8,7 @@ use App\Models\EquityCapitalGainsModel;
 use App\Models\EquityModel;
 use App\Models\EtfCapitalGainsModel;
 use App\Models\EtfModel;
+use App\Models\ExpenseModel;
 use App\Models\MutualFundCapitalGainsModel;
 use App\Models\MutualFundModel;
 use App\Models\NpsAccountModel;
@@ -89,6 +90,10 @@ class Reports extends BaseController
         $eDate = $range['endDate'];
         $modules = [];
 
+        // Fetch consolidated standalone broker & platform expenses
+        $expenseModel = new ExpenseModel();
+        $consExpenses = $expenseModel->getModuleExpensesGrouped($userId, $sDate, $eDate);
+
         // 1. Equities
         $eqBuy = $this->applyDateFilter(
             $this->db->table('equity_transactions')->where(['user_id' => $userId, 'transaction_type' => 'BUY']),
@@ -105,11 +110,12 @@ class Reports extends BaseController
             'dividend_date', $sDate, $eDate
         )->select('COUNT(*) as cnt, SUM(total_amount) as gross, SUM(tds_deducted) as tds')->get()->getRowArray();
 
+        $eqCons     = (float)($consExpenses['equity']['total'] ?? 0);
         $eqPurchase = (float)($eqBuy['amt'] ?? 0);
         $eqSold     = (float)($eqSell['amt'] ?? 0);
         $eqIncome   = (float)($eqDiv['gross'] ?? 0);
-        $eqExpense  = (float)($eqBuy['exp'] ?? 0) + (float)($eqSell['exp'] ?? 0) + (float)($eqDiv['tds'] ?? 0);
-        $eqActivity = (int)($eqBuy['cnt'] ?? 0) + (int)($eqSell['cnt'] ?? 0) + (int)($eqDiv['cnt'] ?? 0);
+        $eqExpense  = (float)($eqBuy['exp'] ?? 0) + (float)($eqSell['exp'] ?? 0) + (float)($eqDiv['tds'] ?? 0) + $eqCons;
+        $eqActivity = (int)($eqBuy['cnt'] ?? 0) + (int)($eqSell['cnt'] ?? 0) + (int)($eqDiv['cnt'] ?? 0) + (int)($consExpenses['equity']['count'] ?? 0);
 
         $modules['equities'] = [
             'key'         => 'equities',
@@ -201,11 +207,12 @@ class Reports extends BaseController
             'payout_date', $sDate, $eDate
         )->select('COUNT(*) as cnt, SUM(total_amount) as gross, SUM(tds_deducted) as tds')->get()->getRowArray();
 
+        $reitCons     = (float)($consExpenses['reit_invit']['total'] ?? 0);
         $reitPurchase = (float)($reitBuy['amt'] ?? 0);
         $reitSold     = (float)($reitSell['amt'] ?? 0);
         $reitIncome   = (float)($reitDist['gross'] ?? 0);
-        $reitExpense  = (float)($reitBuy['exp'] ?? 0) + (float)($reitSell['exp'] ?? 0) + (float)($reitDist['tds'] ?? 0);
-        $reitActivity = (int)($reitBuy['cnt'] ?? 0) + (int)($reitSell['cnt'] ?? 0) + (int)($reitDist['cnt'] ?? 0);
+        $reitExpense  = (float)($reitBuy['exp'] ?? 0) + (float)($reitSell['exp'] ?? 0) + (float)($reitDist['tds'] ?? 0) + $reitCons;
+        $reitActivity = (int)($reitBuy['cnt'] ?? 0) + (int)($reitSell['cnt'] ?? 0) + (int)($reitDist['cnt'] ?? 0) + (int)($consExpenses['reit_invit']['count'] ?? 0);
 
         $modules['reits_invits'] = [
             'key'         => 'reits_invits',
@@ -234,11 +241,12 @@ class Reports extends BaseController
             'transaction_date', $sDate, $eDate
         )->select('COUNT(*) as cnt, SUM(total_amount) as amt, SUM(brokerage + stt_taxes) as exp')->get()->getRowArray();
 
+        $etfCons     = (float)($consExpenses['etf']['total'] ?? 0);
         $etfPurchase = (float)($etfBuy['amt'] ?? 0);
         $etfSold     = (float)($etfSell['amt'] ?? 0);
         $etfIncome   = 0.0;
-        $etfExpense  = (float)($etfBuy['exp'] ?? 0) + (float)($etfSell['exp'] ?? 0);
-        $etfActivity = (int)($etfBuy['cnt'] ?? 0) + (int)($etfSell['cnt'] ?? 0);
+        $etfExpense  = (float)($etfBuy['exp'] ?? 0) + (float)($etfSell['exp'] ?? 0) + $etfCons;
+        $etfActivity = (int)($etfBuy['cnt'] ?? 0) + (int)($etfSell['cnt'] ?? 0) + (int)($consExpenses['etf']['count'] ?? 0);
 
         $modules['etfs'] = [
             'key'         => 'etfs',
@@ -274,11 +282,12 @@ class Reports extends BaseController
             'payout_date', $sDate, $eDate
         )->select('COUNT(*) as cnt, SUM(gross_interest) as gross, SUM(tds_deducted) as tds')->get()->getRowArray();
 
+        $bondCons     = (float)($consExpenses['bond']['total'] ?? 0);
         $bondPurchase = (float)($bondBuy['amt'] ?? 0);
         $bondSold     = (float)($bondExit['amt'] ?? 0);
         $bondIncome   = (float)($bondInt['gross'] ?? 0);
-        $bondExpense  = (float)($bondBuy['exp'] ?? 0) + (float)($bondExit['exp'] ?? 0) + (float)($bondInt['tds'] ?? 0);
-        $bondActivity = (int)($bondBuy['cnt'] ?? 0) + (int)($bondExit['cnt'] ?? 0) + (int)($bondInt['cnt'] ?? 0);
+        $bondExpense  = (float)($bondBuy['exp'] ?? 0) + (float)($bondExit['exp'] ?? 0) + (float)($bondInt['tds'] ?? 0) + $bondCons;
+        $bondActivity = (int)($bondBuy['cnt'] ?? 0) + (int)($bondExit['cnt'] ?? 0) + (int)($bondInt['cnt'] ?? 0) + (int)($consExpenses['bond']['count'] ?? 0);
 
         $modules['bonds'] = [
             'key'         => 'bonds',
@@ -310,11 +319,12 @@ class Reports extends BaseController
             'transaction_date', $sDate, $eDate
         )->select('COUNT(*) as cnt, SUM(amount) as amt, SUM(charges) as exp')->get()->getRowArray();
 
+        $mfCons     = (float)($consExpenses['mutual_fund']['total'] ?? 0);
         $mfPurchase = (float)($mfBuy['amt'] ?? 0);
         $mfSold     = (float)($mfRedeem['amt'] ?? 0);
         $mfIncome   = 0.0;
-        $mfExpense  = (float)($mfBuy['exp'] ?? 0) + (float)($mfRedeem['exp'] ?? 0);
-        $mfActivity = (int)($mfBuy['cnt'] ?? 0) + (int)($mfRedeem['cnt'] ?? 0);
+        $mfExpense  = (float)($mfBuy['exp'] ?? 0) + (float)($mfRedeem['exp'] ?? 0) + $mfCons;
+        $mfActivity = (int)($mfBuy['cnt'] ?? 0) + (int)($mfRedeem['cnt'] ?? 0) + (int)($consExpenses['mutual_fund']['count'] ?? 0);
 
         $modules['mutual_funds'] = [
             'key'         => 'mutual_funds',
@@ -888,6 +898,27 @@ class Reports extends BaseController
             ],
         ];
 
+        // Add consolidated standalone broker fees, STT & taxes, and platform charges
+        $expenseModel = new ExpenseModel();
+        $cons         = $expenseModel->getModuleExpensesGrouped($userId, $sDate, $eDate);
+        $consSummary  = $expenseModel->getExpensesSummary($userId, $sDate, $eDate);
+
+        $mapping = [
+            'equities'     => 'equity',
+            'reits_invits' => 'reit_invit',
+            'etfs'         => 'etf',
+            'bonds'        => 'bond',
+            'mutual_funds' => 'mutual_fund',
+        ];
+
+        foreach ($mapping as $reportKey => $modKey) {
+            if (isset($cons[$modKey])) {
+                $moduleExpenses[$reportKey]['brokerage'] += $cons[$modKey]['brokerage'];
+                $moduleExpenses[$reportKey]['stt']       += $cons[$modKey]['stt'];
+                $moduleExpenses[$reportKey]['other']     += $cons[$modKey]['other'];
+            }
+        }
+
         foreach ($moduleExpenses as $k => $me) {
             $moduleExpenses[$k]['total'] = $me['brokerage'] + $me['stt'] + $me['tds'] + $me['other'];
         }
@@ -901,8 +932,9 @@ class Reports extends BaseController
         ];
 
         return [
-            'moduleExpenses' => $moduleExpenses,
-            'grandExpenses'  => $grandExpenses,
+            'moduleExpenses'      => $moduleExpenses,
+            'grandExpenses'       => $grandExpenses,
+            'consolidatedSummary' => $consSummary,
         ];
     }
 
@@ -925,7 +957,7 @@ class Reports extends BaseController
 
     public function allocation()
     {
-        $userId = (int)session()->get('userId');
+        $userId = $this->getUserId();
 
         $eqModel   = new EquityModel();
         $reitModel = new ReitInvitModel();
@@ -943,52 +975,82 @@ class Reports extends BaseController
 
         $allocations = [
             'equities' => [
-                'name'      => 'Direct Equities',
-                'color'     => '#0d6efd',
-                'invested'  => (float)($eqSummary['total_invested'] ?? 0),
-                'current'   => (float)($eqSummary['total_current_value'] ?? 0),
-                'count'     => (int)($eqSummary['active_holdings_count'] ?? 0),
-                'url'       => base_url('equities'),
+                'key'            => 'equities',
+                'name'           => 'Direct Equities',
+                'icon'           => 'bi bi-graph-up-arrow',
+                'color'          => 'primary',
+                'invested'       => (float)($eqSummary['total_invested'] ?? 0),
+                'current'        => (float)($eqSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($eqSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($eqSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($eqSummary['active_holdings_count'] ?? 0),
+                'count'          => (int)($eqSummary['active_holdings_count'] ?? 0),
+                'url'            => base_url('equities'),
             ],
             'reits' => [
-                'name'      => 'InvITs & REITs',
-                'color'     => '#0dcaf0',
-                'invested'  => (float)($reitSummary['total_invested'] ?? 0),
-                'current'   => (float)($reitSummary['total_current_value'] ?? 0),
-                'count'     => (int)($reitSummary['active_holdings_count'] ?? 0),
-                'url'       => base_url('reits-invits'),
+                'key'            => 'reits_invits',
+                'name'           => 'InvITs & REITs',
+                'icon'           => 'bi bi-buildings',
+                'color'          => 'info',
+                'invested'       => (float)($reitSummary['total_invested'] ?? 0),
+                'current'        => (float)($reitSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($reitSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($reitSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($reitSummary['active_holdings_count'] ?? 0),
+                'count'          => (int)($reitSummary['active_holdings_count'] ?? 0),
+                'url'            => base_url('reits-invits'),
             ],
             'etfs' => [
-                'name'      => 'ETFs',
-                'color'     => '#6610f2',
-                'invested'  => (float)($etfSummary['total_invested'] ?? 0),
-                'current'   => (float)($etfSummary['total_current_value'] ?? 0),
-                'count'     => (int)($etfSummary['active_holdings_count'] ?? 0),
-                'url'       => base_url('etfs'),
+                'key'            => 'etfs',
+                'name'           => 'ETFs',
+                'icon'           => 'bi bi-pie-chart',
+                'color'          => 'success',
+                'invested'       => (float)($etfSummary['total_invested'] ?? 0),
+                'current'        => (float)($etfSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($etfSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($etfSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($etfSummary['active_holdings_count'] ?? 0),
+                'count'          => (int)($etfSummary['active_holdings_count'] ?? 0),
+                'url'            => base_url('etfs'),
             ],
             'bonds' => [
-                'name'      => 'Bonds & Fixed Income',
-                'color'     => '#dc3545',
-                'invested'  => (float)($bondSummary['total_invested'] ?? 0),
-                'current'   => (float)($bondSummary['total_current_value'] ?? 0),
-                'count'     => (int)($bondSummary['active_holdings_count'] ?? 0),
-                'url'       => base_url('bonds'),
+                'key'            => 'bonds',
+                'name'           => 'Bonds & Fixed Income',
+                'icon'           => 'bi bi-receipt',
+                'color'          => 'danger',
+                'invested'       => (float)($bondSummary['total_invested'] ?? 0),
+                'current'        => (float)($bondSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($bondSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($bondSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($bondSummary['active_holdings_count'] ?? 0),
+                'count'          => (int)($bondSummary['active_holdings_count'] ?? 0),
+                'url'            => base_url('bonds'),
             ],
             'mutual_funds' => [
-                'name'      => 'Mutual Funds',
-                'color'     => '#198754',
-                'invested'  => (float)($mfSummary['total_invested'] ?? 0),
-                'current'   => (float)($mfSummary['total_current_value'] ?? 0),
-                'count'     => (int)($mfSummary['active_holdings_count'] ?? 0),
-                'url'       => base_url('mutual-funds'),
+                'key'            => 'mutual_funds',
+                'name'           => 'Mutual Funds',
+                'icon'           => 'bi bi-briefcase',
+                'color'          => 'warning',
+                'invested'       => (float)($mfSummary['total_invested'] ?? 0),
+                'current'        => (float)($mfSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($mfSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($mfSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($mfSummary['active_holdings_count'] ?? 0),
+                'count'          => (int)($mfSummary['active_holdings_count'] ?? 0),
+                'url'            => base_url('mutual-funds'),
             ],
             'nps' => [
-                'name'      => 'NPS Tier 1',
-                'color'     => '#fd7e14',
-                'invested'  => (float)($npsSummary['total_invested'] ?? 0),
-                'current'   => (float)($npsSummary['total_current_value'] ?? 0),
-                'count'     => (int)($npsSummary['total_schemes'] ?? 0),
-                'url'       => base_url('nps'),
+                'key'            => 'nps',
+                'name'           => 'NPS Tier 1',
+                'icon'           => 'bi bi-shield-lock',
+                'color'          => 'dark',
+                'invested'       => (float)($npsSummary['total_invested'] ?? 0),
+                'current'        => (float)($npsSummary['total_current_value'] ?? 0),
+                'unrealized'     => (float)($npsSummary['total_unrealized_pnl'] ?? 0),
+                'unrealized_pct' => (float)($npsSummary['unrealized_pnl_percent'] ?? 0),
+                'holdings_count' => (int)($npsSummary['total_schemes'] ?? 0),
+                'count'          => (int)($npsSummary['total_schemes'] ?? 0),
+                'url'            => base_url('nps'),
             ],
         ];
 
@@ -998,8 +1060,10 @@ class Reports extends BaseController
         $totalPnlPct   = $totalInvested > 0 ? ($totalPnl / $totalInvested) * 100 : 0.0;
 
         foreach ($allocations as $k => $v) {
-            $allocations[$k]['pnl']             = $v['current'] - $v['invested'];
-            $allocations[$k]['pnl_pct']         = $v['invested'] > 0 ? (($v['current'] - $v['invested']) / $v['invested']) * 100 : 0.0;
+            $allocations[$k]['unrealized']      = $v['current'] - $v['invested'];
+            $allocations[$k]['unrealized_pct']  = $v['invested'] > 0 ? (($v['current'] - $v['invested']) / $v['invested']) * 100 : 0.0;
+            $allocations[$k]['pnl']             = $allocations[$k]['unrealized'];
+            $allocations[$k]['pnl_pct']         = $allocations[$k]['unrealized_pct'];
             $allocations[$k]['share_pct']       = $totalCurrent > 0 ? ($v['current'] / $totalCurrent) * 100 : 0.0;
             $allocations[$k]['invest_share_pct']= $totalInvested > 0 ? ($v['invested'] / $totalInvested) * 100 : 0.0;
         }
@@ -1008,18 +1072,22 @@ class Reports extends BaseController
         $eqHoldings = $eqModel->getHoldingsWithMetrics($userId)['holdings'] ?? [];
         $equitiesSectorAllocation = [];
         foreach ($eqHoldings as $h) {
-            $sec = !empty($h['sector_name']) ? $h['sector_name'] : 'Diversified / Unclassified';
+            $sec = !empty($h['sector']) ? $h['sector'] : (!empty($h['sector_name']) ? $h['sector_name'] : 'Diversified / Unclassified');
             if (!isset($equitiesSectorAllocation[$sec])) {
                 $equitiesSectorAllocation[$sec] = [
-                    'name'     => $sec,
-                    'invested' => 0.0,
-                    'current'  => 0.0,
-                    'count'    => 0,
+                    'name'           => $sec,
+                    'invested'       => 0.0,
+                    'current'        => 0.0,
+                    'count'          => 0,
+                    'holdings_count' => 0,
                 ];
             }
-            $equitiesSectorAllocation[$sec]['invested'] += (float)$h['invested_amount'];
-            $equitiesSectorAllocation[$sec]['current']  += (float)$h['current_value'];
+            $inv = (float)($h['invested_value'] ?? $h['invested_amount'] ?? 0);
+            $cur = (float)($h['current_value'] ?? 0);
+            $equitiesSectorAllocation[$sec]['invested'] += $inv;
+            $equitiesSectorAllocation[$sec]['current']  += $cur;
             $equitiesSectorAllocation[$sec]['count']++;
+            $equitiesSectorAllocation[$sec]['holdings_count']++;
         }
 
         foreach ($equitiesSectorAllocation as $sec => $data) {
