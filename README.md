@@ -82,7 +82,7 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
 Clone this repository into your web server's root directory (e.g. `xampp/htdocs/`):
 ```bash
 cd /path/to/webserver/htdocs
-git clone https://github.com/<your-username>/rupeefolio.git RupeeFolio
+git clone https://github.com/vrktech/RupeeFolio.git RupeeFolio
 cd RupeeFolio
 ```
 
@@ -100,7 +100,7 @@ http://localhost/[your_installation_folder]/public/install.php
 The wizard will:
 1. Validate PHP extensions and directory write permissions.
 2. Connect to MySQL and automatically create the `investment_portfolio` database.
-3. Import the clean production schema (`schema.sql`) with all 25 tables and sector seeds.
+3. Import the clean production schema (`schema.sql`) with all tables and sector seeds.
 4. Generate the `.env` file with secure session and encryption keys.
 5. Create your initial Administrator account.
 
@@ -130,7 +130,7 @@ If you prefer configuring manually via MySQL CLI or phpMyAdmin:
 
 ## Documentation & User Guide
 
-- **In-App Interactive User Guide**: Navigate to `http://localhost/Portfolio/public/guide` after logging in.
+- **In-App Interactive User Guide**: Navigate to "User Guide" menu in the left sidebar after logging in.
 - **Markdown Manual**: Read [`USER_GUIDE.md`](USER_GUIDE.md) for detailed workflows, corporate action calculations, and tax rule references.
 
 ---
@@ -151,7 +151,7 @@ If you prefer configuring manually via MySQL CLI or phpMyAdmin:
 
 Community feedback is what makes open-source tools better for everyone. We actively welcome you to report any issues or propose enhancements:
 
-- 🐛 **Report Bugs & Issues**: If you encounter any calculation differences, database errors, UI glitches, or broken links, please **[Open an Issue on GitHub](https://github.com/)** describing what happened, along with reproduction steps.
+- 🐛 **Report Bugs & Issues**: If you encounter any calculation differences, database errors, UI glitches, or broken links, please **[Open an Issue on GitHub](https://github.com/vrktech/RupeeFolio/issues)** describing what happened, along with reproduction steps.
 - 💡 **Feature Requests & Ideas**: Have ideas for additional Indian investment instruments (e.g. T-Bills, FDs, P2P), new corporate action types, tax reports (ITR filing schedules), or visual charts? Please submit a feature request via GitHub Issues!
 - 🤝 **Pull Requests**: Code contributions, bug fixes, and performance improvements are always welcome.
 
