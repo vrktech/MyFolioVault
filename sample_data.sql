@@ -72,16 +72,32 @@ INSERT INTO `corporate_actions` VALUES (1,1,'EQUITY',16,'BONUS','2026-09-01',1.0
 
 -- Data for `expenses`
 INSERT INTO `expenses` VALUES 
-(1,1,'2025-05-15',47.20,'BROKERAGE','equity','Zerodha Equity Delivery & Order Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(2,1,'2025-05-15',35.50,'STT_TAXES','equity','NSE Turnover charges, STT & Stamp duty','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(3,1,'2025-06-30',354.00,'PLATFORM_MISC','equity','Annual Demat Maintenance Fee (AMC) + GST','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(4,1,'2025-07-20',20.00,'BROKERAGE','etf','ETF Trade Execution Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(5,1,'2025-07-20',12.80,'STT_TAXES','etf','Exchange Turnover & Clearing charges','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(6,1,'2025-09-10',50.00,'BROKERAGE','bond','Corporate NCD Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(7,1,'2025-10-15',25.00,'BROKERAGE','reit_invit','REIT Transaction Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(8,1,'2025-10-15',18.50,'STT_TAXES','reit_invit','STT & Stamp Duty on InvIT purchase','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(9,1,'2025-11-05',100.00,'PLATFORM_MISC','mutual_fund','MF Central / Registrar Folio Maintenance fee','2026-09-20 13:42:33','2026-09-20 13:42:33'),
-(10,1,'2026-06-15',15.93,'PLATFORM_MISC','equity','CDSL Demat Debit (DP) Charges on Share Sale','2026-09-20 13:42:33','2026-09-20 13:42:33');
+(1,1,'2024-04-15',47.20,'BROKERAGE','equity','Zerodha Equity Delivery & Order Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(2,1,'2024-04-15',35.50,'STT_TAXES','equity','NSE Turnover charges, STT & Stamp duty','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(3,1,'2024-06-30',354.00,'PLATFORM_MISC','equity','Annual Demat Maintenance Fee (AMC) + GST','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(4,1,'2024-07-20',20.00,'BROKERAGE','etf','ETF Trade Execution Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(5,1,'2024-07-20',12.80,'STT_TAXES','etf','Exchange Turnover & Clearing charges','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(6,1,'2024-09-10',50.00,'BROKERAGE','bond','Corporate NCD Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(7,1,'2024-10-15',25.00,'BROKERAGE','reit_invit','REIT Transaction Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(8,1,'2024-10-15',18.50,'STT_TAXES','reit_invit','STT & Stamp Duty on InvIT purchase','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(9,1,'2024-11-05',100.00,'PLATFORM_MISC','mutual_fund','MF Central / Registrar Folio Maintenance fee','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(10,1,'2025-01-20',15.93,'PLATFORM_MISC','equity','CDSL Demat Debit (DP) Charges on Share Sale','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(11,1,'2025-04-10',35.00,'BROKERAGE','equity','Core Equity Accumulation Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(12,1,'2025-05-15',47.20,'BROKERAGE','equity','Zerodha Equity Delivery & Order Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(13,1,'2025-05-15',35.50,'STT_TAXES','equity','NSE Turnover charges, STT & Stamp duty','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(14,1,'2025-06-30',354.00,'PLATFORM_MISC','equity','Annual Demat Maintenance Fee (AMC) + GST','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(15,1,'2025-07-20',20.00,'BROKERAGE','etf','ETF Trade Execution Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(16,1,'2025-07-20',12.80,'STT_TAXES','etf','Exchange Turnover & Clearing charges','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(17,1,'2025-09-10',50.00,'BROKERAGE','bond','Corporate NCD Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(18,1,'2025-10-15',25.00,'BROKERAGE','reit_invit','REIT Transaction Brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(19,1,'2025-10-15',18.50,'STT_TAXES','reit_invit','STT & Stamp Duty on InvIT purchase','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(20,1,'2025-11-05',100.00,'PLATFORM_MISC','mutual_fund','MF Central / Registrar Folio Maintenance fee','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(21,1,'2026-01-15',15.00,'BROKERAGE','etf','Partial rebalancing trade brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(22,1,'2026-05-15',25.00,'BROKERAGE','equity','Portfolio rebalancing trade brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(23,1,'2026-06-15',15.93,'PLATFORM_MISC','equity','CDSL Demat Debit (DP) Charges on Share Sale','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(24,1,'2026-07-10',15.00,'BROKERAGE','etf','Annual index profit lock trade brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(25,1,'2026-08-20',30.00,'BROKERAGE','equity','Tranche profit booking brokerage','2026-09-20 13:42:33','2026-09-20 13:42:33'),
+(26,1,'2026-09-15',42.50,'BROKERAGE','equity','Delivery Brokerage & GST','2026-09-20 13:42:33','2026-09-20 13:42:33');
 
 SET FOREIGN_KEY_CHECKS = 1;
 

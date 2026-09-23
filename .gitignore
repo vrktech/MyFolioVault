@@ -8,6 +8,7 @@
 backup_sample_data.sql
 *.sql.gz
 *.bak
+cleanup_sample_data.php
 
 # CodeIgniter 4 Framework Engine & Default Scaffolding
 system/
@@ -48,6 +49,7 @@ Desktop.ini
 # Local backups & archives
 backups/
 *.zip
+demo/
 
 # Local documentation & release guides
 release_guide.html

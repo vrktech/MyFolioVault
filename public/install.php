@@ -317,6 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($action === 'install' || empty($ac
                                         'bonds', 'bond_capital_gains', 'bond_interest_payouts', 'bond_transactions',
                                         'corporate_actions', 'equities', 'equity_capital_gains', 'equity_dividends',
                                         'equity_transactions', 'etfs', 'etf_capital_gains', 'etf_transactions',
+                                        'expenses',
                                         'mutual_funds', 'mutual_fund_capital_gains', 'mutual_fund_transactions',
                                         'nps_accounts', 'nps_scheme_units', 'nps_transactions',
                                         'reits_invits', 'reit_invit_capital_gains', 'reit_invit_distributions', 'reit_invit_transactions'

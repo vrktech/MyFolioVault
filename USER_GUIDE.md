@@ -15,11 +15,12 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
 
 ## Table of Contents
 1. [Installation & First-Time Setup (Step-by-Step)](#1-installation--first-time-setup-step-by-step)
-   - [1.1 System Prerequisites](#11-system-prerequisites)
-   - [1.2 Download & Extract Archive](#12-download--extract-archive)
-   - [1.3 Web Setup Wizard (install.php) Walkthrough](#13-web-setup-wizard-installphp-walkthrough)
-   - [1.4 The Demo Data Checkbox Explained](#14-the-demo-data-checkbox-explained)
-   - [1.5 Manual Installation Alternative (CLI / phpMyAdmin)](#15-manual-installation-alternative-cli--phpmyadmin)
+   - [1.1 Live Interactive Demo Sandbox](#11-live-interactive-demo-sandbox)
+   - [1.2 System Prerequisites](#12-system-prerequisites)
+   - [1.3 Download & Extract Archive](#13-download--extract-archive)
+   - [1.4 Web Setup Wizard (install.php) Walkthrough](#14-web-setup-wizard-installphp-walkthrough)
+   - [1.5 The Demo Data Checkbox Explained](#15-the-demo-data-checkbox-explained)
+   - [1.6 Manual Installation Alternative (CLI / phpMyAdmin)](#16-manual-installation-alternative-cli--phpmyadmin)
 2. [Welcome Dashboard, Navigation & Live CMP Updates](#2-welcome-dashboard-navigation--live-cmp-updates)
    - [2.1 Welcome Dashboard KPI Metrics & Portfolio Net Worth](#21-welcome-dashboard-kpi-metrics--portfolio-net-worth)
    - [2.2 Financial Year (FY) Date Filtering](#22-financial-year-fy-date-filtering)
@@ -76,13 +77,27 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
     - [10.6 CSV Exporting & Spreadsheet Compatibility](#106-csv-exporting--spreadsheet-compatibility)
 11. [Production Deployment, Data Cleanup & Backup](#11-production-deployment-data-cleanup--backup)
 12. [Credits & Technology Stack Acknowledgements](#12-credits--technology-stack-acknowledgements)
-13. [Disclaimer & Limitation of Liability](#13-disclaimer--limitation-of-liability)
+13. [Support the Project (GitHub Sponsors & UPI)](#13-support-the-project-github-sponsors--upi)
+14. [Disclaimer & Limitation of Liability](#14-disclaimer--limitation-of-liability)
 
 ---
 
 ## 1. Installation & First-Time Setup (Step-by-Step)
 
-### 1.1 System Prerequisites
+### 1.1 Live Interactive Demo Sandbox
+Want to try **MyFolioVault** immediately without setting up a local web server or MySQL database?
+
+👉 **[Launch Live Demo: https://myfoliovault.in/](https://myfoliovault.in/)**
+
+- **Email:** `admin@portfolio.local`
+- **Password:** `password123`
+
+> [!NOTE]
+> The live demo is a self-cleaning sandbox pre-loaded with realistic Indian investment portfolios (NSE/BSE Equities, Mutual Funds, ETFs, SGBs, REITs, and expenses). Demo data automatically resets to its initial clean state periodically. Profile edits and password changes are restricted in demo mode.
+
+---
+
+### 1.2 System Prerequisites
 Before running MyFolioVault, ensure your local web environment satisfies the following requirements:
 - **PHP Version**: PHP 8.1 or higher (PHP 8.2 or 8.3 recommended).
 - **Database Server**: MySQL 8.0+ or MariaDB 10.4+.
@@ -92,7 +107,7 @@ Before running MyFolioVault, ensure your local web environment satisfies the fol
 
 ---
 
-### 1.2 Download & Extract Archive
+### 1.3 Download & Extract Archive
 1. **Download Standalone Package**: Download the latest standalone `.zip` version from the **[GitHub Releases section](https://github.com/vrktech/MyFolioVault/releases)**. It is completely ready to install and includes all necessary pre-bundled components, including the CodeIgniter 4 framework engine and Bootstrap offline assets.
 2. Extract the archive into your web server's document root directory:
    - **XAMPP (Windows)**: `C:\xampp\htdocs\[your_installation_folder]`
@@ -103,7 +118,7 @@ Before running MyFolioVault, ensure your local web environment satisfies the fol
 
 ---
 
-### 1.3 Web Setup Wizard (`install.php`) Walkthrough
+### 1.4 Web Setup Wizard (`install.php`) Walkthrough
 MyFolioVault includes an automated browser-based setup wizard at `public/install.php`.
 
 ```
@@ -151,7 +166,7 @@ MyFolioVault includes an automated browser-based setup wizard at `public/install
 
 ---
 
-### 1.4 The Demo Data Checkbox Explained
+### 1.5 The Demo Data Checkbox Explained
 During Step 3 of the installer, you are presented with a checkbox:
 - **`[ ] Install Realistic Sample / Demo Portfolio Data`**
 - If you check this box, MyFolioVault imports `sample_data.sql`. You will have an active multi-asset portfolio with historical purchases, sales, dividends, bonus shares, corporate actions, and contract note charges.
@@ -159,7 +174,7 @@ During Step 3 of the installer, you are presented with a checkbox:
 
 ---
 
-### 1.5 Manual Installation Alternative (CLI / phpMyAdmin)
+### 1.6 Manual Installation Alternative (CLI / phpMyAdmin)
 If you prefer manual setup or are deploying on a headless Linux server:
 1. Create a MySQL database:
    ```sql
@@ -719,7 +734,35 @@ MyFolioVault is proudly built on open-source foundations:
 
 ---
 
-## 13. Disclaimer & Limitation of Liability
+## 13. Support the Project (GitHub Sponsors & UPI)
+
+**MyFolioVault** is built on the belief that personal financial tracking should be **100% free, private, self-hosted, and open source**—with no trackers, no paywalls, and no subscription lock-in. Your portfolio records and financial net worth stay strictly on your local machine.
+
+If MyFolioVault saves you time, helps you manage your family wealth, or simplifies your financial bookkeeping, please consider supporting its continuous development and hosting. Even a small contribution—like buying a cup of coffee or chai—directly keeps the project alive:
+
+### Support Channels:
+1. 💖 **[Sponsor on GitHub (vrktech)](https://github.com/sponsors/vrktech)**
+   - Ideal for international contributors, developers, and recurring backers.
+   - Supports credit/debit card contributions directly via GitHub.
+
+2. ⚡ **UPI Payment (India)**
+   - For Indian retail investors and self-hosters wishing to contribute in ₹ INR with zero transaction fees:
+   - **UPI ID:** `karthickvr@oksbi`
+   - **Supported Apps:** Google Pay, PhonePe, Paytm, BHIM, Navi, CRED, or any BHIM UPI-enabled banking app.
+   - **Mobile Deep Link:** If you are reading this on a mobile device, tap [Pay via UPI App](upi://pay?pa=karthickvr@oksbi&pn=MyFolioVault&cu=INR) to open your default UPI app directly.
+
+3. ⭐ **Star this repository** on GitHub ([github.com/vrktech/MyFolioVault](https://github.com/vrktech/MyFolioVault)) to help other Indian investors discover it.
+4. 📢 **Share on Social Media & Investor Communities:**
+   - Word of mouth and social recommendations are the #1 way open-source projects thrive. Share MyFolioVault with your network:
+   - 🐦 **[Share on X / Twitter](https://twitter.com/intent/tweet?text=Check%20out%20MyFolioVault%20-%20Free%2C%20100%25%20offline%2C%20and%20private%20portfolio%20tracker%20tailored%20for%20Indian%20investors%20(NSE%2FBSE%2C%20Mutual%20Funds%2C%20SGBs%2C%20REITs)&url=https%3A%2F%2Fgithub.com%2Fvrktech%2FMyFolioVault)**
+   - 💼 **[Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fvrktech%2FMyFolioVault)**
+   - 💬 **[Forward on WhatsApp](https://api.whatsapp.com/send?text=Check%20out%20MyFolioVault%20-%20A%20free%2C%20100%25%20offline%20portfolio%20tracker%20for%20Indian%20investors%3A%20https%3A%2F%2Fgithub.com%2Fvrktech%2FMyFolioVault)**
+   - ✈️ **[Send on Telegram](https://t.me/share/url?url=https%3A%2F%2Fgithub.com%2Fvrktech%2FMyFolioVault&text=MyFolioVault%20-%20Free%20and%20offline%20portfolio%20tracker%20for%20Indian%20investors)**
+   - Or discuss it on **Reddit** (`r/IndiaInvestments`, `r/mutualfunds`, `r/SelfHosted`).
+
+---
+
+## 14. Disclaimer & Limitation of Liability
 
 > [!CAUTION]
 > **PLEASE READ CAREFULLY BEFORE USING THIS APPLICATION:**

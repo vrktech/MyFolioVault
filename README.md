@@ -5,6 +5,7 @@
 [![MySQL](https://img.shields.io/badge/Database-MySQL%20%7C%20MariaDB-00758F.svg)](https://www.mysql.com/)
 [![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205.3.3%20(Offline)-7952B3.svg)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?logo=github-sponsors)](https://github.com/sponsors/vrktech)
 
 ## About MyFolioVault
 
@@ -13,6 +14,23 @@
 Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
 
 **MyFolioVault** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
+
+---
+
+## 🌐 Live Interactive Demo
+
+Experience **MyFolioVault** live in your browser without installing anything:
+
+👉 **[Launch Live Demo: https://myfoliovault.in/](https://myfoliovault.in/)**
+
+### Demo Login Credentials:
+- **Email:** `admin@portfolio.local`
+- **Password:** `password123`
+
+> [!NOTE]
+> - Pre-loaded with realistic Indian stock portfolios, mutual fund SIPs, ETFs, Sovereign Gold Bonds, REITs/InvITs, and multi-year expense records.
+> - **Self-Cleaning Sandbox:** Demo data automatically resets to its initial clean state periodically.
+> - Administrator profile modifications and password changes are disabled in demo mode.
 
 ---
 
@@ -164,11 +182,17 @@ Community feedback is what makes open-source tools better for everyone. We activ
 
 ---
 
-## ⭐ Support the Project
+## 💖 Support the Project
 
-If **MyFolioVault** saves you time, helps you manage your investments, or brings you value:
+**MyFolioVault** is built on the belief that personal financial tracking should be **100% free, private, self-hosted, and open source**—with no trackers, no paywalls, and no subscription lock-in. Your financial data stays strictly on your machine.
 
-- ⭐ **Star this repository** on GitHub — it gives the project visibility and helps other Indian retail investors discover it!
+If MyFolioVault saves you time, helps you manage your family wealth, or simplifies your financial tracking, please consider supporting its continuous development and hosting. Even a small contribution—like buying a cup of coffee or chai—directly keeps the project alive:
+
+- 💖 **[Sponsor on GitHub (vrktech)](https://github.com/sponsors/vrktech)** — Best for international contributors and recurring backers.
+- ⚡ **UPI Payment (India):** Send any amount via GPay, PhonePe, Paytm, or BHIM:
+  - **UPI ID:** `karthickvr@oksbi`
+- ⭐ **Star this repository** on GitHub — Gives the project visibility and helps other investors discover it.
+- 📢 **Share with fellow investors** — Spread the word on social media (X/Twitter, LinkedIn, Reddit) or in your investment circles or developer groups.
 
 ---
 
