@@ -189,8 +189,7 @@ Community feedback is what makes open-source tools better for everyone. We activ
 If MyFolioVault saves you time, helps you manage your family wealth, or simplifies your financial tracking, please consider supporting its continuous development and hosting. Even a small contribution—like buying a cup of coffee or chai—directly keeps the project alive:
 
 - 💖 **[Sponsor on GitHub (vrktech)](https://github.com/sponsors/vrktech)** — Best for international contributors and recurring backers.
-- ⚡ **UPI Payment (India):** Send any amount via GPay, PhonePe, Paytm, or BHIM:
-  - **UPI ID:** `karthickvr@oksbi`
+- ⚡ **UPI Payment (India)** — Domestic contributors can scan the QR code or pay via UPI (GPay, PhonePe, Paytm, BHIM) directly on the **[Live Demo Login Page (https://myfoliovault.in/)](https://myfoliovault.in/)**.
 - ⭐ **Star this repository** on GitHub — Gives the project visibility and helps other investors discover it.
 - 📢 **Share with fellow investors** — Spread the word on social media (X/Twitter, LinkedIn, Reddit) or in your investment circles or developer groups.
 
