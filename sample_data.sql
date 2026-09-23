@@ -1,4 +1,4 @@
--- RupeeFolio Sample / Demo Portfolio Data
+-- MyFolioVault Sample / Demo Portfolio Data
 -- Generated for optional demo data installation
 
 SET FOREIGN_KEY_CHECKS = 0;

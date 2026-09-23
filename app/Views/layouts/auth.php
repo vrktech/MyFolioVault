@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'Sign In - RupeeFolio') ?></title>
+    <title><?= esc($title ?? 'Sign In - MyFolioVault') ?></title>
     <!-- Bootstrap 5.3 CSS (Local Offline) -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Bootstrap Icons (Local Offline) -->

@@ -45,8 +45,10 @@ Desktop.ini
 *.sln
 *.sw?
 
+# Local backups & archives
+backups/
+*.zip
+
 # Local documentation & release guides
 release_guide.html
 release_instructions.html
-
-

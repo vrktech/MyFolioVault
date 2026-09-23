@@ -1,6 +1,6 @@
 <?php
 /**
- * RupeeFolio - Data Export Helpers
+ * MyFolioVault - Data Export Helpers
  *
  * Provides standardized CSV and data download streaming with UTF-8 BOM
  * support for Microsoft Excel and third-party accounting compatibility.

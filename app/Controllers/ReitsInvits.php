@@ -40,7 +40,7 @@ class ReitsInvits extends BaseController
         $capitalGains  = $this->capitalGainsModel->getCapitalGainsWithTrust($userId);
 
         return view('reits_invits/index', [
-            'title'          => 'InvITs & REITs Portfolio - RupeeFolio',
+            'title'          => 'InvITs & REITs Portfolio - MyFolioVault',
             'holdings'       => $metricsData['holdings'],
             'activeHoldings' => $metricsData['active_holdings'] ?? $metricsData['holdings'],
             'pastHoldings'   => $metricsData['past_holdings'] ?? [],
@@ -57,7 +57,7 @@ class ReitsInvits extends BaseController
     public function newTrust()
     {
         return view('reits_invits/new_trust', [
-            'title' => 'New REIT / InvIT Purchase - RupeeFolio',
+            'title' => 'New REIT / InvIT Purchase - MyFolioVault',
         ]);
     }
 

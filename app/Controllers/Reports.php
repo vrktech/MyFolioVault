@@ -420,7 +420,7 @@ class Reports extends BaseController
         $data   = $this->getCashflowData($userId, $range);
 
         return view('reports/cashflow', array_merge([
-            'title'     => 'Portfolio Cash Flow & Capital Activity Report - RupeeFolio',
+            'title'     => 'Portfolio Cash Flow & Capital Activity Report - MyFolioVault',
             'activeTab' => 'cashflow',
             'range'     => $range,
         ], $data));
@@ -685,7 +685,7 @@ class Reports extends BaseController
         $data   = $this->getTaxData($userId, $range);
 
         return view('reports/tax', array_merge([
-            'title'     => 'Capital Gains & Tax Audit Report (LTCG / STCG) - RupeeFolio',
+            'title'     => 'Capital Gains & Tax Audit Report (LTCG / STCG) - MyFolioVault',
             'activeTab' => 'tax',
             'range'     => $range,
         ], $data));
@@ -775,7 +775,7 @@ class Reports extends BaseController
         $data   = $this->getIncomeData($userId, $range);
 
         return view('reports/income', array_merge([
-            'title'     => 'Passive Income & Distribution Report - RupeeFolio',
+            'title'     => 'Passive Income & Distribution Report - MyFolioVault',
             'activeTab' => 'income',
             'range'     => $range,
         ], $data));
@@ -945,7 +945,7 @@ class Reports extends BaseController
         $data   = $this->getExpensesData($userId, $range);
 
         return view('reports/expenses', array_merge([
-            'title'     => 'Expenses & Statutory Friction Report - RupeeFolio',
+            'title'     => 'Expenses & Statutory Friction Report - MyFolioVault',
             'activeTab' => 'expenses',
             'range'     => $range,
         ], $data));
@@ -1104,7 +1104,7 @@ class Reports extends BaseController
         uasort($equitiesSectorAllocation, fn($a, $b) => $b['current'] <=> $a['current']);
 
         return view('reports/allocation', [
-            'title'                    => 'Asset Allocation & Portfolio Valuation Snapshot - RupeeFolio',
+            'title'                    => 'Asset Allocation & Portfolio Valuation Snapshot - MyFolioVault',
             'activeTab'                => 'allocation',
             'allocations'              => $allocations,
             'totalInvested'            => $totalInvested,
@@ -1124,10 +1124,10 @@ class Reports extends BaseController
         $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getCashflowData($userId, $range);
-        $filename = 'rupeefolio_cashflow_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'myfoliovault_cashflow_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         $metadata = [
-            'RupeeFolio - Portfolio Cash Flow & Activity Report',
+            'MyFolioVault - Portfolio Cash Flow & Activity Report',
             'Reporting Period: ' . $range['label'],
             'Exported On: ' . date('d-M-Y H:i:s'),
         ];
@@ -1166,10 +1166,10 @@ class Reports extends BaseController
         $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getTaxData($userId, $range);
-        $filename = 'rupeefolio_tax_capital_gains_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'myfoliovault_tax_capital_gains_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         $metadata = [
-            'RupeeFolio - Capital Gains & Tax Report (LTCG / STCG)',
+            'MyFolioVault - Capital Gains & Tax Report (LTCG / STCG)',
             'Reporting Period: ' . $range['label'],
             'Exported On: ' . date('d-M-Y H:i:s'),
         ];
@@ -1210,10 +1210,10 @@ class Reports extends BaseController
         $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getIncomeData($userId, $range);
-        $filename = 'rupeefolio_passive_income_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'myfoliovault_passive_income_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         $metadata = [
-            'RupeeFolio - Passive Income & Distribution Report',
+            'MyFolioVault - Passive Income & Distribution Report',
             'Reporting Period: ' . $range['label'],
             'Exported On: ' . date('d-M-Y H:i:s'),
         ];
@@ -1237,10 +1237,10 @@ class Reports extends BaseController
         $userId = $this->getUserId();
         $range  = $this->getActiveDateRange();
         $data   = $this->getExpensesData($userId, $range);
-        $filename = 'rupeefolio_expenses_friction_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
+        $filename = 'myfoliovault_expenses_friction_report_' . strtolower($range['key']) . '_' . date('Ymd_His') . '.csv';
 
         $metadata = [
-            'RupeeFolio - Expenses & Statutory Friction Report',
+            'MyFolioVault - Expenses & Statutory Friction Report',
             'Reporting Period: ' . $range['label'],
             'Exported On: ' . date('d-M-Y H:i:s'),
         ];

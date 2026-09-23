@@ -24,7 +24,7 @@ class Auth extends BaseController
         }
 
         return view('auth/login', [
-            'title' => 'Sign In - RupeeFolio',
+            'title' => 'Sign In - MyFolioVault',
         ]);
     }
 

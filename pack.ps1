@@ -1,4 +1,4 @@
-# RupeeFolio Packager - PowerShell Wrapper
+# MyFolioVault Packager - PowerShell Wrapper
 $phpBin = "php"
 if (Test-Path "D:\xampp\php\php.exe") {
     $phpBin = "D:\xampp\php\php.exe"

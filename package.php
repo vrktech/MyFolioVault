@@ -1,14 +1,14 @@
 <?php
 /**
- * RupeeFolio - Local Standalone Release Packager
+ * MyFolioVault - Local Standalone Release Packager
  * 
  * Usage:
  *   php package.php
  *   php package.php v1.0.0
  * 
  * Generates:
- *   dist/rupeefolio-v{VERSION}-standalone.zip
- *   dist/rupeefolio-v{VERSION}-standalone.zip.sha256
+ *   dist/myfoliovault-v{VERSION}-standalone.zip
+ *   dist/myfoliovault-v{VERSION}-standalone.zip.sha256
  */
 
 if (php_sapi_name() !== 'cli') {
@@ -77,12 +77,12 @@ if ($versionChanged || !file_exists($versionFile)) {
 
 $versionTag = 'v' . $newVersion;
 $distDir  = $rootPath . DIRECTORY_SEPARATOR . 'dist';
-$pkgName  = 'rupeefolio-' . $versionTag . '-standalone';
+$pkgName  = 'myfoliovault-' . $versionTag . '-standalone';
 $zipFile  = $distDir . DIRECTORY_SEPARATOR . $pkgName . '.zip';
 $shaFile  = $zipFile . '.sha256';
 
 echo "=====================================================\n";
-echo " RupeeFolio - Standalone Production Packager\n";
+echo " MyFolioVault - Standalone Production Packager\n";
 if ($versionChanged) {
     echo " Version: v{$currentVersion} -> {$versionTag}\n";
 } else {

@@ -1,5 +1,5 @@
 /**
- * RupeeFolio - ETFs Module Scripts
+ * MyFolioVault - ETFs Module Scripts
  * 100% Offline Compatible
  */
 

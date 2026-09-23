@@ -40,7 +40,7 @@ class Bonds extends BaseController
         $capitalGains = $this->capitalGainsModel->getCapitalGainsWithBond($userId);
 
         return view('bonds/index', [
-            'title'          => 'Bonds Portfolio - RupeeFolio',
+            'title'          => 'Bonds Portfolio - MyFolioVault',
             'holdings'       => $metricsData['holdings'],
             'activeHoldings' => $metricsData['active_holdings'] ?? $metricsData['holdings'],
             'pastHoldings'   => $metricsData['past_holdings'] ?? [],
@@ -57,7 +57,7 @@ class Bonds extends BaseController
     public function newBond()
     {
         return view('bonds/new_bond', [
-            'title' => 'New Bond Acquisition - RupeeFolio',
+            'title' => 'New Bond Acquisition - MyFolioVault',
         ]);
     }
 

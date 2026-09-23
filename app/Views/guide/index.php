@@ -73,14 +73,14 @@
                     <h5 class="fw-bold text-dark mb-0">1. Getting Started &amp; System Configuration</h5>
                 </div>
                 
-                <!-- About RupeeFolio & Author Purpose -->
+                <!-- About MyFolioVault & Author Purpose -->
                 <div class="card border-0 shadow-sm rounded-4 bg-light p-4 mb-4 border-start border-primary border-4">
-                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-stars text-primary me-2"></i>About RupeeFolio</h6>
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-stars text-primary me-2"></i>About MyFolioVault</h6>
                     <p class="text-secondary small mb-2">
-                        <strong>RupeeFolio</strong> is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+                        <strong>MyFolioVault</strong> is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
                     </p>
                     <p class="text-secondary small mb-0">
-                        Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox) and hold diverse assets—<strong>Direct Equities</strong>, <strong>InvITs &amp; REITs</strong>, <strong>ETFs</strong>, <strong>Bonds &amp; SGBs</strong>, <strong>Mutual Funds</strong>, and <strong>NPS (Tier 1)</strong>. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes. RupeeFolio solves this completely locally on your private machine with zero external dependencies, no third-party CDNs, and zero tracking.
+                        Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox) and hold diverse assets—<strong>Direct Equities</strong>, <strong>InvITs &amp; REITs</strong>, <strong>ETFs</strong>, <strong>Bonds &amp; SGBs</strong>, <strong>Mutual Funds</strong>, and <strong>NPS (Tier 1)</strong>. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes. MyFolioVault solves this completely locally on your private machine with zero external dependencies, no third-party CDNs, and zero tracking.
                     </p>
                 </div>
 
@@ -91,19 +91,19 @@
 
                 <!-- Step-by-Step Installation Guide -->
                 <div class="card border p-3 rounded-3 mb-4 bg-white">
-                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-download me-1 text-success"></i>1.1 Step-by-Step: How to Install RupeeFolio</h6>
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-download me-1 text-success"></i>1.1 Step-by-Step: How to Install MyFolioVault</h6>
                     <div class="small text-secondary mb-3">
-                        RupeeFolio features an automated browser-based setup wizard at <code>public/install.php</code>.
+                        MyFolioVault features an automated browser-based setup wizard at <code>public/install.php</code>.
                     </div>
                     <ol class="small text-secondary mb-3 ps-3">
                         <li class="mb-2">
                             <strong>System Prerequisites:</strong> Ensure PHP 8.1+ and MySQL 8.0+ or MariaDB 10.4+ are running (e.g. via XAMPP, WAMP, or standalone Apache).
                         </li>
                         <li class="mb-2">
-                            <strong>Download &amp; Extract:</strong> Download <code>rupeefolio-v1.0.0-standalone.zip</code> and extract its contents into your web server's document root folder, e.g. <code>C:\xampp\htdocs\[your_installation_folder]</code> (Windows) or <code>/var/www/html/[your_installation_folder]</code> (Linux).
+                            <strong>Download &amp; Extract:</strong> Download the latest standalone <code>.zip</code> version from the <a href="https://github.com/vrktech/MyFolioVault/releases" target="_blank" class="fw-semibold text-decoration-none">GitHub Releases section</a>. It is completely ready to install and includes all necessary pre-bundled components (including the CodeIgniter 4 framework core and Bootstrap offline assets). Extract its contents into your web server's document root folder, e.g. <code>C:\xampp\htdocs\[your_installation_folder]</code> (Windows) or <code>/var/www/html/[your_installation_folder]</code> (Linux).
                         </li>
                         <li class="mb-2">
-                            <strong>Launch Wizard:</strong> Open your browser and navigate to <code>http://localhost/[your_installation_folder]/public/install.php</code>. <em>(Change <code>[your_installation_folder]</code> to the actual folder name where you extracted RupeeFolio, for example <code>Portfolio</code>).</em>
+                            <strong>Launch Wizard:</strong> Open your browser and navigate to <code>http://localhost/[your_installation_folder]/public/install.php</code>. <em>(Change <code>[your_installation_folder]</code> to the actual folder name where you extracted MyFolioVault, for example <code>Portfolio</code>).</em>
                         </li>
                         <li class="mb-2">
                             <strong>Step 1 (Requirements Check):</strong> The wizard checks PHP version, extensions (<code>mysqli</code>, <code>intl</code>, <code>curl</code>, <code>mbstring</code>), and file permissions.
@@ -151,14 +151,14 @@
                         </li>
                         <li class="mb-2">
                             <strong>National Pension System (NPS Scheme NAVs via npsnav.in):</strong>
-                            <div>RupeeFolio pulls live closing NAVs for Scheme E, C, G, and A directly from <a href="https://npsnav.in" target="_blank" class="fw-semibold text-decoration-none">npsnav.in</a>.</div>
+                            <div>MyFolioVault pulls live closing NAVs for Scheme E, C, G, and A directly from <a href="https://npsnav.in" target="_blank" class="fw-semibold text-decoration-none">npsnav.in</a>.</div>
                             <div class="bg-light p-2.5 rounded-3 border mt-1">
                                 <strong>How to find your NPS Scheme Code on npsnav.in:</strong>
                                 <ol class="mb-0 mt-1 ps-3">
                                     <li>Visit <a href="https://npsnav.in" target="_blank" class="fw-semibold">npsnav.in</a> and search for your Pension Fund Manager (e.g. <em>ICICI Prudential</em>, <em>HDFC</em>, <em>SBI</em>) and scheme tier.</li>
                                     <li>Click on the fund to view its page. The 8-character Scheme Code is at the end of the URL.</li>
                                     <li><strong>Example:</strong> The <a href="https://npsnav.in/funds/SM007001" target="_blank" class="fw-semibold">ICICI PRUDENTIAL SCHEME E - TIER I</a> scheme code is <code>SM007001</code>.</li>
-                                    <li>Enter this code in your NPS Account scheme configuration in RupeeFolio so clicking <strong>"Update Scheme NAVs"</strong> fetches live prices automatically.</li>
+                                    <li>Enter this code in your NPS Account scheme configuration in MyFolioVault so clicking <strong>"Update Scheme NAVs"</strong> fetches live prices automatically.</li>
                                 </ol>
                             </div>
                         </li>
@@ -396,7 +396,7 @@
                     </div>
                     <div class="alert alert-danger bg-danger bg-opacity-10 border-danger rounded-3 small mb-0">
                         <div class="fw-bold text-danger mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> What Happens to Related Transactions When a Stock is Deleted:</div>
-                        RupeeFolio enforces strict database cascading integrity (<code>ON DELETE CASCADE</code>):
+                        MyFolioVault enforces strict database cascading integrity (<code>ON DELETE CASCADE</code>):
                         <ul class="mb-2 ps-3">
                             <li><strong>All Trades Erased:</strong> Every buy and sell transaction in the trade ledger is permanently deleted.</li>
                             <li><strong>Capital Gains Purged:</strong> All historical realized capital gains (STCG/LTCG) and matched FIFO audit records are permanently erased.</li>

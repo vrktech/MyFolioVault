@@ -183,7 +183,7 @@ class Home extends BaseController
         ];
 
         return view('welcome', [
-            'title'           => 'Welcome - RupeeFolio',
+            'title'           => 'Welcome - MyFolioVault',
             'userName'        => $session->get('userName') ?? 'Investor',
             'userEmail'       => $session->get('userEmail') ?? '',
             'modules'         => $modules,

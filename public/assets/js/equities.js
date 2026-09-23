@@ -1,5 +1,5 @@
 /**
- * RupeeFolio - Equities Module Scripts
+ * MyFolioVault - Equities Module Scripts
  * 100% Offline Compatible
  */
 

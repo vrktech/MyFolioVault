@@ -6,7 +6,7 @@
     <div class="brand-badge mb-3">
         <span>₹</span>
     </div>
-    <h3 class="fw-bold text-dark mb-1">RupeeFolio</h3>
+    <h3 class="fw-bold text-dark mb-1">MyFolioVault</h3>
     <p class="text-muted small">Sign in to manage your Equities, MFs, ETFs, NPS & Bonds</p>
 </div>
 

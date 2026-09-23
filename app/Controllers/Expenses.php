@@ -96,7 +96,7 @@ class Expenses extends BaseController
         ];
 
         return view('expenses/index', [
-            'title'          => 'Consolidated Brokerage & Expenses - RupeeFolio',
+            'title'          => 'Consolidated Brokerage & Expenses - MyFolioVault',
             'activeNav'      => 'expenses',
             'range'          => $range,
             'selectedModule' => $selectedModule,

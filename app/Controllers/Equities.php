@@ -48,7 +48,7 @@ class Equities extends BaseController
         $corporateActions = $this->corporateActionModel->getUserCorporateActions($userId, 'EQUITY');
 
         return view('equities/index', [
-            'title'            => 'Equities Portfolio - RupeeFolio',
+            'title'            => 'Equities Portfolio - MyFolioVault',
             'holdings'         => $metricsData['holdings'],
             'activeHoldings'   => $metricsData['active_holdings'] ?? $metricsData['holdings'],
             'pastHoldings'     => $metricsData['past_holdings'] ?? [],

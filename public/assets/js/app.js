@@ -1,5 +1,5 @@
 /**
- * RupeeFolio - Main Application Scripts
+ * MyFolioVault - Main Application Scripts
  * 100% Offline Compatible
  */
 

@@ -1,15 +1,15 @@
-# RupeeFolio — Complete User & Operations Manual
+# MyFolioVault — Complete User & Operations Manual
 **Indian Financial Market Edition &bull; 100% Local Offline Wealth Management**
 
 ---
 
-## About RupeeFolio
+## About MyFolioVault
 
-**RupeeFolio** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+**MyFolioVault** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
 
 Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
 
-**RupeeFolio** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
+**MyFolioVault** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
 
 ---
 
@@ -83,28 +83,28 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
 ## 1. Installation & First-Time Setup (Step-by-Step)
 
 ### 1.1 System Prerequisites
-Before running RupeeFolio, ensure your local web environment satisfies the following requirements:
+Before running MyFolioVault, ensure your local web environment satisfies the following requirements:
 - **PHP Version**: PHP 8.1 or higher (PHP 8.2 or 8.3 recommended).
 - **Database Server**: MySQL 8.0+ or MariaDB 10.4+.
 - **Web Server**: Apache (via XAMPP, WAMP, Laragon, or standalone) with `mod_rewrite` enabled.
 - **Required PHP Extensions**: `mysqli`, `pdo_mysql`, `intl`, `mbstring`, `curl`, `openssl`, `json`.
-- **Local URL**: For example, `http://localhost/[your_installation_folder]/public/` or virtual host `http://rupeefolio.local/`.
+- **Local URL**: For example, `http://localhost/[your_installation_folder]/public/` or virtual host `http://myfoliovault.local/`.
 
 ---
 
 ### 1.2 Download & Extract Archive
-1. Download the latest standalone distribution archive: `rupeefolio-v1.0.0-standalone.zip`.
+1. **Download Standalone Package**: Download the latest standalone `.zip` version from the **[GitHub Releases section](https://github.com/vrktech/MyFolioVault/releases)**. It is completely ready to install and includes all necessary pre-bundled components, including the CodeIgniter 4 framework engine and Bootstrap offline assets.
 2. Extract the archive into your web server's document root directory:
    - **XAMPP (Windows)**: `C:\xampp\htdocs\[your_installation_folder]`
    - **WAMP (Windows)**: `C:\wamp64\www\[your_installation_folder]`
    - **Laragon (Windows)**: `C:\laragon\www\[your_installation_folder]`
    - **Linux / Apache**: `/var/www/html/[your_installation_folder]`
-3. *(Note: Replace `[your_installation_folder]` with your chosen folder name, for example `Portfolio` or `rupeefolio`).*
+3. *(Note: Replace `[your_installation_folder]` with your chosen folder name, for example `Portfolio` or `MyFolioVault`).*
 
 ---
 
 ### 1.3 Web Setup Wizard (`install.php`) Walkthrough
-RupeeFolio includes an automated browser-based setup wizard at `public/install.php`.
+MyFolioVault includes an automated browser-based setup wizard at `public/install.php`.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -120,7 +120,7 @@ RupeeFolio includes an automated browser-based setup wizard at `public/install.p
 
 1. **Launch Wizard**: Open your browser and navigate to:
    `http://localhost/[your_installation_folder]/public/install.php`
-   *(Change `[your_installation_folder]` to the actual folder name where you extracted RupeeFolio, for example `Portfolio`).*
+   *(Change `[your_installation_folder]` to the actual folder name where you extracted MyFolioVault, for example `Portfolio`).*
 2. **Step 1: System Checks**:
    - The installer verifies PHP version, required PHP extensions, and write permissions for `.env` and `writable/`.
    - Click **Next: Database Configuration**.
@@ -154,7 +154,7 @@ RupeeFolio includes an automated browser-based setup wizard at `public/install.p
 ### 1.4 The Demo Data Checkbox Explained
 During Step 3 of the installer, you are presented with a checkbox:
 - **`[ ] Install Realistic Sample / Demo Portfolio Data`**
-- If you check this box, RupeeFolio imports `sample_data.sql`. You will have an active multi-asset portfolio with historical purchases, sales, dividends, bonus shares, corporate actions, and contract note charges.
+- If you check this box, MyFolioVault imports `sample_data.sql`. You will have an active multi-asset portfolio with historical purchases, sales, dividends, bonus shares, corporate actions, and contract note charges.
 - If you leave this box unchecked, the database will be created completely empty, pre-seeded only with standard Indian equity sectors (IT, Banking, Pharma, FMCG, Auto, Energy, etc.).
 
 ---
@@ -199,7 +199,7 @@ When you sign in, the Welcome Dashboard provides an instantaneous snapshot of yo
 ---
 
 ### 2.2 Financial Year (FY) Date Filtering
-RupeeFolio is tailored for the Indian financial cycle (April 1 to March 31):
+MyFolioVault is tailored for the Indian financial cycle (April 1 to March 31):
 - **Current FY**: For example, FY 2026-27 (`2026-04-01` to `2027-03-31`). Default for all activity ledgers and reports.
 - **Last FY**: Previous financial year (e.g. FY 2025-26). Essential when filing annual Income Tax Returns (ITR-2 or ITR-3).
 - **All Time**: Unfiltered full historical view from your very first trade.
@@ -215,7 +215,7 @@ RupeeFolio is tailored for the Indian financial cycle (April 1 to March 31):
 
 #### 2.3.2 Mutual Funds AMFI NAV Refresh
 - In **Mutual Funds** (`/mutual-funds`), click **"Refresh Latest NAVs"**.
-- RupeeFolio queries the daily official NAV feed from the **Association of Mutual Funds in India (AMFI)** using the fund's 6-digit AMFI Scheme Code.
+- MyFolioVault queries the daily official NAV feed from the **Association of Mutual Funds in India (AMFI)** using the fund's 6-digit AMFI Scheme Code.
 
 #### 2.3.3 Bonds & Fixed Income (Manual CMP Editing)
 > [!IMPORTANT]
@@ -235,8 +235,8 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
    - For example: **[ICICI PRUDENTIAL SCHEME E - TIER I](https://npsnav.in/funds/SM007001)** &rarr; Scheme code is **`SM007001`**.
    - HDFC Pension Management Scheme E (Tier I) &rarr; **`SM008001`**.
    - SBI Pension Funds Scheme E (Tier I) &rarr; **`SM001001`**.
-5. In RupeeFolio, navigate to **NPS (Tier 1)** &rarr; **Account Settings / Edit Account** and enter this scheme code for Scheme E, Scheme C, Scheme G, and Scheme A.
-6. Whenever you click **"Update Scheme NAVs"**, RupeeFolio pulls the latest closing NAVs automatically from `npsnav.in`!
+5. In MyFolioVault, navigate to **NPS (Tier 1)** &rarr; **Account Settings / Edit Account** and enter this scheme code for Scheme E, Scheme C, Scheme G, and Scheme A.
+6. Whenever you click **"Update Scheme NAVs"**, MyFolioVault pulls the latest closing NAVs automatically from `npsnav.in`!
 
 ---
 
@@ -327,7 +327,7 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
 
 > [!CAUTION]
 > **What Happens to Related Transactions When a Stock is Deleted:**
-> RupeeFolio enforces strict relational integrity with cascading deletions (`ON DELETE CASCADE`):
+> MyFolioVault enforces strict relational integrity with cascading deletions (`ON DELETE CASCADE`):
 > 1. **All Transactions Erased**: Every single BUY and SELL trade executed for this stock in `equity_transactions` is permanently deleted.
 > 2. **Capital Gains History Purged**: All historical realized capital gains (STCG/LTCG) and matched FIFO tax records in `equity_capital_gains` are permanently erased.
 > 3. **Dividend Records Removed**: All cash dividends, TDS withheld records, and dividend history in `equity_dividends` are deleted.
@@ -420,7 +420,7 @@ When purchasing bonds in the secondary market between coupon payout dates, under
 - **Accrued Interest (₹)**: Interest that has accrued on the bond from the last coupon payment date up to the trade settlement date. You pay this upfront to the seller, and you will recover it when the issuer pays the next full coupon.
 - **Total Purchase Outlay**:
   $$\text{Total Amount} = (\text{Quantity} \times \text{Clean Price}) + \text{Accrued Interest} + \text{Brokerage}$$
-- *RupeeFolio separates clean price from accrued interest so your capital gains cost basis is never artificially inflated by interest income!*
+- *MyFolioVault separates clean price from accrued interest so your capital gains cost basis is never artificially inflated by interest income!*
 
 ---
 
@@ -433,7 +433,7 @@ When purchasing bonds in the secondary market between coupon payout dates, under
 
 ### 6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption
 - Under Section 47(viic) of the Indian Income Tax Act, any capital gains arising on redemption of Sovereign Gold Bonds by an individual investor at RBI maturity are **100% EXEMPT FROM CAPITAL GAINS TAX**.
-- When recording a maturity redemption in RupeeFolio, select `MATURITY_REDEMPTION`. The tax engine flags the gain as `EXEMPT_SGB_MATURITY`, completely separating it from taxable LTCG!
+- When recording a maturity redemption in MyFolioVault, select `MATURITY_REDEMPTION`. The tax engine flags the gain as `EXEMPT_SGB_MATURITY`, completely separating it from taxable LTCG!
 
 ---
 
@@ -541,7 +541,7 @@ Follow these step-by-step instructions to modify your NPS account settings:
    - **Scheme Codes for Auto NAV Updates**: Update or insert the 8-character Scheme Codes from [npsnav.in](https://npsnav.in) for Scheme E, Scheme C, Scheme G, and Scheme A.
 4. **Save Changes**: Click **"Update Account"**. Your revised asset distribution targets and scheme codes are applied immediately.
 5. **Updating Scheme NAVs**:
-   - **One-Click Automated Sync**: Click the **"Sync NAVs"** button at the top right of the NPS dashboard. RupeeFolio calls the `npsnav.in` endpoint and refreshes NAVs for all configured scheme codes simultaneously.
+   - **One-Click Automated Sync**: Click the **"Sync NAVs"** button at the top right of the NPS dashboard. MyFolioVault calls the `npsnav.in` endpoint and refreshes NAVs for all configured scheme codes simultaneously.
    - **Manual NAV Edit**: If offline or if your scheme code isn't entered, click the **"Update NAVs"** button to manually enter the latest NAV values and valuation date for Scheme E, C, G, and A.
 6. **Editing Historical Transactions**:
    - If an error was made on a past contribution or unit deduction, scroll down to the **Contribution History** or **Quarterly Unit Deductions** table and click the **Edit** icon on that specific row to update dates, amounts, or individual scheme units and NAVs.
@@ -575,7 +575,7 @@ In this statement:
 - Brokerage, exchange turnover fees, SEBI charges, clearing fees, stamp duty, and 18% GST are totaled across the day's trades rather than broken down per security.
 - Furthermore, non-trade charges like **Demat Annual Maintenance Charges (AMC)**, **CDSL/NSDL DP Transaction Charges** (e.g. ₹15.93 per scrip debit on delivery sales), **Call & Trade charges**, and payment gateway fees are debited directly to your trading ledger.
 
-Trying to divide these small charges across individual stocks is cumbersome and prone to rounding errors. **RupeeFolio solves this with the Consolidated Brokerage & Expenses Ledger!**
+Trying to divide these small charges across individual stocks is cumbersome and prone to rounding errors. **MyFolioVault solves this with the Consolidated Brokerage & Expenses Ledger!**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -702,13 +702,13 @@ Run the automated packaging utility to generate clean distribution zips without 
 ```bash
 php package.php v1.0.0
 ```
-Outputs: `dist/rupeefolio-v1.0.0-standalone.zip`.
+Outputs: `dist/myfoliovault-v{VERSION}-standalone.zip`.
 
 ---
 
 ## 12. Credits & Technology Stack Acknowledgements
 
-RupeeFolio is proudly built on open-source foundations:
+MyFolioVault is proudly built on open-source foundations:
 - **CodeIgniter 4**: High-performance, lightweight, and elegant PHP framework ([codeigniter.com](https://codeigniter.com)).
 - **Bootstrap 5.3.3 & Bootstrap Icons**: Clean, responsive, offline-bundled user interface ([getbootstrap.com](https://getbootstrap.com)).
 - **Chart.js**: Client-side interactive canvas charts for asset allocation and portfolio trends ([chartjs.org](https://chartjs.org)).
@@ -730,4 +730,4 @@ RupeeFolio is proudly built on open-source foundations:
 > 4. **Backup Responsibility**: You are solely responsible for securing your environment, maintaining regular database backups, protecting passwords/encryption keys, and verifying calculation results.
 
 ---
-*RupeeFolio &bull; 100% Offline Personal Wealth Management for Indian Investors.*
+*MyFolioVault &bull; 100% Offline Personal Wealth Management for Indian Investors.*

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'RupeeFolio') ?></title>
+    <title><?= esc($title ?? 'MyFolioVault') ?></title>
     <!-- Bootstrap 5.3 CSS (Local Offline) -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Bootstrap Icons (Local Offline) -->
@@ -18,8 +18,8 @@
         <div class="brand-area d-flex align-items-center">
             <div class="brand-logo-icon me-3">₹</div>
             <div>
-                <h5 class="text-white fw-bold mb-1">RupeeFolio</h5>
-                <small class="text-white" style="font-size: 0.72rem; color: #ffffff !important; display: block; line-height: 1.2;">Portfolio Manager</small>
+                <h5 class="text-white fw-bold mb-1">MyFolioVault</h5>
+                <small class="text-white" style="font-size: 0.72rem; color: #ffffff !important; display: block; line-height: 1.2;">Personal Investment Tracker</small>
             </div>
         </div>
 
@@ -177,7 +177,7 @@
         <!-- Footer -->
         <footer class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
-                &copy; <?= date('Y') ?> <strong>RupeeFolio v<?= esc(APP_VERSION) ?></strong> &bull; Indian Financial Market Portfolio Tracker
+                &copy; <?= date('Y') ?> <strong>MyFolioVault v<?= esc(APP_VERSION) ?></strong> &bull; Personal Investment Tracker
             </div>
             <div class="text-muted small">
                 Developed by <a href="https://vrktech.com" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold text-primary">VRK Tech</a> &bull; Built with CodeIgniter 4 &amp; Bootstrap 5

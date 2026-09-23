@@ -1,4 +1,4 @@
-# RupeeFolio — Indian Investment Portfolio Tracker
+# MyFolioVault — Indian Investment Portfolio Tracker
 
 [![PHP](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
 [![CodeIgniter](https://img.shields.io/badge/Framework-CodeIgniter%204-EF4444.svg)](https://codeigniter.com/)
@@ -6,13 +6,13 @@
 [![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205.3.3%20(Offline)-7952B3.svg)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## About RupeeFolio
+## About MyFolioVault
 
-**RupeeFolio** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
+**MyFolioVault** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
 
 Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
 
-**RupeeFolio** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
+**MyFolioVault** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
 
 ---
 
@@ -82,14 +82,21 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
 Clone this repository into your web server's root directory (e.g. `xampp/htdocs/`):
 ```bash
 cd /path/to/webserver/htdocs
-git clone https://github.com/vrktech/RupeeFolio.git RupeeFolio
-cd RupeeFolio
+git clone https://github.com/vrktech/MyFolioVault.git MyFolioVault
+cd MyFolioVault
 ```
 
 ### Step 2: Add CodeIgniter 4 Framework Engine
 *This repository contains pure application source code.* Ensure the official CodeIgniter 4 framework `system/` directory is in the root:
 - **Option A (Composer)**: Run `composer install` in the project root.
 - **Option B (Manual)**: Download the [CodeIgniter 4 release zip](https://github.com/codeigniter4/framework/releases) and place the `system` folder directly into the project root directory.
+
+> [!TIP]
+> ### ⚡ Quick & Easy Alternative: Standalone Release (Bypasses Steps 1 & 2)
+> If you prefer not to manage Composer or manually copy the framework engine:
+> 1. Download the latest standalone `.zip` distribution from the **[GitHub Releases](https://github.com/vrktech/MyFolioVault/releases)** section.
+> 2. It is completely ready to install and includes all necessary pre-bundled components, including the CodeIgniter 4 framework core and offline Bootstrap assets.
+> 3. Extract the archive directly into your web server's document root (e.g. `C:\xampp\htdocs\MyFolioVault`) and jump directly to **Step 3** below!
 
 ### Step 3: Run the Web Setup Wizard
 Open your browser and navigate to:
@@ -151,7 +158,7 @@ If you prefer configuring manually via MySQL CLI or phpMyAdmin:
 
 Community feedback is what makes open-source tools better for everyone. We actively welcome you to report any issues or propose enhancements:
 
-- 🐛 **Report Bugs & Issues**: If you encounter any calculation differences, database errors, UI glitches, or broken links, please **[Open an Issue on GitHub](https://github.com/vrktech/RupeeFolio/issues)** describing what happened, along with reproduction steps.
+- 🐛 **Report Bugs & Issues**: If you encounter any calculation differences, database errors, UI glitches, or broken links, please **[Open an Issue on GitHub](https://github.com/vrktech/MyFolioVault/issues)** describing what happened, along with reproduction steps.
 - 💡 **Feature Requests & Ideas**: Have ideas for additional Indian investment instruments (e.g. T-Bills, FDs, P2P), new corporate action types, tax reports (ITR filing schedules), or visual charts? Please submit a feature request via GitHub Issues!
 - 🤝 **Pull Requests**: Code contributions, bug fixes, and performance improvements are always welcome.
 
@@ -159,7 +166,7 @@ Community feedback is what makes open-source tools better for everyone. We activ
 
 ## ⭐ Support the Project
 
-If **RupeeFolio** saves you time, helps you manage your investments, or brings you value:
+If **MyFolioVault** saves you time, helps you manage your investments, or brings you value:
 
 - ⭐ **Star this repository** on GitHub — it gives the project visibility and helps other Indian retail investors discover it!
 
@@ -167,7 +174,7 @@ If **RupeeFolio** saves you time, helps you manage your investments, or brings y
 
 ## 🏆 Credits & Acknowledgements
 
-RupeeFolio is proudly built on open-source technologies and artificial intelligence:
+MyFolioVault is proudly built on open-source technologies and artificial intelligence:
 
 - **[CodeIgniter 4](https://codeigniter.com/)**: Fast, lightweight PHP framework powering the routing, MVC architecture, security, and database abstraction layers. Released under the MIT License by the CodeIgniter Foundation.
 - **[Bootstrap 5.3.3](https://getbootstrap.com/)**: Responsive CSS framework and modern component styling. Released under the MIT License by the Bootstrap Authors.

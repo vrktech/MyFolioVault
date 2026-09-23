@@ -1,6 +1,6 @@
 <?php
 /**
- * RupeeFolio - Financial & Portfolio Calculation Helpers
+ * MyFolioVault - Financial & Portfolio Calculation Helpers
  *
  * Centralized math and statutory financial functions for capital markets,
  * P&L metrics, FIFO holding duration, and tax classification.
