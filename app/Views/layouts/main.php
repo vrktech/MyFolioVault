@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'MyFolioVault') ?></title>
+    <!-- Standard Favicon Links -->
+    <link rel="icon" type="image/x-icon" href="<?= base_url('favicon.ico'); ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('assets/images/favicon-32x32.png'); ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon-16x16.png'); ?>">
+    <!-- Modern Vector Favicon -->
+    <link rel="icon" type="image/svg+xml" href="<?= base_url('assets/images/favicon.svg'); ?>">
+    <!-- Mobile Web App Shortcut Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('assets/images/apple-touch-icon.png'); ?>">
+
     <!-- Bootstrap 5.3 CSS (Local Offline) -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Bootstrap Icons (Local Offline) -->
