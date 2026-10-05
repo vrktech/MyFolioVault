@@ -79,7 +79,7 @@
 <!-- 5 Executive KPI Summary Cards -->
 <div class="row g-3 mb-4">
     <!-- Current Valuation -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Portfolio Valuation</div>
             <div class="fs-5 fw-bold text-dark"><?= format_inr($summary['total_current_value']) ?></div>
@@ -90,7 +90,7 @@
     </div>
 
     <!-- Total Invested Capital -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Net Invested Capital</div>
             <div class="fs-5 fw-bold text-dark"><?= format_inr($summary['total_invested']) ?></div>
@@ -99,7 +99,7 @@
     </div>
 
     <!-- Total Return / P&L -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Overall Return / P&L</div>
             <div class="fs-5 fw-bold">
@@ -110,7 +110,7 @@
     </div>
 
     <!-- Quarterly Fee Units Deducted -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Fee Units Deducted</div>
             <div class="fs-5 fw-bold text-secondary">
@@ -123,7 +123,7 @@
     </div>
 
     <!-- Target Asset Allocation -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Target Allocation</div>
             <div class="fs-6 fw-bold text-dark text-truncate mt-1">

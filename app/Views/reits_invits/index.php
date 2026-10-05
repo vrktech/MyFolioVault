@@ -61,7 +61,7 @@
 <!-- 5 Executive KPI Summary Cards -->
 <div class="row g-3 mb-4">
     <!-- Current Portfolio Value -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Portfolio Value (CMP)</div>
             <div class="fs-5 fw-bold text-dark"><?= format_inr($summary['total_current_value']) ?></div>
@@ -72,7 +72,7 @@
     </div>
 
     <!-- Total Invested Capital -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Invested Capital</div>
             <div class="fs-5 fw-bold text-dark"><?= format_inr($summary['total_invested']) ?></div>
@@ -81,7 +81,7 @@
     </div>
 
     <!-- Cumulative Distributions Earned -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Distributions Earned</div>
             <div class="fs-5 fw-bold text-success">
@@ -92,7 +92,7 @@
     </div>
 
     <!-- Unrealized Capital Gains -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Unrealized Capital P&L</div>
             <div class="fs-5 fw-bold">
@@ -103,7 +103,7 @@
     </div>
 
     <!-- Total Net Return -->
-    <div class="col-sm-6 col-lg-4 col-xl-2dot4" style="flex: 0 0 auto; width: 20%;">
+    <div class="col-sm-6 col-lg-4 col-xl-2dot4">
         <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-white">
             <div class="text-muted small fw-semibold text-uppercase mb-1" style="font-size: 0.72rem;">Total Net Return</div>
             <div class="fs-5 fw-bold">
