@@ -96,7 +96,7 @@
                         <th class="text-end">Sales Value (₹)</th>
                         <th class="text-end">Cost Basis (₹)</th>
                         <th class="text-center">Lots</th>
-                        <th class="text-center pe-4" style="width: 110px;">Tax Log</th>
+                        <th class="text-center pe-4">Tax Log</th>
                     </tr>
                 </thead>
                 <tbody>

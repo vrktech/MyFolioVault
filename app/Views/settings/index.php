@@ -99,7 +99,7 @@
                                 </select>
                             </div>
                             <div class="form-text small text-muted">
-                                Sets the annual cut-off for Capital Gains tax calculations (STCG & LTCG) for year-end tax reporting.
+                                Sets the annual cut-off for Capital Gains calculations (STCG & LTCG) for year-end reporting.
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
                                 </select>
                             </div>
                             <div class="form-text small text-muted">
-                                Controls the default row limit for trade ledgers, FIFO tax logs, dividends, and interest tables across all modules.
+                                Controls the default row limit for trade ledgers, capital gains logs, dividends, and interest tables across all modules.
                             </div>
                         </div>
 
