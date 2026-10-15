@@ -448,7 +448,7 @@
                                         <td class="text-end">
                                             <?= format_pnl($ph['realized_pnl']) ?>
                                             <div class="text-muted" style="font-size: 0.7rem;">
-                                                STCG: <?= format_inr($ph['stcg']) ?> &bull; LTCG: <?= format_inr($ph['ltcg'] + $ph['sgb_exempt']) ?>
+                                                STCG: <?= format_inr($ph['stcg']) ?> &bull; LTCG: <?= format_inr($ph['ltcg']) ?>
                                             </div>
                                         </td>
                                         <td class="text-end text-success fw-medium">
@@ -799,9 +799,8 @@
                 <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center rounded-3 small">
                     <i class="bi bi-info-circle-fill me-2 fs-5"></i>
                     <div>
-                        <strong>Indian Bond Taxation & FIFO Matching:</strong>
-                        Secondary market sales before maturity are matched in First-In, First-Out order (Holding &gt; 365 days = LTCG, &le; 365 days = STCG).
-                        <strong>SGB Redemption at RBI Maturity:</strong> Completely <strong>tax-exempt under Section 47(viic)</strong> of the Income Tax Act!
+                        <strong>Bond Capital Gains &amp; FIFO Matching:</strong>
+                        Secondary market sales and maturity redemptions are matched in First-In, First-Out order (Holding &gt; 365 days = LTCG, &le; 365 days = STCG).
                     </div>
                 </div>
 
@@ -839,9 +838,7 @@
                         $totalBuyCost      += $cost;
                         $totalExitProceeds += $proceeds;
                         $totalRealizedGain += $gain;
-                        if ($cg['gain_type'] === 'EXEMPT_SGB_MATURITY') {
-                            $totalExempt += $gain;
-                        } elseif ($cg['gain_type'] === 'LTCG') {
+                        if ($cg['gain_type'] === 'LTCG' || $cg['gain_type'] === 'EXEMPT_SGB_MATURITY') {
                             $totalLtcg += $gain;
                         } else {
                             $totalStcg += $gain;
@@ -867,11 +864,10 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="taxLogTypeFilter" class="form-label small fw-semibold text-secondary mb-1">
-                                    <i class="bi bi-tags me-1"></i>Tax Category
+                                    <i class="bi bi-tags me-1"></i>Gain Type
                                 </label>
                                 <select class="form-select form-select-sm shadow-sm" id="taxLogTypeFilter">
                                     <option value="ALL">All Categories</option>
-                                    <option value="EXEMPT_SGB_MATURITY">Sec 47(viic) Tax-Exempt (SGB)</option>
                                     <option value="LTCG">LTCG (&gt; 365 Days)</option>
                                     <option value="STCG">STCG (&le; 365 Days)</option>
                                 </select>
@@ -975,11 +971,7 @@
                                         <td><?= date('d-M-Y', strtotime($cg['exit_date'])) ?></td>
                                         <td class="text-center fw-medium"><?= $cg['holding_days'] ?> days</td>
                                         <td class="text-center">
-                                            <?php if ($cg['gain_type'] === 'EXEMPT_SGB_MATURITY'): ?>
-                                                <span class="badge bg-success text-white px-2 py-1">
-                                                    <i class="bi bi-shield-fill-check me-1"></i>Sec 47(viic) Tax-Exempt
-                                                </span>
-                                            <?php elseif ($cg['gain_type'] === 'LTCG'): ?>
+                                            <?php if ($cg['gain_type'] === 'LTCG' || $cg['gain_type'] === 'EXEMPT_SGB_MATURITY'): ?>
                                                 <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
                                                     LTCG (&gt;365d)
                                                 </span>
@@ -1488,15 +1480,7 @@
                 <?= csrf_field() ?>
                 <input type="hidden" name="action_type" value="REDEMPTION">
                 <input type="hidden" name="bond_id" id="maturityRedeemBondId" value="">
-
                 <div class="modal-body p-4">
-                    <div class="alert alert-warning py-2 px-3 mb-3 small rounded-3 d-flex align-items-center" id="maturitySgbExemptAlert">
-                        <i class="bi bi-shield-check fs-4 text-warning-emphasis me-2"></i>
-                        <div>
-                            <strong>Section 47(viic) Tax Exemption:</strong> For Sovereign Gold Bonds (SGB) redeemed upon maturity by RBI, capital gains are <strong>100% Tax-Exempt</strong>.
-                        </div>
-                    </div>
-
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold text-secondary">Redemption Date <span class="text-danger">*</span></label>

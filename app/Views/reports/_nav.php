@@ -12,7 +12,7 @@
                 <a class="nav-link rounded-3 py-2.5 px-3 fw-semibold text-start text-sm-center d-flex align-items-center justify-content-sm-center gap-2 <?= ($activeTab ?? '') === 'tax' ? 'active bg-primary text-white shadow-sm' : 'text-secondary hover-bg-light' ?>" 
                    href="<?= base_url('reports/tax' . (isset($range['key']) ? '?fy=' . $range['key'] : '')) ?>">
                     <i class="bi bi-percent fs-5"></i>
-                    <span>Capital Gains &amp; Tax (LTCG / STCG)</span>
+                    <span>Capital Gains (LTCG / STCG)</span>
                 </a>
             </li>
             <li class="nav-item">

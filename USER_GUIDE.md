@@ -7,7 +7,7 @@
 
 **MyFolioVault** is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
 
-Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes.
+Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox, etc.) and hold diverse assets—**Direct Equities (NSE/BSE)**, **InvITs & REITs**, **Exchange Traded Funds (ETFs)**, **Bonds & Sovereign Gold Bonds (SGBs)**, **Mutual Funds (SIP & Lumpsum)**, and **NPS (Tier 1)**. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, clean bond pricing, and daily consolidated broker contract notes.
 
 **MyFolioVault** solves this by running completely privately on your local machine with zero external dependencies, no third-party CDNs, and zero tracking. It gives you full transparency and control over your cost basis, passive income dividends, statutory tax friction, and asset allocation across financial years.
 
@@ -46,12 +46,12 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
    - [5.1 How to Add a Categorized ETF](#51-how-to-add-a-categorized-etf)
    - [5.2 How to Record Buy & Sell Orders](#52-how-to-record-buy--sell-orders)
    - [5.3 How to Record ETF Splits](#53-how-to-record-etf-splits)
-   - [5.4 ETF Taxation Rules (Equity vs Sec 50AA)](#54-etf-taxation-rules-equity-vs-sec-50aa)
+    - [5.4 ETF Capital Gains Classification](#54-etf-capital-gains-classification)
 6. [Module 4: Bonds & Fixed Income](#6-module-4-bonds--fixed-income)
    - [6.1 How to Add a Bond or SGB](#61-how-to-add-a-bond-or-sgb)
    - [6.2 Clean Price vs. Accrued Interest in Buy Orders](#62-clean-price-vs-accrued-interest-in-buy-orders)
    - [6.3 How to Record Coupon / Interest Payouts & TDS](#63-how-to-record-coupon--interest-payouts--tds)
-   - [6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption](#64-sovereign-gold-bond-sgb-sec-47viic-tax-exemption)
+   - [6.4 Sovereign Gold Bond (SGB) Holding Period & Capital Gains](#64-sovereign-gold-bond-sgb-holding-period--capital-gains)
    - [6.5 How to Record Redemption After Expiry / Maturity Date](#65-how-to-record-redemption-after-expiry--maturity-date)
 7. [Module 5: Mutual Funds](#7-module-5-mutual-funds)
    - [7.1 How to Add a Fund & Folio](#71-how-to-add-a-fund--folio)
@@ -68,9 +68,9 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
    - [9.3 What to Enter in the Fields (Brokerage vs STT vs Platform Charges)](#93-what-to-enter-in-the-fields)
    - [9.4 How Expenses Add Up in Cash Flow & Friction Reports](#94-how-expenses-add-up-in-cash-flow--friction-reports)
    - [9.5 How to Edit & Delete Expense Records](#95-how-to-edit--delete-expense-records)
-10. [Analytics, Reports & Capital Gains Tax Audit](#10-analytics-reports--capital-gains-tax-audit)
+10. [Analytics & Reports](#10-analytics--reports)
     - [10.1 Cash Flow & Capital Activity Report](#101-cash-flow--capital-activity-report)
-    - [10.2 Capital Gains & Tax Audit Report (ITR Filing)](#102-capital-gains--tax-audit-report-itr-filing)
+    - [10.2 Capital Gains Report](#102-capital-gains-report)
     - [10.3 Passive Income & Distribution Report](#103-passive-income--distribution-report)
     - [10.4 Expenses & Statutory Friction Report](#104-expenses--statutory-friction-report)
     - [10.5 Asset Allocation & Valuation Snapshot](#105-asset-allocation--valuation-snapshot)
@@ -216,7 +216,7 @@ When you sign in, the Welcome Dashboard provides an instantaneous snapshot of yo
 ### 2.2 Financial Year (FY) Date Filtering
 MyFolioVault is tailored for the Indian financial cycle (April 1 to March 31):
 - **Current FY**: For example, FY 2026-27 (`2026-04-01` to `2027-03-31`). Default for all activity ledgers and reports.
-- **Last FY**: Previous financial year (e.g. FY 2025-26). Essential when filing annual Income Tax Returns (ITR-2 or ITR-3).
+- **Last FY**: Previous financial year (e.g. FY 2025-26). Essential when analyzing prior year gains and statements.
 - **All Time**: Unfiltered full historical view from your very first trade.
 
 ---
@@ -290,12 +290,12 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
    - **Quantity**: Number of shares sold (cannot exceed total available active units).
    - **Selling Price Per Share (₹)**: Execution sale price.
    - **Brokerage & STT (₹)**: Any itemized sale charges.
-3. **Automated FIFO Lot Matching & Tax Classification**:
-   - The engine automatically exhausts buy lots from oldest to newest in strict FIFO order (Indian Income Tax Act Sec 45 & 48).
+3. **Automated FIFO Lot Matching & Capital Gains Classification**:
+   - The engine automatically exhausts buy lots from oldest to newest in strict FIFO order.
    - Computes **Holding Days**: `Sell Date - Buy Date`.
    - **STCG vs LTCG**:
-     - Holding period &le; 365 days &rarr; **Short-Term Capital Gain (STCG)** (Taxed @ 20% under Section 111A).
-     - Holding period > 365 days &rarr; **Long-Term Capital Gain (LTCG)** (Taxed @ 12.5% above ₹1.25 Lakh exemption under Section 112A).
+     - Holding period &le; 365 days &rarr; **Short-Term Capital Gain (STCG)**.
+     - Holding period > 365 days &rarr; **Long-Term Capital Gain (LTCG)**.
 
 ---
 
@@ -303,7 +303,7 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
 1. In Equities Dashboard &rarr; Click **"Record Dividend"**.
 2. Enter the **Dividend Date** and select the stock.
 3. Enter **Dividend Per Share (DPS)** or **Total Gross Amount** (the calculator auto-computes the other based on shares held on the record date).
-4. Enter **TDS Deducted (₹)** (Tax Deducted at Source under Section 194, typically 10% if dividend exceeds ₹5,000).
+4. Enter **TDS Deducted (₹)** (Tax Deducted at Source, typically 10% if applicable).
 5. Net Received in bank = `Gross Amount - TDS Deducted`.
 
 ---
@@ -349,7 +349,7 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
 > 4. **Corporate Actions Erased**: All splits, bonuses, rights, and mergers tied to this stock are removed.
 >
 > **Best Practice Recommendation:**
-> - If you no longer own shares because you sold your entire holding, **DO NOT delete the stock**! Instead, record a **SELL** transaction. This reduces your active units to 0 and automatically moves the stock to the **Past Holdings** tab. This preserves your historical realized profit/loss, historical cash flows, and tax audit trail for ITR filing.
+> - If you no longer own shares because you sold your entire holding, **DO NOT delete the stock**! Instead, record a **SELL** transaction. This reduces your active units to 0 and automatically moves the stock to the **Past Holdings** tab. This preserves your historical realized profit/loss, historical cash flows, and capital gains audit trail.
 > - Only use **Delete Stock** if you entered a stock by mistake or want to purge all historical records of that security entirely.
 
 ---
@@ -375,9 +375,9 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
 Indian REITs and InvITs distribute cash quarterly with 4 distinct tax components:
 1. In the InvITs/REITs Dashboard &rarr; Click **"Record Distribution"**.
 2. Enter the components from your broker's distribution statement or AMC notice:
-   - **Interest Component (₹)**: Taxable in the hands of unitholders at your applicable income tax slab rate.
-   - **Dividend Component (₹)**: Exempt under Sec 10(23FD) if the underlying SPV did not opt for the concessional 22% tax regime under Sec 115BAA; otherwise taxable at slab.
-   - **Return of Capital / Amortization of SPV Debt (ROC) (₹)**: Reduces your unit acquisition cost basis. Any cumulative ROC exceeding original cost is taxed under Section 56(2)(xii).
+   - **Interest Component (₹)**: Taxable in the hands of unitholders at your applicable slab rate.
+   - **Dividend Component (₹)**: Typically tax-exempt or taxable depending on SPV tax concession status.
+   - **Return of Capital / Amortization of SPV Debt (ROC) (₹)**: Reduces your unit acquisition cost basis. Any cumulative ROC exceeding original cost is treated as taxable capital gains.
    - **Other Income (₹)**: Taxable at slab.
    - **TDS Deducted (₹)**: Tax withheld by the trust.
 3. Net Received = `(Interest + Dividend + ROC + Other) - TDS`.
@@ -410,9 +410,9 @@ Indian REITs and InvITs distribute cash quarterly with 4 distinct tax components
 
 ---
 
-### 5.4 ETF Taxation Rules (Equity vs Sec 50AA)
-- **Equity ETFs** (holding &ge; 65% domestic equity): STCG @ 20% (&le; 365 days), LTCG @ 12.5% (> 365 days with ₹1.25 Lakh exemption).
-- **Gold, Silver & Debt ETFs** (holding < 65% equity acquired on or after April 1, 2023): Governed by **Section 50AA**, taxed as Short-Term Capital Gains at investor's slab rate regardless of holding period.
+### 5.4 ETF Capital Gains Classification
+- **Equity ETFs** (holding &ge; 65% domestic equity): STCG (&le; 365 days), LTCG (> 365 days).
+- **Gold, Silver & Debt ETFs**: Deemed Short-Term Capital Gains regardless of holding period.
 
 ---
 
@@ -442,13 +442,13 @@ When purchasing bonds in the secondary market between coupon payout dates, under
 ### 6.3 How to Record Coupon / Interest Payouts & TDS
 1. In Bonds Dashboard &rarr; Click **"Record Coupon / Interest"**.
 2. Select the bond and enter the payout date.
-3. Enter **Gross Interest Received** and **TDS Deducted** (Section 193, 10% on listed corporate NCDs if interest exceeds ₹5,000). Tax-Free bonds and G-Secs have ₹0 TDS.
+3. Enter **Gross Interest Received** and **TDS Deducted** (typically 10% on listed corporate NCDs if applicable). Tax-Free bonds and G-Secs have ₹0 TDS.
 
 ---
 
-### 6.4 Sovereign Gold Bond (SGB) Sec 47(viic) Tax Exemption
-- Under Section 47(viic) of the Indian Income Tax Act, any capital gains arising on redemption of Sovereign Gold Bonds by an individual investor at RBI maturity are **100% EXEMPT FROM CAPITAL GAINS TAX**.
-- When recording a maturity redemption in MyFolioVault, select `MATURITY_REDEMPTION`. The tax engine flags the gain as `EXEMPT_SGB_MATURITY`, completely separating it from taxable LTCG!
+### 6.4 Sovereign Gold Bond (SGB) Holding Period & Capital Gains
+- Capital gains on Sovereign Gold Bonds are classified strictly based on holding duration: holdings exceeding 365 days are classified as **LTCG**, while holdings up to 365 days are classified as **STCG**.
+- When recording a maturity redemption in MyFolioVault (since maturity occurs after 8 years > 365 days), the gain is automatically classified as **LTCG**.
 
 ---
 
@@ -468,7 +468,7 @@ When a Sovereign Gold Bond (SGB), Government Security (G-Sec), or Corporate NCD 
    - The preview box instantly calculates the **Total Principal Amount Received** (`Redeemed Quantity * Redemption Price`).
    - Click **"Confirm Maturity Redemption"**.
 3. **Accounting & Tax Effects**:
-   - For **SGBs**, the redemption is processed under **Section 47(viic)** — the entire capital gain is logged as **100% Tax-Exempt** in the Capital Gains Report.
+   - For **SGBs**, the redemption is processed with the capital gain logged as **LTCG** (> 365 days) in the Capital Gains Report.
    - For **G-Secs & Corporate Bonds**, capital gains or losses (redemption proceeds minus net cost basis) are computed and audited under the Tax & Redemption Log.
    - The active units drop to 0, and the bond automatically moves to the **Past Holdings / Fully Redeemed Bonds** archive table on the Bonds dashboard.
 
@@ -532,7 +532,7 @@ Follow these step-by-step instructions to initialize your PRAN account:
    - Enter your initial or baseline contribution to establish the portfolio:
      - **Transaction Date**: Date of deposit or allotment from your CRA transaction receipt.
      - **Gross Amount (₹)**: Total amount transferred (e.g. `₹ 50,000.00`).
-     - **Contribution Type**: Select `Voluntary` (for Section 80CCD(1B)), `Employee`, or `Employer`.
+     - **Contribution Type**: Select `Voluntary`, `Employee`, or `Employer`.
      - **Optional POP Charges (₹)**: Payment gateway / POP commissions (e.g. `₹ 25.00`). Net amount allocated becomes `₹ 49,975.00`.
      - **Scheme Allotments**: Enter the purchase NAV and units allotted for Scheme E, C, G, and A from your official CRA allotment statement.
    - Click **"Save & Setup NPS Account"**.
@@ -657,7 +657,7 @@ Trying to divide these small charges across individual stocks is cumbersome and 
 
 ---
 
-## 10. Analytics, Reports & Capital Gains Tax Audit
+## 10. Analytics & Reports
 
 Navigate to **Analytics & Reports** in the sidebar (`/reports`) to access the 5 dedicated audit views:
 
@@ -667,15 +667,11 @@ Navigate to **Analytics & Reports** in the sidebar (`/reports`) to access the 5 
   $$\text{Net Flow} = (\text{Total Sold} + \text{Passive Income}) - (\text{Total Purchases} + \text{Expenses \& TDS})$$
 - Displays breakdown across all 6 asset modules and equity sectors.
 
-### 10.2 Capital Gains & Tax Audit Report (`/reports/tax`)
-- Designed specifically for preparing Indian Income Tax Returns (**ITR-2 / ITR-3**).
+### 10.2 Capital Gains Report (`/reports/tax`)
 - Itemizes every matched FIFO sale with Buy Date, Sell Date, Holding Days, Buy Price, Sell Price, and Realized Gain.
 - Segregated into:
-  - **Equity STCG @ 20%** (Section 111A)
-  - **Equity LTCG @ 12.5%** (Section 112A with ₹1.25 Lakh exemption)
-  - **Debt / SGB LTCG @ 12.5%** (Section 112)
-  - **Sec 50AA Debt / Commodity Gains** (Taxed at slab rates)
-  - **Exempt SGB Maturity Redemptions** (Section 47(viic))
+  - **Short-Term Capital Gains (STCG)** (Holding &le; 12 months)
+  - **Long-Term Capital Gains (LTCG)** (Holding > 12 months)
 
 ### 10.3 Passive Income & Distribution Report (`/reports/income`)
 - Consolidates all cash payouts received:

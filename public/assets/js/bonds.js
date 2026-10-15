@@ -320,9 +320,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (matPrice) matPrice.value = defPrice.toFixed(2);
             if (elHint) elHint.textContent = `Max eligible units: ${Math.round(qty)} ${cat === 'SGB' ? 'grams' : 'units'}`;
 
-            const sgbAlert = document.getElementById('maturitySgbExemptAlert');
-            if (sgbAlert) sgbAlert.classList.toggle('d-none', cat !== 'SGB');
-
             calcMaturityProceeds();
         });
     });
@@ -791,7 +788,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalRealizedGain = 0;
         let totalStcg = 0;
         let totalLtcg = 0;
-        let totalExempt = 0;
         let selectedBondName = '';
 
         if (selectedBond !== 'ALL' && taxBondFilter) {
@@ -824,9 +820,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalExitProceeds += proceeds;
                 totalRealizedGain += gain;
 
-                if (rowGainType === 'EXEMPT_SGB_MATURITY') {
-                    totalExempt += gain;
-                } else if (rowGainType === 'LTCG') {
+                if (rowGainType === 'LTCG' || rowGainType === 'EXEMPT_SGB_MATURITY') {
                     totalLtcg += gain;
                 } else {
                     totalStcg += gain;
@@ -853,20 +847,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         if (kpiTaxBreakdown) {
-            kpiTaxBreakdown.textContent = `Exempt: ${formatINR(totalExempt)} • LTCG: ${formatINR(totalLtcg)} • STCG: ${formatINR(totalStcg)}`;
+            kpiTaxBreakdown.textContent = `LTCG: ${formatINR(totalLtcg)} • STCG: ${formatINR(totalStcg)}`;
         }
 
         // Update Dynamic Footer
         if (footerTaxSummaryTitle) {
             let label = selectedBond === 'ALL' ? 'Total' : selectedBondName;
             if (selectedType !== 'ALL') {
-                label += ` [${selectedType === 'EXEMPT_SGB_MATURITY' ? 'Exempt SGB' : selectedType}]`;
+                label += ` [${selectedType}]`;
             }
             if (selectedFy !== 'ALL') label += ` (${selectedFy === 'CURRENT_FY' ? 'Current FY' : 'Last FY'})`;
             footerTaxSummaryTitle.textContent = `${label} (${visibleCount} Lots)`;
         }
         if (footerTaxBreakdown) {
-            footerTaxBreakdown.textContent = `Exempt: ${formatINR(totalExempt)} • LTCG: ${formatINR(totalLtcg)} • STCG: ${formatINR(totalStcg)}`;
+            footerTaxBreakdown.textContent = `LTCG: ${formatINR(totalLtcg)} • STCG: ${formatINR(totalStcg)}`;
         }
         if (footerTaxQty) footerTaxQty.textContent = totalMatchedUnits.toLocaleString('en-IN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
         if (footerTaxCost) footerTaxCost.textContent = formatINR(totalBuyCost);
@@ -889,7 +883,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (taxBondSpan) {
                 let badgeParts = [];
                 if (selectedBond !== 'ALL') badgeParts.push(selectedBondName);
-                if (selectedType !== 'ALL') badgeParts.push(selectedType === 'EXEMPT_SGB_MATURITY' ? 'Tax-Exempt' : selectedType);
+                if (selectedType !== 'ALL') badgeParts.push(selectedType);
                 if (selectedFy !== 'ALL') badgeParts.push(selectedFy === 'CURRENT_FY' ? 'Current FY' : 'Last FY');
                 taxBondSpan.textContent = badgeParts.join(' • ');
             }
@@ -990,7 +984,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const taxFyParam   = urlParams.get('tax_fy');
     if (taxBondParam || taxTypeParam || taxFyParam || initialTab === 'capitalgains' || hash === '#capitalgains') {
         const taxTabBtn = document.getElementById('capitalgains-tab');
-        if (taxTabBtn && (initialTab === 'capitalgains' || hash === '#capitalgains')) {
+        if (taxTabBtn) {
             bootstrap.Tab.getOrCreateInstance(taxTabBtn).show();
         }
         if (taxBondParam && taxBondFilter) taxBondFilter.value = taxBondParam;

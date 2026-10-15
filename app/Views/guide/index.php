@@ -41,7 +41,7 @@
                     <i class="bi bi-pie-chart me-2 text-success"></i> 4. Exchange Traded Funds (ETFs)
                 </button>
                 <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-bonds-btn" data-bs-toggle="pill" data-bs-target="#tab-bonds" type="button" role="tab">
-                    <i class="bi bi-receipt me-2 text-danger"></i> 5. Bonds &amp; SGB Tax Exemption
+                    <i class="bi bi-receipt me-2 text-danger"></i> 5. Bonds &amp; SGBs
                 </button>
                 <button class="nav-link text-start py-2 px-3 rounded-3 small fw-semibold" id="tab-mfs-btn" data-bs-toggle="pill" data-bs-target="#tab-mfs" type="button" role="tab">
                     <i class="bi bi-briefcase me-2 text-warning"></i> 6. Mutual Funds (SIP &amp; FIFO)
@@ -83,7 +83,7 @@
                         <strong>MyFolioVault</strong> is a self-hosted, 100% offline personal wealth management and portfolio tracking application tailored specifically for the Indian financial market. Developed from real-world personal investment practices, it is designed to fulfill the end-to-end portfolio tracking, bookkeeping, and tax compliance needs of an average retail investor, salaried professional, and family office in India.
                     </p>
                     <p class="text-secondary small mb-0">
-                        Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox) and hold diverse assets—<strong>Direct Equities</strong>, <strong>InvITs &amp; REITs</strong>, <strong>ETFs</strong>, <strong>Bonds &amp; SGBs</strong>, <strong>Mutual Funds</strong>, and <strong>NPS (Tier 1)</strong>. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, SGB tax exemptions, clean bond pricing, and daily consolidated broker contract notes. MyFolioVault solves this completely locally on your private machine with zero external dependencies, no third-party CDNs, and zero tracking.
+                        Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne, ICICI Direct, Upstox) and hold diverse assets—<strong>Direct Equities</strong>, <strong>InvITs &amp; REITs</strong>, <strong>ETFs</strong>, <strong>Bonds &amp; SGBs</strong>, <strong>Mutual Funds</strong>, and <strong>NPS (Tier 1)</strong>. Most commercial platforms either require sharing sensitive broker credentials or fail to accurately handle Indian statutory nuances like FIFO capital gains matching, 4-component REIT distributions, clean bond pricing, and daily consolidated broker contract notes. MyFolioVault solves this completely locally on your private machine with zero external dependencies, no third-party CDNs, and zero tracking.
                     </p>
                 </div>
 
@@ -298,7 +298,7 @@
                                 Deducts 20 shares from the <code>2024-05-15</code> lot (remaining shares in that lot becomes 30).
                             </li>
                             <li>Calculates holding duration: <code>2025-06-20 - 2024-05-15 = 401 days</code>.</li>
-                            <li><strong>Tax Classification:</strong> Because holding period is &gt; 365 days (12 months), it is classified as <strong>Long-Term Capital Gain (LTCG)</strong> under Section 112A. If holding was &le; 365 days, it would be classified as <strong>Short-Term Capital Gain (STCG)</strong> under Section 111A.</li>
+                            <li><strong>Tax Classification:</strong> Because holding period is &gt; 365 days (12 months), it is classified as <strong>Long-Term Capital Gain (LTCG)</strong>. If holding was &le; 365 days, it would be classified as <strong>Short-Term Capital Gain (STCG)</strong>.</li>
                             <li>Calculates gain: <code>Cost Basis = 20 * 1520 = ₹ 30,400.00</code>; <code>Net Proceeds = (20 * 1750) - 85 = ₹ 34,915.00</code>; <code>Realized LTCG = ₹ 4,515.00</code>.</li>
                             <li>Generates an immutable record in <code>equity_capital_gains</code> linking the sell order to the purchase lot for audit trails.</li>
                         </ol>
@@ -317,11 +317,11 @@
                         <li><strong>Dividend Type:</strong> <code>Final</code>, <code>Interim</code>, or <code>Special</code>.</li>
                         <li><strong>Shares Held:</strong> Eligible shares on record date (e.g. <code>50</code>).</li>
                         <li><strong>Dividend Per Share:</strong> In ₹ (e.g. <code>19.50</code>). Auto-calculates gross: <code>50 * 19.50 = ₹ 975.00</code>.</li>
-                        <li><strong>TDS Deducted:</strong> Under Sec 194 of IT Act, 10% TDS is deducted if gross dividend exceeds ₹5,000 in a financial year (enter TDS amount e.g. <code>97.50</code> or <code>0.00</code>).</li>
+                        <li><strong>TDS Deducted:</strong> 10% TDS if applicable (enter TDS amount e.g. <code>97.50</code> or <code>0.00</code>).</li>
                         <li>Click <strong>Record Dividend</strong>.</li>
                     </ol>
                     <div class="p-2.5 bg-white rounded-3 border small">
-                        <strong>How It Works:</strong> Logs the entry in <code>equity_dividends</code>. Net dividend (₹ 877.50) is credited to income. Does <em>not</em> alter your active share count or cost basis. Populates the <strong>Dividend Ledger</strong> and feeds directly into your Annual Income Tax report for Form 26AS/AIS reconciliation.
+                        <strong>How It Works:</strong> Logs the entry in <code>equity_dividends</code>. Net dividend (₹ 877.50) is credited to income. Does <em>not</em> alter your active share count or cost basis. Populates the <strong>Dividend Ledger</strong> and feeds directly into your Annual Passive Income report for Form 26AS/AIS reconciliation.
                     </div>
                 </div>
 
@@ -362,7 +362,7 @@
                         </div>
                         <div class="small bg-light p-2 rounded-2 border">
                             <strong>How It Works Behind the Scenes:</strong>
-                            Under <strong>Section 55(2)(aa)</strong> of the Indian Income Tax Act, the cost of acquisition of bonus shares is <strong>NIL (₹ 0.00)</strong>.
+                            Under statutory rules, the cost of acquisition of bonus shares is <strong>NIL (₹ 0.00)</strong>.
                             The system creates a new BUY lot with:
                             <code>quantity = eligible_shares (e.g. 35)</code>, <code>price = 0.00</code>, <code>total_amount = 0.00</code>, and <code>transaction_date = Record Date</code>.
                             <strong>Why this is critical:</strong> Older lots retain their original acquisition dates (e.g. 2 years ago) and original purchase prices. The bonus lot enters the FIFO queue as a distinct zero-cost lot. When you sell later, older lots are exhausted first at their fair cost basis, and bonus shares are sold with ₹0 cost, preventing tax audit errors!
@@ -385,11 +385,11 @@
                         <div class="fw-bold text-dark mb-1"><i class="bi bi-shuffle me-1 text-warning"></i>D. Mergers &amp; Demergers</div>
                         <div class="small text-secondary mb-2">
                             <strong>Merger (e.g. HDFC Ltd into HDFC Bank):</strong> Enter source stock, target stock, and swap ratio (e.g. 42 target shares for 25 parent shares).
-                            <em>How It Works:</em> Closes parent lots and creates target stock lots inheriting historical cost and holding days under Section 49(2) of the IT Act.
+                            <em>How It Works:</em> Closes parent lots and creates target stock lots inheriting historical cost and holding days.
                         </div>
                         <div class="small text-secondary">
-                            <strong>Demerger (e.g. Reliance &rarr; Jio Financial Services):</strong> Enter parent stock, resulting spun-off stock, and official IT Department Cost Apportionment % (e.g. 8.9% to JFSL, 91.1% retained in Reliance).
-                            <em>How It Works:</em> Apportions the cost basis of each active parent lot by 91.1% and allocates matching shares in the demerged entity at 8.9% cost basis, grandfathering original acquisition dates under Section 49(2C).
+                            <strong>Demerger (e.g. Reliance &rarr; Jio Financial Services):</strong> Enter parent stock, resulting spun-off stock, and official Cost Apportionment % (e.g. 8.9% to JFSL, 91.1% retained in Reliance).
+                            <em>How It Works:</em> Apportions the cost basis of each active parent lot by 91.1% and allocates matching shares in the demerged entity at 8.9% cost basis, grandfathering original acquisition dates.
                         </div>
                     </div>
                 </div>
@@ -466,8 +466,8 @@
                     <li>Enter <strong>Distribution Date</strong> and <strong>Units Held</strong> on record date.</li>
                     <li>Enter the 4 components from your quarterly manager notice:
                         <ul class="mt-2">
-                            <li class="mb-1"><strong>1. Dividend Component (per unit):</strong> Exempt under Sec 10(23FD) if SPV did not opt for concessional tax under Sec 115BAA; taxable if opted.</li>
-                            <li class="mb-1"><strong>2. Interest Component (per unit):</strong> Fully taxable at the investor's marginal income tax slab rate.</li>
+                            <li class="mb-1"><strong>1. Dividend Component (per unit):</strong> Typically tax-exempt or taxable depending on SPV tax concession status.</li>
+                            <li class="mb-1"><strong>2. Interest Component (per unit):</strong> Fully taxable at the investor's marginal slab rate.</li>
                             <li class="mb-1"><strong>3. Rental Income Component (per unit):</strong> Taxable at the investor's slab rate.</li>
                             <li class="mb-1"><strong>4. Return of Capital (ROC) / Debt Amortization (per unit):</strong> Capital return reducing investment cost.</li>
                         </ul>
@@ -476,7 +476,7 @@
                 </ol>
                 <div class="p-3 bg-light rounded-3 border small">
                     <strong>How Return of Capital (ROC) Works Behind the Scenes:</strong>
-                    Return of capital is <em>not</em> treated as taxable income upon receipt. Instead, the application systematically deducts the ROC amount from the unit cost basis of your active purchase lots. If cumulative ROC received over years exceeds your original purchase price, the excess is automatically taxed as income under Section 56(2)(xii).
+                    Return of capital is <em>not</em> treated as taxable income upon receipt. Instead, the application systematically deducts the ROC amount from the unit cost basis of your active purchase lots. If cumulative ROC received over years exceeds your original purchase price, the excess is automatically treated as taxable capital gains.
                 </div>
             </div>
 
@@ -509,26 +509,23 @@
                     <strong>How It Works:</strong> Multiplies units by 10 and divides unit cost basis by 10 across all active purchase lots as of the record date. Total invested capital remains unchanged.
                 </div>
 
-                <h6 class="fw-bold text-dark mb-2">4.3 Indian ETF Taxation Architecture</h6>
+                <h6 class="fw-bold text-dark mb-2">4.3 ETF Capital Gains Classification</h6>
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered small">
                         <thead class="table-light">
                             <tr>
                                 <th>Category</th>
-                                <th>Applicable Tax Section</th>
-                                <th>Tax Treatment</th>
+                                <th>Capital Gains Treatment</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Equity ETFs (&ge; 65% Indian equities)</strong></td>
-                                <td>Sec 111A / 112A</td>
-                                <td>Holding &gt; 12 months &rarr; LTCG @ 12.5% (with ₹1.25L annual exemption). Holding &le; 12 months &rarr; STCG @ 20%.</td>
+                                <td><strong>Equity ETFs (&ge; 65% domestic equities)</strong></td>
+                                <td>Holding &gt; 12 months &rarr; LTCG. Holding &le; 12 months &rarr; STCG.</td>
                             </tr>
                             <tr>
-                                <td><strong>Gold, Silver &amp; Debt ETFs (acquired on/after 1-Apr-2023)</strong></td>
-                                <td>Sec 50AA</td>
-                                <td>Deemed Short-Term Capital Gains regardless of holding period and taxed at your marginal slab rate.</td>
+                                <td><strong>Gold, Silver &amp; Debt ETFs</strong></td>
+                                <td>Deemed Short-Term Capital Gains regardless of holding period.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -552,14 +549,14 @@
                     When recording secondary market purchases, enter Clean Price and separate Accrued Interest paid to the seller to ensure accurate cost basis accounting.
                 </p>
 
-                <div class="alert alert-warning border-2 border-warning rounded-3 small my-3">
-                    <div class="fw-bold text-dark mb-1"><i class="bi bi-star-fill text-warning me-1"></i> SGB Section 47(viic) Tax Exemption Mechanics</div>
-                    Under <strong>Section 47(viic)</strong> of the Indian Income Tax Act, any capital gain arising to an individual on redemption of Sovereign Gold Bonds upon maturity (8 years) is <strong>100% EXEMPT from tax</strong>. When recording a maturity exit, the engine flags the transaction as <code>EXEMPT_SGB_MATURITY</code>, zeroing taxable capital gains while crediting full proceeds to cash flow.
+                <div class="alert alert-info border-2 border-info rounded-3 small my-3">
+                    <div class="fw-bold text-dark mb-1"><i class="bi bi-info-circle-fill text-info me-1"></i> SGB Maturity &amp; Holding Duration Mechanics</div>
+                    Capital gains on Sovereign Gold Bonds are classified strictly based on holding duration: holdings exceeding 365 days are classified as <strong>LTCG</strong>, while holdings up to 365 days are classified as <strong>STCG</strong>. Since SGB maturity occurs after 8 years (&gt; 365 days), maturity redemptions are processed as long-term capital gains (LTCG).
                 </div>
 
                 <h6 class="fw-bold text-dark mb-2">5.2 Recording Coupon / Interest Payouts</h6>
                 <p class="text-secondary small">
-                    Click <strong>+ Interest</strong> on the bond row. Gross interest is auto-computed based on held quantity and coupon rate. Enter TDS deducted under Section 193 (0% for G-Secs and SGBs; 10% for unlisted corporate bonds). The net credit updates your annual income ledger.
+                    Click <strong>+ Interest</strong> on the bond row. Gross interest is auto-computed based on held quantity and coupon rate. Enter TDS deducted if applicable (0% for G-Secs and SGBs; 10% for unlisted corporate bonds). The net credit updates your annual income ledger.
                 </p>
 
                 <h6 class="fw-bold text-dark mb-2 mt-4">5.3 How to Record Redemption After Expiry / Maturity Date</h6>
@@ -582,8 +579,8 @@
                     <li class="mb-1">Click <strong>"Confirm Maturity Redemption"</strong>.</li>
                 </ol>
                 <div class="p-2.5 bg-white rounded-3 border small">
-                    <strong>Tax &amp; Portfolio Impact:</strong>
-                    For Sovereign Gold Bonds (SGBs), capital gains are <strong>100% Tax-Exempt</strong> under Section 47(viic) and logged under the exempt section in reports. Once redeemed, the bond active units become 0 and it moves automatically to the <strong>Past Holdings / Fully Redeemed</strong> table.
+                    <strong>Capital Gains &amp; Portfolio Impact:</strong>
+                    Redemptions with holding periods over 365 days are recorded as <strong>LTCG</strong>. Once redeemed, the bond active units become 0 and it moves automatically to the <strong>Past Holdings / Fully Redeemed</strong> table.
                 </div>
             </div>
 
@@ -621,7 +618,7 @@
                 </div>
 
                 <p class="text-secondary">
-                    Tracks voluntary retirement contributions under Section 80CCD(1B) (additional ₹50,000 tax deduction) and Employer contributions under Section 80CCD(2).
+                    Tracks voluntary retirement contributions and Employer contributions.
                 </p>
 
                 <!-- 7.1 FIRST-TIME SETUP -->
@@ -798,14 +795,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="p-3 border rounded-3 bg-light h-100">
-                            <div class="fw-bold text-dark mb-1">2. Capital Gains Audit (ITR-2 / ITR-3)</div>
-                            <div class="small text-secondary">Lot-by-lot realized gains audit drill-down with buy dates, sell dates, holding days, buy costs, sale proceeds, and net gain with STCG (@ 20%) and LTCG (@ 12.5%).</div>
+                            <div class="fw-bold text-dark mb-1">2. Capital Gains Report</div>
+                            <div class="small text-secondary">Lot-by-lot realized gains audit drill-down with buy dates, sell dates, holding days, buy costs, sale proceeds, and net gain categorized into STCG and LTCG.</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="p-3 border rounded-3 bg-light h-100">
                             <div class="fw-bold text-dark mb-1">3. Annual Income &amp; Dividend Ledger</div>
-                            <div class="small text-secondary">Complete schedule of dividends, bond coupons, and trust distributions with TDS deductions under Sec 194/193 for instant reconciliation with Form 26AS and AIS.</div>
+                            <div class="small text-secondary">Complete schedule of dividends, bond coupons, and trust distributions with TDS deductions for instant reconciliation with Form 26AS and AIS.</div>
                         </div>
                     </div>
                     <div class="col-md-6">

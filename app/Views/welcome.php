@@ -23,9 +23,6 @@
                         <span class="badge bg-light text-dark border px-3 py-2 fw-medium">
                             <i class="bi bi-currency-rupee me-1 text-success"></i> INR (₹)
                         </span>
-                        <a href="<?= base_url('expenses') ?>" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 fw-semibold">
-                            <i class="bi bi-wallet2 me-1"></i> Expenses: <?= format_inr($expensesSummary['total_amount'] ?? 0) ?>
-                        </a>
                         <a href="<?= base_url('reports') ?>" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 fw-semibold">
                             <i class="bi bi-pie-chart-fill me-1"></i> Full Analytics &amp; Reports
                         </a>

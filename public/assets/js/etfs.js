@@ -716,7 +716,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const taxFyParam   = urlParams.get('tax_fy');
     if (taxEtfParam || taxTypeParam || taxFyParam || initialTab === 'capitalgains' || hash === '#capitalgains') {
         const taxTabBtn = document.getElementById('capitalgains-tab');
-        if (taxTabBtn && (initialTab === 'capitalgains' || hash === '#capitalgains')) {
+        if (taxTabBtn) {
             bootstrap.Tab.getOrCreateInstance(taxTabBtn).show();
         }
         if (taxEtfParam && taxEtfFilter) taxEtfFilter.value = taxEtfParam;

@@ -47,10 +47,10 @@ Experience **MyFolioVault** live in your browser without installing anything:
 - Real-time sector allocation visualization across 18 major industry verticals.
 
 ### 2. Real Estate & Infrastructure Investment Trusts (REITs & InvITs)
-- Specialized multi-component distribution ledger supporting Indian tax structures:
-  - **Dividend Income** (Exempt under Sec 10(23FD) if SPV has not opted for Sec 115BAA)
+- Specialized multi-component distribution ledger supporting investment structures:
+  - **Dividend Income** (Exempt or taxable depending on SPV concession status)
   - **Interest Income** (Taxable at slab rates)
-  - **Repayment of Capital / Amortization of SPV Debt** (Subtracted from unit cost basis; excess taxed under Sec 56(2)(xii))
+  - **Repayment of Capital / Amortization of SPV Debt** (Subtracted from unit cost basis; excess treated as capital gains)
   - **Other Income** (Taxable)
 
 ### 3. Exchange-Traded Funds (ETFs)
@@ -58,7 +58,7 @@ Experience **MyFolioVault** live in your browser without installing anything:
 - Unit holding calculations, buy/sell trade book, and realized/unrealized profit & loss.
 
 ### 4. Bonds & Sovereign Gold Bonds (SGBs)
-- **Sovereign Gold Bonds (SGBs)**: Gram-based gold holdings with maturity tracking and Indian Income Tax Act **Section 47(viic)** capital gains exemption flags upon RBI redemption.
+- **Sovereign Gold Bonds (SGBs)**: Gram-based gold holdings with automated maturity tracking and FIFO duration classification (STCG &le; 365 days / LTCG &gt; 365 days).
 - **Corporate & Government Bonds**: Face value, coupon rate, coupon frequency, and accrued semi-annual/annual interest tracking.
 
 ### 5. Mutual Funds

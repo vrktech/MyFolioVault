@@ -210,9 +210,9 @@
                         Ensure this amount matches your <strong>Annual Information Statement (AIS)</strong> and <strong>Form 26AS</strong> on the Income Tax e-filing portal.
                     </p>
                     <div class="d-flex flex-wrap gap-3 small text-muted">
-                        <div><i class="bi bi-check-circle text-success me-1"></i>Sec 194: TDS on Equities Dividends @ 10% (exceeding ₹5,000)</div>
-                        <div><i class="bi bi-check-circle text-success me-1"></i>Sec 193: TDS on Bond Interest @ 10%</div>
-                        <div><i class="bi bi-check-circle text-success me-1"></i>Sec 194LBA: TDS on Trust Distribution Interest @ 10%</div>
+                        <div><i class="bi bi-check-circle text-success me-1"></i>TDS on Equities Dividends @ 10% (exceeding ₹5,000)</div>
+                        <div><i class="bi bi-check-circle text-success me-1"></i>TDS on Bond Interest @ 10%</div>
+                        <div><i class="bi bi-check-circle text-success me-1"></i>TDS on Trust Distribution Interest @ 10%</div>
                     </div>
                 </div>
             </div>

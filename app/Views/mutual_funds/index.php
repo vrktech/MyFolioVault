@@ -649,7 +649,7 @@
                 <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center rounded-3 small">
                     <i class="bi bi-info-circle-fill me-2 fs-5"></i>
                     <div>
-                        <strong>Indian Income Tax Section 45 FIFO Rules:</strong> Mutual fund units are redeemed in First-In, First-Out order.
+                        <strong>FIFO Capital Gains Rules:</strong> Mutual fund units are redeemed in First-In, First-Out order.
                         For equity-oriented funds, holding period <strong>&le; 365 days = STCG</strong>. Holding period <strong>&gt; 365 days = LTCG</strong>.
                     </div>
                 </div>

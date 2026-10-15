@@ -432,9 +432,11 @@ class Reports extends BaseController
 
     public function getTaxData(int $userId, array $range): array
     {
-        $sDate   = $range['startDate'];
-        $eDate   = $range['endDate'];
-        $modules = [];
+        $sDate      = $range['startDate'];
+        $eDate      = $range['endDate'];
+        $fyKey      = $range['key'] ?? 'CURRENT_FY';
+        $taxFyParam = '&tax_fy=' . urlencode($fyKey);
+        $modules    = [];
 
         // 1. Equities Capital Gains
         $eqQuery = $this->db->table('equity_capital_gains')->where('user_id', $userId);
@@ -462,7 +464,7 @@ class Reports extends BaseController
             'name'       => 'Equities',
             'icon'       => 'bi bi-graph-up-arrow',
             'color'      => 'primary',
-            'tax_rule'   => 'Sec 111A (STCG 20%) • Sec 112A (LTCG 12.5% > ₹1.25L)',
+            'tax_rule'   => 'STCG (Holding ≤ 1 yr) • LTCG (Holding > 1 yr)',
             'stcg'       => $eqStcg,
             'ltcg'       => $eqLtcg,
             'exempt'     => 0.0,
@@ -470,7 +472,7 @@ class Reports extends BaseController
             'sales'      => $eqSales,
             'cost'       => $eqCost,
             'lots'       => count($eqLots),
-            'log_url'    => base_url('equities?tab=capitalgains'),
+            'log_url'    => base_url('equities?tab=capitalgains' . $taxFyParam),
         ];
 
         // 2. InvITs & REITs Capital Gains
@@ -499,7 +501,7 @@ class Reports extends BaseController
             'name'       => 'InvITs & REITs',
             'icon'       => 'bi bi-buildings',
             'color'      => 'info',
-            'tax_rule'   => 'Business Trust: Sec 111A (STCG 20%) • Sec 112A (LTCG 12.5%)',
+            'tax_rule'   => 'STCG (Holding ≤ 1 yr) • LTCG (Holding > 1 yr)',
             'stcg'       => $reitStcg,
             'ltcg'       => $reitLtcg,
             'exempt'     => 0.0,
@@ -507,7 +509,7 @@ class Reports extends BaseController
             'sales'      => $reitSales,
             'cost'       => $reitCost,
             'lots'       => count($reitLots),
-            'log_url'    => base_url('reits-invits?tab=capitalgains'),
+            'log_url'    => base_url('reits-invits?tab=capitalgains' . $taxFyParam),
         ];
 
         // 3. ETFs Capital Gains
@@ -536,7 +538,7 @@ class Reports extends BaseController
             'name'       => 'Exchange Traded Funds',
             'icon'       => 'bi bi-pie-chart',
             'color'      => 'success',
-            'tax_rule'   => 'Sec 111A (STCG 20%) • Sec 112A (LTCG 12.5% > ₹1.25L)',
+            'tax_rule'   => 'STCG (Holding ≤ 1 yr) • LTCG (Holding > 1 yr)',
             'stcg'       => $etfStcg,
             'ltcg'       => $etfLtcg,
             'exempt'     => 0.0,
@@ -544,25 +546,22 @@ class Reports extends BaseController
             'sales'      => $etfSales,
             'cost'       => $etfCost,
             'lots'       => count($etfLots),
-            'log_url'    => base_url('etfs?tab=capitalgains'),
+            'log_url'    => base_url('etfs?tab=capitalgains' . $taxFyParam),
         ];
 
         // 4. Bonds Capital Gains
         $bondQuery = $this->db->table('bond_capital_gains')->where('user_id', $userId);
         $bondLots  = $this->applyDateFilter($bondQuery, 'exit_date', $sDate, $eDate)->get()->getResultArray();
 
-        $bondStcg   = 0.0;
-        $bondLtcg   = 0.0;
-        $bondExempt = 0.0;
-        $bondGain   = 0.0;
-        $bondSales  = 0.0;
-        $bondCost   = 0.0;
+        $bondStcg  = 0.0;
+        $bondLtcg  = 0.0;
+        $bondGain  = 0.0;
+        $bondSales = 0.0;
+        $bondCost  = 0.0;
         foreach ($bondLots as $l) {
             $g = (float)$l['realized_gain'];
             $bondGain += $g;
-            if ($l['gain_type'] === 'EXEMPT_SGB_MATURITY') {
-                $bondExempt += $g;
-            } elseif ($l['gain_type'] === 'LTCG') {
+            if ($l['gain_type'] === 'LTCG' || $l['gain_type'] === 'EXEMPT_SGB_MATURITY') {
                 $bondLtcg += $g;
             } else {
                 $bondStcg += $g;
@@ -576,15 +575,15 @@ class Reports extends BaseController
             'name'       => 'Bonds & Fixed Income',
             'icon'       => 'bi bi-bank',
             'color'      => 'dark',
-            'tax_rule'   => 'SGB Maturity: 100% Tax-Exempt u/s 47(viic) • Listed: 12.5% LTCG',
+            'tax_rule'   => 'STCG (Holding ≤ 1 yr) • LTCG (Holding > 1 yr)',
             'stcg'       => $bondStcg,
             'ltcg'       => $bondLtcg,
-            'exempt'     => $bondExempt,
+            'exempt'     => 0.0,
             'total_gain' => $bondGain,
             'sales'      => $bondSales,
             'cost'       => $bondCost,
             'lots'       => count($bondLots),
-            'log_url'    => base_url('bonds?tab=capitalgains'),
+            'log_url'    => base_url('bonds?tab=capitalgains' . $taxFyParam),
         ];
 
         // 5. Mutual Funds Capital Gains
@@ -613,7 +612,7 @@ class Reports extends BaseController
             'name'       => 'Mutual Funds',
             'icon'       => 'bi bi-collection',
             'color'      => 'warning',
-            'tax_rule'   => 'Equity MF: Sec 111A/112A • Debt MF: Slab rate',
+            'tax_rule'   => 'Equity MF: LTCG / STCG • Debt MF: Slab rate',
             'stcg'       => $mfStcg,
             'ltcg'       => $mfLtcg,
             'exempt'     => 0.0,
@@ -621,7 +620,7 @@ class Reports extends BaseController
             'sales'      => $mfSales,
             'cost'       => $mfCost,
             'lots'       => count($mfLots),
-            'log_url'    => base_url('mutual-funds?tab=capitalgains'),
+            'log_url'    => base_url('mutual-funds?tab=capitalgains' . $taxFyParam),
         ];
 
         // 6. NPS Note (Tax-deferred)
@@ -629,7 +628,7 @@ class Reports extends BaseController
             'name'       => 'National Pension System (Tier 1)',
             'icon'       => 'bi bi-shield-check',
             'color'      => 'secondary',
-            'tax_rule'   => 'Tax-Deferred • 60% Maturity Withdrawal is 100% Tax-Exempt u/s 10(12A)',
+            'tax_rule'   => 'Tax-Deferred • Retirement Pension Account',
             'stcg'       => 0.0,
             'ltcg'       => 0.0,
             'exempt'     => 0.0,
@@ -685,7 +684,7 @@ class Reports extends BaseController
         $data   = $this->getTaxData($userId, $range);
 
         return view('reports/tax', array_merge([
-            'title'     => 'Capital Gains & Tax Audit Report (LTCG / STCG) - MyFolioVault',
+            'title'     => 'Capital Gains Report (LTCG / STCG) - MyFolioVault',
             'activeTab' => 'tax',
             'range'     => $range,
         ], $data));

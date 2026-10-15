@@ -96,8 +96,7 @@ class BondModel extends Model
             $cgRow = $db->table('bond_capital_gains')
                 ->select('SUM(realized_gain) AS total_gain,
                           SUM(CASE WHEN gain_type = "STCG" THEN realized_gain ELSE 0 END) AS stcg,
-                          SUM(CASE WHEN gain_type = "LTCG" THEN realized_gain ELSE 0 END) AS ltcg,
-                          SUM(CASE WHEN gain_type = "EXEMPT_SGB_MATURITY" THEN realized_gain ELSE 0 END) AS sgb_exempt')
+                          SUM(CASE WHEN gain_type = "LTCG" OR gain_type = "EXEMPT_SGB_MATURITY" THEN realized_gain ELSE 0 END) AS ltcg')
                 ->where('bond_id', $bondId)
                 ->where('user_id', $userId)
                 ->get()
@@ -106,7 +105,7 @@ class BondModel extends Model
             $realizedGain = (float) ($cgRow['total_gain'] ?? 0);
             $bondStcg     = (float) ($cgRow['stcg'] ?? 0);
             $bondLtcg     = (float) ($cgRow['ltcg'] ?? 0);
-            $bondExempt   = (float) ($cgRow['sgb_exempt'] ?? 0);
+            $bondExempt   = 0.0;
 
             // Days to maturity calculation
             $maturityDate = $bond['maturity_date'];

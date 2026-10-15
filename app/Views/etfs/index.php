@@ -682,7 +682,7 @@
                 <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center rounded-3 small">
                     <i class="bi bi-info-circle-fill me-2 fs-5"></i>
                     <div>
-                        <strong>Indian Income Tax FIFO Matching:</strong> ETF units are redeemed in First-In, First-Out sequence.
+                        <strong>FIFO Capital Gains Matching:</strong> ETF units are redeemed in First-In, First-Out sequence.
                         Holding period <strong>&le; 365 days = STCG</strong>. Holding period <strong>&gt; 365 days = LTCG</strong>.
                     </div>
                 </div>

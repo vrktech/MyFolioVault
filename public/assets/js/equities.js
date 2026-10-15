@@ -913,7 +913,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const taxFyParam    = urlParams.get('tax_fy');
     if (taxStockParam || taxTypeParam || taxFyParam || tabParam === 'capitalgains' || hash === '#capitalgains') {
         const taxTabBtn = document.getElementById('capitalgains-tab');
-        if (taxTabBtn && (tabParam === 'capitalgains' || hash === '#capitalgains')) {
+        if (taxTabBtn) {
             const tab = new bootstrap.Tab(taxTabBtn);
             tab.show();
         }

@@ -300,13 +300,11 @@ class Bonds extends BaseController
 
             try {
                 $result = $this->transactionModel->recordRedemption($userId, $bondId, $date, $qty, $price, $notes);
-                $isSgb = ($bond['category'] === 'SGB');
-                $exemptNotice = $isSgb ? ' (Section 47(viic) Tax-Exempt Capital Gain)' : '';
 
                 return redirect()->to('/bonds')->with(
                     'success',
                     "Redeemed " . number_format($qty, 4) . " units of {$bond['bond_name']} @ " . format_inr($price) . 
-                    ". Principal received: " . format_inr($qty * $price) . "{$exemptNotice}."
+                    ". Principal received: " . format_inr($qty * $price) . "."
                 );
             } catch (Exception $e) {
                 return redirect()->to('/bonds')->with('error', $e->getMessage());

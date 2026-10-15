@@ -681,7 +681,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const taxFyParam   = urlParams.get('tax_fy');
     if (taxMfParam || taxTypeParam || taxFyParam || initialTab === 'capitalgains' || hash === '#capitalgains') {
         const taxTabBtn = document.getElementById('capitalgains-tab');
-        if (taxTabBtn && (initialTab === 'capitalgains' || hash === '#capitalgains')) {
+        if (taxTabBtn) {
             bootstrap.Tab.getOrCreateInstance(taxTabBtn).show();
         }
         if (taxMfParam && taxMfFilter) taxMfFilter.value = taxMfParam;

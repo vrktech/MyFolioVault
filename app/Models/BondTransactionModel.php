@@ -183,7 +183,7 @@ class BondTransactionModel extends Model
 
     /**
      * Record a Maturity Principal Redemption (e.g. RBI SGB final redemption or G-Sec maturity).
-     * SGB maturity redemptions are flagged as 'EXEMPT_SGB_MATURITY' under Section 47(viic).
+     * Capital gains are matched via FIFO and categorized into LTCG (> 365 days) or STCG (<= 365 days).
      */
     public function recordRedemption(
         int $userId,
@@ -253,8 +253,8 @@ class BondTransactionModel extends Model
             $buyPrice     = (float) $lot['price'];
             $realizedGain = ($matchQty * $redemptionPrice) - ($matchQty * $buyPrice);
 
-            // SGB maturity redemption is completely tax exempt for individuals u/s 47(viic)
-            $gainType = $isSgb ? 'EXEMPT_SGB_MATURITY' : (($holdingDays > 365) ? 'LTCG' : 'STCG');
+            // Holding threshold: > 365 days = LTCG, <= 365 days = STCG
+            $gainType = ($holdingDays > 365) ? 'LTCG' : 'STCG';
 
             $db->table('bond_capital_gains')->insert([
                 'user_id'             => $userId,
@@ -382,8 +382,8 @@ class BondTransactionModel extends Model
                 $buyPrice = (float) $lot['price'];
                 $holdingDays = (int) ceil((strtotime($exitDate) - strtotime($buyDate)) / 86400);
 
-                // SGB maturity redemption is completely tax exempt for individuals u/s 47(viic)
-                $gainType = ($isSgb && $isRedeem) ? 'EXEMPT_SGB_MATURITY' : (($holdingDays > 365) ? 'LTCG' : 'STCG');
+                // Holding threshold: > 365 days = LTCG, <= 365 days = STCG
+                $gainType = ($holdingDays > 365) ? 'LTCG' : 'STCG';
 
                 $proportionateCharges = ($exit['quantity'] > 0) ? ($charges * ($matchQty / (float) $exit['quantity'])) : 0.0;
                 $lotProceeds = ($matchQty * $exitPrice) - $proportionateCharges;

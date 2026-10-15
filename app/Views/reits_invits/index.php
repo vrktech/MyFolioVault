@@ -761,10 +761,10 @@
                 <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-center rounded-3 small">
                     <i class="bi bi-shield-check me-2 fs-5"></i>
                     <div>
-                        <strong>Indian Capital Gains Tax on Business Trusts (REITs & InvITs):</strong>
+                        <strong>Capital Gains on Business Trusts (REITs &amp; InvITs):</strong>
                         Units sold on stock exchange with STT paid are matched via First-In, First-Out (FIFO).
-                        Holding &gt; 12 months = <strong>LTCG</strong> (Taxed at 12.5% u/s 112A for sales post 23-Jul-2024);
-                        Holding &le; 12 months = <strong>STCG</strong> (Taxed at 20% u/s 111A post 23-Jul-2024).
+                        Holding &gt; 12 months = <strong>LTCG</strong>;
+                        Holding &le; 12 months = <strong>STCG</strong>.
                     </div>
                 </div>
 
