@@ -66,32 +66,6 @@
         </div>
     </div>
 
-    <!-- Alert Notifications -->
-    <?php if (session()->getFlashdata('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm py-2 px-3 mb-4 small" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i><?= session()->getFlashdata('success') ?>
-            <button type="button" class="btn-close py-2.5" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-
-    <?php if (session()->getFlashdata('error')): ?>
-        <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm py-2 px-3 mb-4 small" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i><?= session()->getFlashdata('error') ?>
-            <button type="button" class="btn-close py-2.5" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-
-    <?php if (session()->getFlashdata('errors')): ?>
-        <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm py-2 px-3 mb-4 small" role="alert">
-            <div class="fw-semibold mb-1"><i class="bi bi-exclamation-triangle-fill me-2"></i>Please correct the following errors:</div>
-            <ul class="mb-0 ps-3">
-                <?php foreach (session()->getFlashdata('errors') as $err): ?>
-                    <li><?= esc($err) ?></li>
-                <?php endforeach; ?>
-            </ul>
-            <button type="button" class="btn-close py-2.5" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
 
     <!-- 4 KPI Summary Cards -->
     <div class="row g-3 mb-4">
@@ -496,40 +470,11 @@
 
 <!-- Client-side script for Modal Population -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Edit Expense modal binding
-    const editModalEl = document.getElementById('editExpenseModal');
-    const editModal = new bootstrap.Modal(editModalEl);
-
-    document.querySelectorAll('.btn-edit-expense').forEach(button => {
-        button.addEventListener('click', function () {
-            document.getElementById('edit_expense_id').value     = this.dataset.id;
-            document.getElementById('edit_expense_date').value   = this.dataset.date;
-            document.getElementById('edit_expense_amount').value = this.dataset.amount;
-            document.getElementById('edit_expense_type').value   = this.dataset.type;
-            document.getElementById('edit_expense_module').value = this.dataset.module;
-            document.getElementById('edit_expense_notes').value  = this.dataset.notes || '';
-            editModal.show();
-        });
-    });
-
-    // Delete Expense modal binding
-    const deleteModalEl = document.getElementById('deleteExpenseModal');
-    const deleteModal = new bootstrap.Modal(deleteModalEl);
-    const deleteConfirmBtn = document.getElementById('delete_expense_confirm_btn');
-    const deleteDescText = document.getElementById('delete_expense_desc_text');
-
-    document.querySelectorAll('.btn-delete-expense').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const desc = this.dataset.desc;
-            deleteDescText.textContent = `Are you sure you want to delete expense "${desc}"? This action cannot be undone.`;
-            deleteConfirmBtn.href = `<?= base_url('expenses/delete/') ?>/${id}`;
-            deleteModal.show();
-        });
-    });
-});
+    window.EXPENSES_CONFIG = {
+        deleteBaseUrl: '<?= base_url('expenses/delete') ?>'
+    };
 </script>
+<script src="<?= base_url('assets/js/expenses.js') ?>"></script>
 
 <?= $this->endSection() ?>
 

@@ -612,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         window.etfTaxPager = window.initTablePagination({
-            tableId: 'etfTaxTable',
+            tableId: 'etfTaxLogTable',
             rowSelector: '.etf-taxlog-row',
             infoId: 'etfTaxPageInfo',
             sizeSelectId: 'etfTaxPageSize',

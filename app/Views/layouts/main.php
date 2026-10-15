@@ -151,7 +151,7 @@
         <!-- Flash Alerts -->
         <div class="container-fluid px-4 pt-3 pb-0">
             <?php if (session()->getFlashdata('success')): ?>
-                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3" role="alert">
+                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3 shadow-sm" role="alert">
                     <i class="bi bi-check-circle-fill me-2 fs-5"></i>
                     <div><?= esc(session()->getFlashdata('success')) ?></div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -159,15 +159,32 @@
             <?php endif; ?>
 
             <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3 shadow-sm" role="alert">
                     <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
                     <div><?= esc(session()->getFlashdata('error')) ?></div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
+            <?php if (session()->getFlashdata('warning')): ?>
+                <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3 shadow-sm" role="alert">
+                    <i class="bi bi-exclamation-circle-fill me-2 fs-5"></i>
+                    <div><?= esc(session()->getFlashdata('warning')) ?></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('info')): ?>
+                <div class="alert alert-info alert-dismissible fade show d-flex align-items-center py-2 px-3 rounded-3 shadow-sm" role="alert">
+                    <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                    <div><?= esc(session()->getFlashdata('info')) ?></div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
             <?php if (session()->getFlashdata('errors')): ?>
-                <div class="alert alert-danger alert-dismissible fade show py-2 px-3 rounded-3 small" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show py-2 px-3 rounded-3 small shadow-sm" role="alert">
+                    <div class="fw-semibold mb-1"><i class="bi bi-exclamation-triangle-fill me-2"></i>Please correct the following:</div>
                     <ul class="mb-0 ps-3">
                         <?php foreach (session()->getFlashdata('errors') as $err): ?>
                             <li><?= esc($err) ?></li>

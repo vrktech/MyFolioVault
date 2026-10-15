@@ -40,6 +40,26 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
+ * Universal Financial Year Matcher
+ * Safely compares an ISO date string (YYYY-MM-DD) against FY ranges.
+ *
+ * @param {string} dateStr
+ * @param {string} fyMode ('ALL' | 'CURRENT_FY' | 'LAST_FY')
+ * @param {Object} [ranges] Optional { current: { start, end }, last: { start, end } }
+ * @returns {boolean}
+ */
+window.matchFy = function(dateStr, fyMode, ranges) {
+    if (!fyMode || fyMode === 'ALL') return true;
+    if (!dateStr) return false;
+    const r = ranges || (typeof FY_RANGES !== 'undefined' ? FY_RANGES : (window.FY_RANGES || {}));
+    let targetRange = null;
+    if (fyMode === 'CURRENT_FY') targetRange = r.current;
+    else if (fyMode === 'LAST_FY') targetRange = r.last;
+    if (!targetRange || !targetRange.start || !targetRange.end) return true;
+    return dateStr >= targetRange.start && dateStr <= targetRange.end;
+};
+
+/**
  * Universal Table Pagination Engine
  * Handles dynamic page sizes [20, 40, 50, 80, 100], responsive page buttons, and filter sync.
  *

@@ -833,6 +833,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // ==========================================
+    // 7. INITIALIZE TABLE PAGINATION
+    // ==========================================
+    if (typeof window.initTablePagination === 'function') {
+        window.equityLedgerPager = window.initTablePagination({
+            tableId: 'ledgerTransactionsTable',
+            rowSelector: '.ledger-trans-row',
+            infoId: 'equityLedgerPageInfo',
+            sizeSelectId: 'equityLedgerPageSize',
+            controlsId: 'equityLedgerPageControls'
+        });
+
+        window.equityTaxPager = window.initTablePagination({
+            tableId: 'equitiesTaxLogTable',
+            rowSelector: '.equity-taxlog-row',
+            infoId: 'equityTaxPageInfo',
+            sizeSelectId: 'equityTaxPageSize',
+            controlsId: 'equityTaxPageControls'
+        });
+
+        window.equityDivPager = window.initTablePagination({
+            tableId: 'dividendsTable',
+            rowSelector: '.div-trans-row',
+            infoId: 'equityDivPageInfo',
+            sizeSelectId: 'equityDivPageSize',
+            controlsId: 'equityDivPageControls'
+        });
+
+        window.equityCAPager = window.initTablePagination({
+            tableId: 'equityCorporateActionsTable',
+            rowSelector: '.ca-row',
+            infoId: 'equityCAPageInfo',
+            sizeSelectId: 'equityCAPageSize',
+            controlsId: 'equityCAPageControls'
+        });
+    }
+
     // Deep link parameters
     const urlParams = new URLSearchParams(window.location.search);
     const stockParam = urlParams.get('stock_id') || urlParams.get('stock');
@@ -884,43 +921,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (taxTypeParam && taxTypeFilter) taxTypeFilter.value = taxTypeParam;
         if (taxFyParam && taxDateFilter) taxDateFilter.value = taxFyParam;
         applyEquityTaxFilters(false);
-    }
-
-    // ==========================================
-    // 7. INITIALIZE TABLE PAGINATION
-    // ==========================================
-    if (typeof window.initTablePagination === 'function') {
-        window.equityLedgerPager = window.initTablePagination({
-            tableId: 'ledgerTransactionsTable',
-            rowSelector: '.ledger-trans-row',
-            infoId: 'equityLedgerPageInfo',
-            sizeSelectId: 'equityLedgerPageSize',
-            controlsId: 'equityLedgerPageControls'
-        });
-
-        window.equityTaxPager = window.initTablePagination({
-            tableId: 'equitiesTaxLogTable',
-            rowSelector: '.tax-lot-row',
-            infoId: 'equityTaxPageInfo',
-            sizeSelectId: 'equityTaxPageSize',
-            controlsId: 'equityTaxPageControls'
-        });
-
-        window.equityDivPager = window.initTablePagination({
-            tableId: 'dividendsTable',
-            rowSelector: '.div-row',
-            infoId: 'equityDivPageInfo',
-            sizeSelectId: 'equityDivPageSize',
-            controlsId: 'equityDivPageControls'
-        });
-
-        window.equityCAPager = window.initTablePagination({
-            tableId: 'equityCorporateActionsTable',
-            rowSelector: '.ca-row',
-            infoId: 'equityCAPageInfo',
-            sizeSelectId: 'equityCAPageSize',
-            controlsId: 'equityCAPageControls'
-        });
     }
 
     // ==========================================

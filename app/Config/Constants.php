@@ -20,7 +20,25 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
  | Application Version
  | --------------------------------------------------------------------
  */
-defined('APP_VERSION') || define('APP_VERSION', trim(@file_get_contents(ROOTPATH . 'VERSION') ?: '1.0.0'));
+if (!defined('APP_VERSION')) {
+    $ver = null;
+    $candidates = [
+        defined('ROOTPATH') ? ROOTPATH . 'VERSION' : null,
+        defined('FCPATH')   ? FCPATH . '../VERSION' : null,
+        defined('APPPATH')  ? APPPATH . '../VERSION' : null,
+        __DIR__ . '/../../VERSION',
+    ];
+    foreach ($candidates as $file) {
+        if ($file && is_file($file)) {
+            $val = trim((string)@file_get_contents($file));
+            if ($val !== '') {
+                $ver = $val;
+                break;
+            }
+        }
+    }
+    define('APP_VERSION', $ver ?: '1.0.2');
+}
 
 /*
  | --------------------------------------------------------------------------
@@ -30,7 +48,7 @@ defined('APP_VERSION') || define('APP_VERSION', trim(@file_get_contents(ROOTPATH
  | The path that Composer's autoload file is expected to live. By default,
  | the vendor folder is in the Root directory, but you can customize that here.
  */
-defined('COMPOSER_PATH') || define('COMPOSER_PATH', ROOTPATH . 'vendor/autoload.php');
+defined('COMPOSER_PATH') || define('COMPOSER_PATH', defined('ROOTPATH') ? ROOTPATH . 'vendor/autoload.php' : '');
 
 /*
  |--------------------------------------------------------------------------
