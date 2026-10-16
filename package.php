@@ -133,14 +133,14 @@ if (file_exists($rootPath . DIRECTORY_SEPARATOR . '.env.example')) {
 }
 
 $excludePatterns = [
-    '/\.git/',
+    '/(^|[\\\\\/])\.git([\\\\\/]|$)/',
     '/\.env$/',
-    '/tests/',
-    '/phpunit/',
+    '/(^|[\\\\\/])tests([\\\\\/]|$)/',
+    '/(^|[\\\\\/])phpunit([\\\\\/]|$)/',
     '/spark$/',
     '/preload\.php$/',
     '/\.log$/',
-    '/dist/',
+    '/(^|[\\\\\/])dist([\\\\\/]|$)/',
     '/writable[\\\\\/]debugbar/',
     '/writable[\\\\\/]cache[\\\\\/].+/',
     '/writable[\\\\\/]logs[\\\\\/].+/',
@@ -209,8 +209,11 @@ foreach ($includeItems as $item => $isDir) {
                 $fileCount++;
                 echo "[*] Production Filter applied to: {$zipEntry} (removed demo credentials box & prefilled values)\n";
             } else {
-                $zip->addFile($filePath, $zipEntry);
-                $fileCount++;
+                if ($zip->addFile($filePath, $zipEntry)) {
+                    $fileCount++;
+                } else {
+                    echo "[!] Warning: Failed to add file to zip: {$zipEntry}\n";
+                }
             }
         }
     }

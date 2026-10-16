@@ -116,3 +116,123 @@ if (!function_exists('apportion_charges')) {
     }
 }
 
+if (!function_exists('resolve_active_fy_range')) {
+    /**
+     * Resolve active financial year date range from request or defaults.
+     *
+     * @param string|null $requestedKey Selected range key ('CURRENT_FY', 'LAST_FY', 'ALL')
+     * @return array{key: string, label: string, shortLabel: string, startDate: string|null, endDate: string|null, fyRanges: array}
+     */
+    function resolve_active_fy_range(?string $requestedKey = null): array
+    {
+        $fyRanges = get_fy_ranges();
+        $selectedRange = strtoupper(trim((string) ($requestedKey ?? (request()->getGet('fy') ?? 'CURRENT_FY'))));
+
+        if ($selectedRange === 'LAST_FY') {
+            return [
+                'key'        => 'LAST_FY',
+                'label'      => 'Last FY (' . $fyRanges['last']['label'] . ')',
+                'shortLabel' => $fyRanges['last']['label'],
+                'startDate'  => $fyRanges['last']['start'],
+                'endDate'    => $fyRanges['last']['end'],
+                'fyRanges'   => $fyRanges,
+            ];
+        }
+
+        if ($selectedRange === 'ALL') {
+            return [
+                'key'        => 'ALL',
+                'label'      => 'All Time (Full Portfolio History)',
+                'shortLabel' => 'All Time',
+                'startDate'  => null,
+                'endDate'    => null,
+                'fyRanges'   => $fyRanges,
+            ];
+        }
+
+        // Default to Current FY
+        return [
+            'key'        => 'CURRENT_FY',
+            'label'      => 'Current FY (' . $fyRanges['current']['label'] . ')',
+            'shortLabel' => $fyRanges['current']['label'],
+            'startDate'  => $fyRanges['current']['start'],
+            'endDate'    => $fyRanges['current']['end'],
+            'fyRanges'   => $fyRanges,
+        ];
+    }
+}
+
+if (!function_exists('get_portfolio_modules_config')) {
+    /**
+     * Centralized metadata configuration for all 6 investment modules.
+     *
+     * @return array<string, array{key: string, title: string, subtitle: string, icon: string, color: string, unit_label: string, url: string, new_url: string}>
+     */
+    function get_portfolio_modules_config(): array
+    {
+        return [
+            'equities' => [
+                'key'        => 'equities',
+                'title'      => 'Equities',
+                'subtitle'   => 'Direct Equity Stocks (NSE/BSE)',
+                'icon'       => 'bi bi-graph-up-arrow',
+                'color'      => 'primary',
+                'unit_label' => 'Stocks',
+                'url'        => base_url('equities'),
+                'new_url'    => base_url('equities/new'),
+            ],
+            'reits_invits' => [
+                'key'        => 'reits_invits',
+                'title'      => 'InvITs & REITs',
+                'subtitle'   => 'Real Estate & Infra Trusts',
+                'icon'       => 'bi bi-buildings',
+                'color'      => 'info',
+                'unit_label' => 'Trusts',
+                'url'        => base_url('reits-invits'),
+                'new_url'    => base_url('reits-invits/new'),
+            ],
+            'etfs' => [
+                'key'        => 'etfs',
+                'title'      => 'Exchange Traded Funds',
+                'subtitle'   => 'Index, Gold, Silver & Liquid ETFs',
+                'icon'       => 'bi bi-pie-chart',
+                'color'      => 'success',
+                'unit_label' => 'ETFs',
+                'url'        => base_url('etfs'),
+                'new_url'    => base_url('etfs/new'),
+            ],
+            'bonds' => [
+                'key'        => 'bonds',
+                'title'      => 'Bonds & Fixed Income',
+                'subtitle'   => 'SGBs, G-Secs, SDLs & Corporate NCDs',
+                'icon'       => 'bi bi-receipt',
+                'color'      => 'danger',
+                'unit_label' => 'Bonds',
+                'url'        => base_url('bonds'),
+                'new_url'    => base_url('bonds/new'),
+            ],
+            'mutual_funds' => [
+                'key'        => 'mutual_funds',
+                'title'      => 'Mutual Funds',
+                'subtitle'   => 'Direct/Regular Equity & Debt Folios',
+                'icon'       => 'bi bi-briefcase',
+                'color'      => 'warning',
+                'unit_label' => 'Funds',
+                'url'        => base_url('mutual-funds'),
+                'new_url'    => base_url('mutual-funds/new'),
+            ],
+            'nps' => [
+                'key'        => 'nps',
+                'title'      => 'NPS (Tier 1)',
+                'subtitle'   => 'National Pension System Pension Account',
+                'icon'       => 'bi bi-shield-check',
+                'color'      => 'secondary',
+                'unit_label' => 'Account',
+                'url'        => base_url('nps'),
+                'new_url'    => base_url('nps/new-account'),
+            ],
+        ];
+    }
+}
+
+

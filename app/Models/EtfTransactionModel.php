@@ -7,6 +7,8 @@ use Exception;
 
 class EtfTransactionModel extends Model
 {
+    use \App\Models\Traits\FifoTransactionTrait;
+
     protected $table            = 'etf_transactions';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -114,65 +116,40 @@ class EtfTransactionModel extends Model
 
         $sellId = $this->insert($sellData);
 
-        // 3. Match against BUY lots in FIFO sequence
-        $neededQty = $sellQuantity;
-        $sellDateTimestamp = strtotime($date);
-        $totalCharges = $brokerage + $sttTaxes;
+        // 3. Match against BUY lots in FIFO sequence using shared trait
+        $fifoResult = $this->matchLotsFIFO($buyLots, $sellQuantity, $sellPrice, $brokerage + $sttTaxes, $date, 365);
         $matchedLots = [];
 
-        foreach ($buyLots as $lot) {
-            if ($neededQty <= 0) {
-                break;
-            }
-
-            $lotRemaining = (int) $lot['remaining_quantity'];
-            $matchQty = min($lotRemaining, $neededQty);
-
-            // Compute holding duration in days
-            $buyDateTimestamp = strtotime($lot['transaction_date']);
-            $holdingDays = max(0, (int) round(($sellDateTimestamp - $buyDateTimestamp) / 86400));
-
-            // Standard Indian Tax rule: <= 365 days = STCG, > 365 days = LTCG
-            $gainType = $holdingDays <= 365 ? 'STCG' : 'LTCG';
-
-            // Pro-rated selling charges
-            $lotCharges = $sellQuantity > 0 ? ($totalCharges * ($matchQty / $sellQuantity)) : 0.0;
-
-            // Realized Gain
-            $realizedGain = ($matchQty * $sellPrice) - ($matchQty * (float) $lot['price']) - $lotCharges;
-
+        foreach ($fifoResult['matched_lots'] as $match) {
             // Insert into etf_capital_gains audit table
             $db->table('etf_capital_gains')->insert([
                 'user_id'             => $userId,
                 'etf_id'              => $etfId,
                 'sell_transaction_id' => $sellId,
-                'buy_transaction_id'  => $lot['id'],
-                'quantity_matched'    => $matchQty,
-                'buy_date'            => $lot['transaction_date'],
-                'buy_price'           => $lot['price'],
-                'sell_date'           => $date,
-                'sell_price'          => $sellPrice,
-                'holding_days'        => $holdingDays,
-                'gain_type'           => $gainType,
-                'realized_gain'       => $realizedGain,
+                'buy_transaction_id'  => $match['buy_id'],
+                'quantity_matched'    => (int) $match['matched_qty'],
+                'buy_date'            => $match['buy_date'],
+                'buy_price'           => $match['buy_price'],
+                'sell_date'           => $match['sell_date'],
+                'sell_price'          => $match['sell_price'],
+                'holding_days'        => $match['holding_days'],
+                'gain_type'           => $match['gain_type'],
+                'realized_gain'       => $match['realized_gain'],
                 'created_at'          => date('Y-m-d H:i:s'),
             ]);
 
             // Decrement remaining_quantity on BUY lot
-            $newRemaining = $lotRemaining - $matchQty;
-            $this->update($lot['id'], ['remaining_quantity' => $newRemaining]);
+            $this->update($match['buy_id'], ['remaining_quantity' => (int) $match['new_remaining']]);
 
             $matchedLots[] = [
-                'buy_id'        => $lot['id'],
-                'matched_qty'   => $matchQty,
-                'buy_date'      => $lot['transaction_date'],
-                'buy_price'     => (float) $lot['price'],
-                'holding_days'  => $holdingDays,
-                'gain_type'     => $gainType,
-                'realized_gain' => $realizedGain,
+                'buy_id'        => $match['buy_id'],
+                'matched_qty'   => (int) $match['matched_qty'],
+                'buy_date'      => $match['buy_date'],
+                'buy_price'     => $match['buy_price'],
+                'holding_days'  => $match['holding_days'],
+                'gain_type'     => $match['gain_type'],
+                'realized_gain' => $match['realized_gain'],
             ];
-
-            $neededQty -= $matchQty;
         }
 
         $db->transComplete();

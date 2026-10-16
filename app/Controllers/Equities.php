@@ -290,35 +290,14 @@ class Equities extends BaseController
         $updatedCount = 0;
 
         foreach ($stocks as $stock) {
-            $suffix = $stock['exchange'] === 'BSE' ? '.BO' : '.NS';
-            $ticker = urlencode($stock['symbol'] . $suffix);
-            $url = "https://query1.finance.yahoo.com/v8/finance/chart/{$ticker}?interval=1d&range=1d";
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 6);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-
-            $response = curl_exec($ch);
-            curl_close($ch);
-
-            if ($response) {
-                $json = json_decode($response, true);
-                if (isset($json['chart']['result'][0]['meta']['regularMarketPrice'])) {
-                    $cmp = (float) $json['chart']['result'][0]['meta']['regularMarketPrice'];
-                    $prevClose = (float) ($json['chart']['result'][0]['meta']['chartPreviousClose'] ?? $cmp);
-
-                    $this->equityModel->update($stock['id'], [
-                        'current_price'    => $cmp,
-                        'previous_close'   => $prevClose,
-                        'price_updated_at' => date('Y-m-d H:i:s'),
-                    ]);
-                    $updatedCount++;
-                }
+            $quote = fetch_yahoo_price($stock['symbol'], $stock['exchange'] ?? 'NSE');
+            if ($quote !== null) {
+                $this->equityModel->update($stock['id'], [
+                    'current_price'    => $quote['price'],
+                    'previous_close'   => $quote['previous_close'],
+                    'price_updated_at' => date('Y-m-d H:i:s'),
+                ]);
+                $updatedCount++;
             }
         }
 

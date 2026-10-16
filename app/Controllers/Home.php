@@ -44,99 +44,33 @@ class Home extends BaseController
             $npsData     = $npsModel->getNpsPortfolio($userId);
             $npsSummary  = $npsData['summary'] ?? [];
 
-            // Standard Module Order
-            $modules = [
-                'equities' => [
-                    'key'            => 'equities',
-                    'title'          => 'Equities',
-                    'subtitle'       => 'Direct Equity Stocks (NSE/BSE)',
-                    'icon'           => 'bi bi-graph-up-arrow',
-                    'color'          => 'primary',
-                    'invested'       => (float)($eqSummary['total_invested'] ?? 0),
-                    'current'        => (float)($eqSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($eqSummary['total_unrealized_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($eqSummary['unrealized_pnl_percent'] ?? 0),
-                    'holdings_count' => (int)($eqSummary['active_holdings_count'] ?? 0),
-                    'url'            => base_url('equities'),
-                    'new_url'        => base_url('equities/new'),
-                    'unit_label'     => 'Stocks',
-                ],
-                'reits_invits' => [
-                    'key'            => 'reits_invits',
-                    'title'          => 'InvITs & REITs',
-                    'subtitle'       => 'Real Estate & Infra Trusts',
-                    'icon'           => 'bi bi-buildings',
-                    'color'          => 'info',
-                    'invested'       => (float)($reitSummary['total_invested'] ?? 0),
-                    'current'        => (float)($reitSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($reitSummary['total_unrealized_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($reitSummary['unrealized_pnl_percent'] ?? 0),
-                    'holdings_count' => (int)($reitSummary['active_holdings_count'] ?? 0),
-                    'url'            => base_url('reits-invits'),
-                    'new_url'        => base_url('reits-invits/new'),
-                    'unit_label'     => 'Trusts',
-                ],
-                'etfs' => [
-                    'key'            => 'etfs',
-                    'title'          => 'Exchange Traded Funds',
-                    'subtitle'       => 'Index, Gold, Silver & Liquid ETFs',
-                    'icon'           => 'bi bi-pie-chart',
-                    'color'          => 'success',
-                    'invested'       => (float)($etfSummary['total_invested'] ?? 0),
-                    'current'        => (float)($etfSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($etfSummary['total_unrealized_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($etfSummary['unrealized_pnl_percent'] ?? 0),
-                    'holdings_count' => (int)($etfSummary['active_holdings_count'] ?? 0),
-                    'url'            => base_url('etfs'),
-                    'new_url'        => base_url('etfs/new'),
-                    'unit_label'     => 'ETFs',
-                ],
-                'bonds' => [
-                    'key'            => 'bonds',
-                    'title'          => 'Bonds & Fixed Income',
-                    'subtitle'       => 'SGBs, G-Secs, SDLs & Corporate NCDs',
-                    'icon'           => 'bi bi-receipt',
-                    'color'          => 'danger',
-                    'invested'       => (float)($bondSummary['total_invested'] ?? 0),
-                    'current'        => (float)($bondSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($bondSummary['total_unrealized_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($bondSummary['unrealized_pnl_percent'] ?? 0),
-                    'holdings_count' => (int)($bondSummary['active_holdings_count'] ?? 0),
-                    'url'            => base_url('bonds'),
-                    'new_url'        => base_url('bonds/new'),
-                    'unit_label'     => 'Bonds',
-                ],
-                'mutual_funds' => [
-                    'key'            => 'mutual_funds',
-                    'title'          => 'Mutual Funds',
-                    'subtitle'       => 'Direct/Regular Equity & Debt Folios',
-                    'icon'           => 'bi bi-briefcase',
-                    'color'          => 'warning',
-                    'invested'       => (float)($mfSummary['total_invested'] ?? 0),
-                    'current'        => (float)($mfSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($mfSummary['total_unrealized_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($mfSummary['unrealized_pnl_percent'] ?? 0),
-                    'holdings_count' => (int)($mfSummary['active_holdings_count'] ?? 0),
-                    'url'            => base_url('mutual-funds'),
-                    'new_url'        => base_url('mutual-funds/new'),
-                    'unit_label'     => 'Funds',
-                ],
-                'nps' => [
-                    'key'            => 'nps',
-                    'title'          => 'NPS (Tier 1)',
-                    'subtitle'       => 'National Pension System Pension Account',
-                    'icon'           => 'bi bi-shield-check',
-                    'color'          => 'secondary',
-                    'invested'       => (float)($npsSummary['total_invested'] ?? 0),
-                    'current'        => (float)($npsSummary['total_current_value'] ?? 0),
-                    'unrealized'     => (float)($npsSummary['total_pnl'] ?? 0),
-                    'unrealized_pct' => (float)($npsSummary['overall_return_pct'] ?? 0),
-                    'holdings_count' => !empty($npsData['account']) ? 1 : 0,
-                    'url'            => base_url('nps'),
-                    'new_url'        => base_url('nps/new-account'),
-                    'unit_label'     => 'Account',
-                ],
+            // Standard Module Order using shared configuration helper
+            $moduleConfigs = get_portfolio_modules_config();
+            $summaryMaps = [
+                'equities'     => ['data' => $eqSummary,   'holdings' => (int)($eqSummary['active_holdings_count'] ?? 0)],
+                'reits_invits' => ['data' => $reitSummary, 'holdings' => (int)($reitSummary['active_holdings_count'] ?? 0)],
+                'etfs'         => ['data' => $etfSummary,  'holdings' => (int)($etfSummary['active_holdings_count'] ?? 0)],
+                'bonds'        => ['data' => $bondSummary, 'holdings' => (int)($bondSummary['active_holdings_count'] ?? 0)],
+                'mutual_funds' => ['data' => $mfSummary,   'holdings' => (int)($mfSummary['active_holdings_count'] ?? 0)],
+                'nps'          => ['data' => [
+                    'total_invested'         => $npsSummary['total_invested'] ?? 0,
+                    'total_current_value'    => $npsSummary['total_current_value'] ?? 0,
+                    'total_unrealized_pnl'   => $npsSummary['total_pnl'] ?? 0,
+                    'unrealized_pnl_percent' => $npsSummary['overall_return_pct'] ?? 0,
+                ], 'holdings' => !empty($npsData['account']) ? 1 : 0],
             ];
+
+            $modules = [];
+            foreach ($moduleConfigs as $key => $cfg) {
+                $sData = $summaryMaps[$key]['data'] ?? [];
+                $modules[$key] = array_merge($cfg, [
+                    'invested'       => (float)($sData['total_invested'] ?? 0),
+                    'current'        => (float)($sData['total_current_value'] ?? 0),
+                    'unrealized'     => (float)($sData['total_unrealized_pnl'] ?? 0),
+                    'unrealized_pct' => (float)($sData['unrealized_pnl_percent'] ?? 0),
+                    'holdings_count' => $summaryMaps[$key]['holdings'] ?? 0,
+                ]);
+            }
 
             $expenseModel = new ExpenseModel();
             $expensesSummary = $expenseModel->getExpensesSummary($userId);

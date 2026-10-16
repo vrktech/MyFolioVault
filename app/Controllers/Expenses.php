@@ -20,40 +20,7 @@ class Expenses extends BaseController
      */
     protected function getActiveDateRange(): array
     {
-        $fyRanges = get_fy_ranges();
-        $selectedRange = strtoupper(trim((string)$this->request->getGet('fy')));
-
-        if ($selectedRange === 'LAST_FY') {
-            return [
-                'key'        => 'LAST_FY',
-                'label'      => 'Last FY (' . $fyRanges['last']['label'] . ')',
-                'shortLabel' => $fyRanges['last']['label'],
-                'startDate'  => $fyRanges['last']['start'],
-                'endDate'    => $fyRanges['last']['end'],
-                'fyRanges'   => $fyRanges,
-            ];
-        }
-
-        if ($selectedRange === 'ALL') {
-            return [
-                'key'        => 'ALL',
-                'label'      => 'All Time (Full History)',
-                'shortLabel' => 'All Time',
-                'startDate'  => null,
-                'endDate'    => null,
-                'fyRanges'   => $fyRanges,
-            ];
-        }
-
-        // Default to Current FY
-        return [
-            'key'        => 'CURRENT_FY',
-            'label'      => 'Current FY (' . $fyRanges['current']['label'] . ')',
-            'shortLabel' => $fyRanges['current']['label'],
-            'startDate'  => $fyRanges['current']['start'],
-            'endDate'    => $fyRanges['current']['end'],
-            'fyRanges'   => $fyRanges,
-        ];
+        return resolve_active_fy_range($this->request->getGet('fy'));
     }
 
     /**

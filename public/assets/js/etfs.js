@@ -367,74 +367,17 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // ==========================================
-    // 3. ETF HOLDINGS SORTING
+    // 3. ETF HOLDINGS SORTING (Shared TableSorter)
     // ==========================================
-    const sortSelect = document.getElementById('sortEtfsSelect');
-    const holdingsTbody = document.getElementById('etfHoldingsTbody');
-    const sortableHeaders = document.querySelectorAll('.sortable-etf-th');
-
-    function sortEtfsHoldings(sortBy) {
-        if (!holdingsTbody) return;
-        const rows = Array.from(holdingsTbody.querySelectorAll('tr.etf-holding-row'));
-        if (rows.length === 0) return;
-
-        const [field, dir] = sortBy.split('_');
-        const isAsc = dir === 'asc';
-
-        rows.sort((a, b) => {
-            let valA, valB;
-            if (field === 'name') {
-                valA = (a.dataset.name || '').toLowerCase();
-                valB = (b.dataset.name || '').toLowerCase();
-                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-            } else if (field === 'invested') {
-                valA = parseFloat(a.dataset.invested) || 0;
-                valB = parseFloat(b.dataset.invested) || 0;
-                return isAsc ? valA - valB : valB - valA;
-            } else if (field === 'current') {
-                valA = parseFloat(a.dataset.current) || 0;
-                valB = parseFloat(b.dataset.current) || 0;
-                return isAsc ? valA - valB : valB - valA;
-            }
-            return 0;
-        });
-
-        rows.forEach(r => holdingsTbody.appendChild(r));
-
-        sortableHeaders.forEach(th => {
-            const col = th.dataset.col;
-            const icon = th.querySelector('i');
-            if (icon) {
-                if (col === field) {
-                    icon.className = isAsc ? 'bi bi-sort-down text-primary small ms-1' : 'bi bi-sort-up text-primary small ms-1';
-                } else {
-                    icon.className = 'bi bi-arrow-down-up text-muted small ms-1';
-                }
-            }
+    if (window.TableSorter) {
+        window.TableSorter.init({
+            tbodyId: 'etfHoldingsTbody',
+            rowSelector: 'tr.etf-holding-row',
+            sortSelectId: 'sortEtfsSelect',
+            headerSelector: '.sortable-etf-th',
+            numericFields: ['invested', 'current']
         });
     }
-
-    if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-            sortEtfsHoldings(this.value);
-        });
-    }
-
-    sortableHeaders.forEach(th => {
-        th.addEventListener('click', function() {
-            const col = this.dataset.col;
-            const currentVal = sortSelect ? sortSelect.value : '';
-            let newDir = 'asc';
-            if (currentVal.startsWith(col)) {
-                newDir = currentVal.endsWith('asc') ? 'desc' : 'asc';
-            } else if (col === 'invested' || col === 'current') {
-                newDir = 'desc';
-            }
-            const newVal = `${col}_${newDir}`;
-            if (sortSelect) sortSelect.value = newVal;
-            sortEtfsHoldings(newVal);
-        });
-    });
 
     // ==========================================
     // 4. FIFO TAX LOG FILTERING

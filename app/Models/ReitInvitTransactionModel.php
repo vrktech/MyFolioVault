@@ -7,6 +7,8 @@ use Exception;
 
 class ReitInvitTransactionModel extends Model
 {
+    use \App\Models\Traits\FifoTransactionTrait;
+
     protected $table            = 'reit_invit_transactions';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -113,62 +115,37 @@ class ReitInvitTransactionModel extends Model
             'notes'              => $notes,
         ]);
 
-        // 3. FIFO Matching
-        $neededQty   = $sellQty;
+        // 3. FIFO Matching via shared trait
+        $fifoResult  = $this->matchLotsFIFO($buyLots, $sellQty, $sellPrice, $totalCharges, $sellDate, 365);
         $matchedLots = [];
 
-        foreach ($buyLots as $lot) {
-            if ($neededQty <= 0.00001) {
-                break;
-            }
+        foreach ($fifoResult['matched_lots'] as $match) {
+            $this->update($match['buy_id'], ['remaining_quantity' => $match['new_remaining']]);
 
-            $availableInLot = (float) $lot['remaining_quantity'];
-            $matchQty       = min($neededQty, $availableInLot);
-
-            // Update lot remaining_quantity
-            $newRemaining = $availableInLot - $matchQty;
-            $this->update($lot['id'], ['remaining_quantity' => $newRemaining]);
-
-            // Calculate holding period & capital gain
-            $buyDate     = $lot['transaction_date'];
-            $holdingDays = (int) ceil((strtotime($sellDate) - strtotime($buyDate)) / 86400);
-            $buyPrice    = (float) $lot['price'];
-
-            // Listed business trusts holding threshold for STCG vs LTCG (365 days / 12 months)
-            $gainType = ($holdingDays > 365) ? 'LTCG' : 'STCG';
-
-            $proportionateCharges = $sellQty > 0 ? ($totalCharges * ($matchQty / $sellQty)) : 0.0;
-            $lotProceeds          = ($matchQty * $sellPrice) - $proportionateCharges;
-            $costBasis            = $matchQty * $buyPrice;
-            $realizedGain         = $lotProceeds - $costBasis;
-
-            // Record capital gains audit row
             $db->table('reit_invit_capital_gains')->insert([
                 'user_id'             => $userId,
                 'trust_id'            => $trustId,
                 'sell_transaction_id' => $sellTxId,
-                'buy_transaction_id'  => $lot['id'],
-                'buy_date'            => $buyDate,
-                'sell_date'           => $sellDate,
-                'holding_days'        => $holdingDays,
-                'quantity_matched'    => $matchQty,
-                'buy_price'           => $buyPrice,
-                'sell_price'          => $sellPrice,
-                'realized_gain'       => $realizedGain,
-                'gain_type'           => $gainType,
+                'buy_transaction_id'  => $match['buy_id'],
+                'buy_date'            => $match['buy_date'],
+                'sell_date'           => $match['sell_date'],
+                'holding_days'        => $match['holding_days'],
+                'quantity_matched'    => $match['matched_qty'],
+                'buy_price'           => $match['buy_price'],
+                'sell_price'          => $match['sell_price'],
+                'realized_gain'       => $match['realized_gain'],
+                'gain_type'           => $match['gain_type'],
                 'created_at'          => date('Y-m-d H:i:s'),
             ]);
 
             $matchedLots[] = [
-                'lot_id'        => $lot['id'],
-                'match_qty'     => $matchQty,
-                'buy_date'      => $buyDate,
-                'holding_days'  => $holdingDays,
-                'gain_type'     => $gainType,
-                'realized_gain' => $realizedGain,
+                'lot_id'        => $match['buy_id'],
+                'match_qty'     => $match['matched_qty'],
+                'buy_date'      => $match['buy_date'],
+                'holding_days'  => $match['holding_days'],
+                'gain_type'     => $match['gain_type'],
+                'realized_gain' => $match['realized_gain'],
             ];
-
-            $neededQty -= $matchQty;
         }
 
         $db->transComplete();

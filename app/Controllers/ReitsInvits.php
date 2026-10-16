@@ -318,37 +318,14 @@ class ReitsInvits extends BaseController
         $updatedCount = 0;
 
         foreach ($trusts as $trust) {
-            $suffix = ($trust['exchange'] === 'BSE') ? '.BO' : '.NS';
-            $yahooTicker = urlencode($trust['symbol'] . $suffix);
-            $url = "https://query1.finance.yahoo.com/v8/finance/chart/{$yahooTicker}?interval=1d&range=1d";
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 6);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-
-            $response = curl_exec($ch);
-            curl_close($ch);
-
-            if ($response) {
-                $data = json_decode($response, true);
-                $meta = $data['chart']['result'][0]['meta'] ?? null;
-
-                if ($meta && isset($meta['regularMarketPrice'])) {
-                    $newPrice  = (float) $meta['regularMarketPrice'];
-                    $prevClose = (float) ($meta['previousClose'] ?? $newPrice);
-
-                    $this->trustModel->update($trust['id'], [
-                        'current_price'     => $newPrice,
-                        'prev_close'        => $prevClose,
-                        'last_price_update' => date('Y-m-d H:i:s'),
-                    ]);
-                    $updatedCount++;
-                }
+            $quote = fetch_yahoo_price($trust['symbol'], $trust['exchange'] ?? 'NSE');
+            if ($quote !== null) {
+                $this->trustModel->update($trust['id'], [
+                    'current_price'     => $quote['price'],
+                    'prev_close'        => $quote['previous_close'],
+                    'last_price_update' => date('Y-m-d H:i:s'),
+                ]);
+                $updatedCount++;
             }
         }
 

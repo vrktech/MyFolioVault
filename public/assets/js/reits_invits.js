@@ -688,78 +688,17 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // ==========================================
-    // REIT / INVIT HOLDINGS SORTING
+    // REIT / INVIT HOLDINGS SORTING (Shared TableSorter)
     // ==========================================
-    const sortSelect = document.getElementById('sortReitsSelect');
-    const holdingsTbody = document.getElementById('reitHoldingsTbody');
-    const sortableHeaders = document.querySelectorAll('.sortable-reit-th');
-
-    function sortReitsHoldings(sortBy) {
-        if (!holdingsTbody) return;
-        const rows = Array.from(holdingsTbody.querySelectorAll('tr.reit-holding-row'));
-        if (rows.length === 0) return;
-
-        const [field, dir] = sortBy.split('_');
-        const isAsc = dir === 'asc';
-
-        rows.sort((a, b) => {
-            let valA, valB;
-            if (field === 'security') {
-                valA = (a.dataset.security || '').toLowerCase();
-                valB = (b.dataset.security || '').toLowerCase();
-                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-            } else if (field === 'type') {
-                valA = (a.dataset.type || '').toLowerCase();
-                valB = (b.dataset.type || '').toLowerCase();
-                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-            } else if (field === 'invested') {
-                valA = parseFloat(a.dataset.invested) || 0;
-                valB = parseFloat(b.dataset.invested) || 0;
-                return isAsc ? valA - valB : valB - valA;
-            } else if (field === 'current') {
-                valA = parseFloat(a.dataset.current) || 0;
-                valB = parseFloat(b.dataset.current) || 0;
-                return isAsc ? valA - valB : valB - valA;
-            }
-            return 0;
-        });
-
-        rows.forEach(r => holdingsTbody.appendChild(r));
-
-        sortableHeaders.forEach(th => {
-            const col = th.dataset.col;
-            const icon = th.querySelector('i');
-            if (icon) {
-                if (col === field) {
-                    icon.className = isAsc ? 'bi bi-sort-down text-primary small ms-1' : 'bi bi-sort-up text-primary small ms-1';
-                } else {
-                    icon.className = 'bi bi-arrow-down-up text-muted small ms-1';
-                }
-            }
+    if (window.TableSorter) {
+        window.TableSorter.init({
+            tbodyId: 'reitHoldingsTbody',
+            rowSelector: 'tr.reit-holding-row',
+            sortSelectId: 'sortReitsSelect',
+            headerSelector: '.sortable-reit-th',
+            numericFields: ['invested', 'current']
         });
     }
-
-    if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-            sortReitsHoldings(this.value);
-        });
-    }
-
-    sortableHeaders.forEach(th => {
-        th.addEventListener('click', function() {
-            const col = this.dataset.col;
-            const currentVal = sortSelect ? sortSelect.value : '';
-            let newDir = 'asc';
-            if (currentVal.startsWith(col)) {
-                newDir = currentVal.endsWith('asc') ? 'desc' : 'asc';
-            } else if (col === 'invested' || col === 'current') {
-                newDir = 'desc';
-            }
-            const newVal = `${col}_${newDir}`;
-            if (sortSelect) sortSelect.value = newVal;
-            sortReitsHoldings(newVal);
-        });
-    });
 
     // ==========================================
     // FIFO TAX LOG FILTERING (Trust, Gain Type, Date Range)

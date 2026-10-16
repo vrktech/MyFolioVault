@@ -215,6 +215,7 @@
     <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
     <!-- App UI & Pagination Scripts (Local Offline) -->
     <script src="<?= base_url('assets/js/app.js') ?>"></script>
+    <script src="<?= base_url('assets/js/table-sorter.js') ?>"></script>
 </body>
 </html>
 
