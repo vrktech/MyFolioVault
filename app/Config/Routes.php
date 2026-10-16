@@ -27,6 +27,9 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('settings/add-sector', 'Settings::addSector');
     $routes->post('settings/update-sector', 'Settings::updateSector');
     $routes->get('settings/delete-sector/(:num)', 'Settings::deleteSector/$1');
+    $routes->get('settings/database', 'Settings::database');
+    $routes->get('settings/database/backup', 'Settings::backupDatabase');
+    $routes->post('settings/database/restore', 'Settings::restoreDatabase');
 
     // Step 2.1: Equities Module
     $routes->get('equities', 'Equities::index');

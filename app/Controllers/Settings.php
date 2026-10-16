@@ -232,4 +232,61 @@ class Settings extends BaseController
 
         return redirect()->to('/settings/sectors')->with('success', "Sector '{$sector['name']}' deleted successfully.");
     }
+
+    /**
+     * Display Database Backup & Restore interface.
+     */
+    public function database()
+    {
+        $backupService = new \App\Libraries\DatabaseBackupService();
+        $stats = $backupService->getDatabaseStats();
+
+        return view('settings/database', [
+            'title' => 'Database Backup & Restore - Settings',
+            'stats' => $stats,
+        ]);
+    }
+
+    /**
+     * Generate and download zipped SQL backup of portfolio data.
+     */
+    public function backupDatabase()
+    {
+        try {
+            $backupService = new \App\Libraries\DatabaseBackupService();
+            $result = $backupService->generateBackupZip();
+
+            return $this->response->download($result['file_path'], null);
+        } catch (\Exception $e) {
+            return redirect()->to('/settings/database')->with('error', 'Failed to generate database backup: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Restore database from uploaded backup ZIP file.
+     */
+    public function restoreDatabase()
+    {
+        $file = $this->request->getFile('backup_zip');
+
+        if (!$file || !$file->isValid()) {
+            return redirect()->to('/settings/database')->with('error', 'Please select a valid backup ZIP file to restore.');
+        }
+
+        $ext = strtolower($file->getClientExtension());
+        if ($ext !== 'zip') {
+            return redirect()->to('/settings/database')->with('error', 'Invalid file type. Only .zip backup archives are accepted.');
+        }
+
+        try {
+            $tempPath = $file->getTempName();
+            $backupService = new \App\Libraries\DatabaseBackupService();
+            $backupService->restoreFromZip($tempPath);
+
+            return redirect()->to('/settings/database')->with('success', 'Database successfully restored! All transaction data, holdings, and payouts have been updated from your backup archive.');
+        } catch (\Exception $e) {
+            return redirect()->to('/settings/database')->with('error', 'Restore failed: ' . $e->getMessage());
+        }
+    }
 }
+

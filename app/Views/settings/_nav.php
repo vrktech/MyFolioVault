@@ -24,5 +24,10 @@ $currentUri = uri_string();
             <i class="bi bi-pie-chart me-1"></i> Equities Sector Master
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link <?= (strpos($currentUri, 'settings/database') !== false) ? 'active bg-primary text-white fw-semibold' : 'text-secondary border' ?>" href="<?= base_url('settings/database') ?>">
+            <i class="bi bi-database-down me-1"></i> Database Backup & Restore
+        </a>
+    </li>
 </ul>
 

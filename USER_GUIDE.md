@@ -720,13 +720,32 @@ Navigate to **Analytics & Reports** in the sidebar (`/reports`) to access the 5 
 
 ## 11. Production Deployment, Data Cleanup & Backup
 
-### 11.1 Creating Backup Dumps
-To create an offline backup of your portfolio database:
+### 11.1 One-Click In-App Database Backup (`/settings/database`)
+You can export a complete, compressed backup of your portfolio database directly from the user interface:
+1. Navigate to **Settings** in the left sidebar and select the **Database Backup & Restore** tab (`/settings/database`).
+2. Review your database status (total tables, records count, storage size).
+3. Click **"Download Database Backup (.zip)"**.
+4. The system will generate a timestamped ZIP archive (`myfoliovault_backup_YYYY-MM-DD_His.zip`) containing:
+   - `backup.sql`: Clean SQL dump with all transaction data, corporate actions, trade ledgers, dividends, and expenses.
+   - `manifest.json`: Metadata summary with app version, timestamp, and table record counts.
+5. **Security & Credentials**: Your active administrator login, password hash, and profile settings (`users` table) and CodeIgniter migration state (`migrations` table) are safely preserved and excluded from the dump.
+
+*CLI Alternative (mysqldump)*:
 ```bash
 mysqldump -u root -p investment_portfolio > backup_portfolio_$(date +%Y%m%d).sql
 ```
 
-### 11.2 Restoring from Backup
+### 11.2 One-Click In-App Database Restore (`/settings/database`)
+To revert or migrate your portfolio using a previously downloaded backup ZIP:
+1. Navigate to **Settings** &rarr; **Database Backup & Restore** (`/settings/database`).
+2. Under **Restore Database from Backup**, click **Choose File** and select your `myfoliovault_backup_*.zip` archive.
+3. Click **"Upload & Restore Database"**.
+4. A safety confirmation modal will appear. Review the warning and check the confirmation box: *"I understand that existing portfolio data will be overwritten"*.
+5. Click **"Yes, Restore Database"**.
+6. The system automatically creates a pre-restore fallback safety snapshot, clears current portfolio tables, imports your backup data with foreign key consistency, and displays a success notification upon completion.
+7. *Note*: In the public demo environment, both backup export and restore operations are completely locked to preserve sandbox stability.
+
+*CLI Alternative (mysql)*:
 ```bash
 mysql -u root -p investment_portfolio < backup_portfolio_20260923.sql
 ```
