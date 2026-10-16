@@ -16,6 +16,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     // Welcome / Dashboard
     $routes->get('/', 'Home::index');
     $routes->get('welcome', 'Home::index');
+    $routes->get('export-all-holdings', 'Home::exportAllHoldings');
 
     // Admin & Account Settings
     $routes->get('settings', 'Settings::index');
@@ -29,6 +30,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.1: Equities Module
     $routes->get('equities', 'Equities::index');
+    $routes->get('equities/export-holdings', 'Equities::exportHoldings');
     $routes->get('equities/new', 'Equities::newStock');
     $routes->post('equities/new', 'Equities::createStock');
     $routes->post('equities/transaction', 'Equities::addTransaction');
@@ -44,6 +46,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.2: ETFs Module
     $routes->get('etfs', 'Etfs::index');
+    $routes->get('etfs/export-holdings', 'Etfs::exportHoldings');
     $routes->get('etfs/new', 'Etfs::newEtf');
     $routes->post('etfs/new', 'Etfs::createEtf');
     $routes->post('etfs/transaction', 'Etfs::addTransaction');
@@ -57,6 +60,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.3: Mutual Funds Module
     $routes->get('mutual-funds', 'MutualFunds::index');
+    $routes->get('mutual-funds/export-holdings', 'MutualFunds::exportHoldings');
     $routes->get('mutual-funds/new', 'MutualFunds::newFund');
     $routes->post('mutual-funds/new', 'MutualFunds::createFund');
     $routes->get('mutual-funds/lookup-amfi/(:segment)', 'MutualFunds::lookupAmfi/$1');
@@ -69,6 +73,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.4: NPS Module (National Pension System - Tier 1)
     $routes->get('nps', 'Nps::index');
+    $routes->get('nps/export-holdings', 'Nps::exportHoldings');
     $routes->get('nps/new', 'Nps::newAccount');
     $routes->post('nps/new', 'Nps::createAccount');
     $routes->post('nps/transaction', 'Nps::addTransaction');
@@ -80,6 +85,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.5: Bonds Module (SGBs, G-Secs, Corporate NCDs, Tax-Free)
     $routes->get('bonds', 'Bonds::index');
+    $routes->get('bonds/export-holdings', 'Bonds::exportHoldings');
     $routes->get('bonds/new', 'Bonds::newBond');
     $routes->post('bonds/new', 'Bonds::createBond');
     $routes->post('bonds/transaction', 'Bonds::addTransaction');
@@ -93,6 +99,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Step 2.6: InvITs & REITs Module
     $routes->get('reits-invits', 'ReitsInvits::index');
+    $routes->get('reits-invits/export-holdings', 'ReitsInvits::exportHoldings');
     $routes->get('reits-invits/new', 'ReitsInvits::newTrust');
     $routes->post('reits-invits/new', 'ReitsInvits::createTrust');
     $routes->post('reits-invits/update-trust', 'ReitsInvits::updateTrust');

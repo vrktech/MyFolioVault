@@ -811,6 +811,14 @@
                             <div class="small text-secondary">Granular breakdown of total friction deducted during trading: Brokerage, STT, GST, and Stamp Duty.</div>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="p-3 border rounded-3 bg-light h-100 border-start border-success border-3">
+                            <div class="fw-bold text-dark mb-1"><i class="bi bi-file-earmark-spreadsheet me-1 text-success"></i> 5. Holdings &amp; Audit CSV Exports (Excel / Numbers Ready)</div>
+                            <div class="small text-secondary">
+                                Download instant CSV spreadsheets with quantities, average acquisition cost, CMP, valuation, and return percentages from every dashboard via <strong>Export CSV</strong>, or download all 6 asset classes together via <strong>Export All Holdings (CSV)</strong> on the Welcome page. All CSV files are emitted with a <strong>UTF-8 Byte Order Mark (BOM)</strong> so Indian Rupee (₹) symbols and numbers render without corruption.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

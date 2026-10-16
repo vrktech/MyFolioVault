@@ -29,6 +29,7 @@ Many modern investors trade across multiple brokerages (Zerodha, Groww, AngelOne
      - [2.3.2 Mutual Funds AMFI NAV Refresh](#232-mutual-funds-amfi-nav-refresh)
      - [2.3.3 Bonds & Fixed Income (Manual CMP Editing)](#233-bonds--fixed-income-manual-cmp-editing)
      - [2.3.4 NPS NAV Updating & Scheme Code Lookup (npsnav.in)](#234-nps-nav-updating--scheme-code-lookup-npsnavin)
+   - [2.4 Exporting Active Holdings (CSV)](#24-exporting-active-holdings-csv)
 3. [Module 1: Equities (Stocks & Shares)](#3-module-1-equities-stocks--shares)
    - [3.1 How to Add a New Stock](#31-how-to-add-a-new-stock)
    - [3.2 How to Record a BUY Transaction](#32-how-to-record-a-buy-transaction)
@@ -252,6 +253,27 @@ The NPS module fetches live Net Asset Values for all 4 PFRDA asset classes (Sche
    - SBI Pension Funds Scheme E (Tier I) &rarr; **`SM001001`**.
 5. In MyFolioVault, navigate to **NPS (Tier 1)** &rarr; **Account Settings / Edit Account** and enter this scheme code for Scheme E, Scheme C, Scheme G, and Scheme A.
 6. Whenever you click **"Update Scheme NAVs"**, MyFolioVault pulls the latest closing NAVs automatically from `npsnav.in`!
+
+---
+
+### 2.4 Exporting Active Holdings (CSV)
+
+MyFolioVault provides one-click export of current active holdings with quantities, cost basis (average buy price/NAV), valuation, and returns.
+
+#### 2.4.1 Module-Level Holdings Export
+Every investment dashboard includes a prominent **"Export CSV"** action button in the top toolbar:
+- **Equities (`/equities/export-holdings`)**: Active stocks, exchange, sector, quantity, average purchase price, CMP, invested value, current value, unrealized P&L, and return percentage.
+- **REITs & InvITs (`/reits-invits/export-holdings`)**: Active trust holdings, type (REIT vs InvIT), units, average cost, CMP, invested capital, current valuation, and returns.
+- **ETFs (`/etfs/export-holdings`)**: Active ETF units categorized by Index, Commodity (Gold/Silver), Global, or Sectoral with cost basis and valuation.
+- **Bonds & Fixed Income (`/bonds/export-holdings`)**: Sovereign Gold Bonds (SGBs), G-Secs, and Corporate NCDs with ISIN, quantity, coupon rate, coupon frequency, maturity date, days to maturity, and valuation.
+- **Mutual Funds (`/mutual-funds/export-holdings`)**: Active folios, AMFI codes, AMC fund houses, 4-decimal precision units, average purchase NAV, latest AMFI NAV, and returns.
+- **NPS Tier 1 (`/nps/export-holdings`)**: Active units across Scheme E, C, G, and A, target vs actual allocation splits, average acquisition NAV, latest NAV, and returns.
+
+#### 2.4.2 Consolidated All Holdings Export
+On the **Welcome Dashboard (`/welcome`)**, click **"Export All Holdings (CSV)"** next to Allocation Matrix to download a single unified spreadsheet (`all_portfolio_holdings_YYYY-MM-DD.csv`) containing all active positions across all 6 asset modules.
+
+> [!NOTE]
+> Active holdings CSVs strictly exclude non-holding cash flow streams (such as dividends, trust distributions, and coupon payouts) to provide clean, uncluttered holdings data. Cash flows and passive income are audited separately in the **Passive Income & Distribution Report** (`/reports/income`).
 
 ---
 
@@ -690,8 +712,9 @@ Navigate to **Analytics & Reports** in the sidebar (`/reports`) to access the 5 
 - Deep-dive breakdown of direct equities by sector (Banking, IT, FMCG, Energy, etc.).
 
 ### 10.6 CSV Exporting & Spreadsheet Compatibility
-- Click **"Export to CSV"** on any report to download official audit files.
-- All CSVs are encoded with **UTF-8 Byte Order Mark (BOM)** (`\xEF\xBB\xBF`), ensuring that Indian Rupee symbols (₹) and accented characters open cleanly in **Microsoft Excel**, **Apple Numbers**, and **LibreOffice Calc** without character corruption.
+- **Report & Audit Exports**: Click **"Export to CSV"** on any report (Cash Flow, Capital Gains, Passive Income, Expenses) to download official financial year filing spreadsheets.
+- **Active Holdings Exports**: Click **"Export CSV"** in any module dashboard (or **"Export All Holdings (CSV)"** on the Welcome Dashboard) for real-time portfolio holdings spreadsheets with quantities, cost basis, valuation, and return percentages.
+- **Excel & Numbers UTF-8 BOM**: All exported CSV files are encoded with **UTF-8 Byte Order Mark (BOM)** (`\xEF\xBB\xBF`), ensuring that Indian Rupee symbols (₹) and accented characters open cleanly in **Microsoft Excel**, **Apple Numbers**, and **LibreOffice Calc** without character corruption. Raw decimal numbers are preserved so you can compute sums, formulas, and pivot tables directly.
 
 ---
 

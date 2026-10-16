@@ -76,9 +76,12 @@
         </h5>
         <div class="text-muted small">Summary of active positions, cost basis, valuation and returns per module</div>
     </div>
-    <div>
-        <a href="<?= base_url('reports') ?>" class="btn btn-outline-secondary btn-sm rounded-3">
+    <div class="d-flex align-items-center gap-2">
+        <a href="<?= base_url('reports') ?>" class="btn btn-outline-secondary btn-sm rounded-3 shadow-sm">
             <i class="bi bi-bar-chart-line me-1"></i> Allocation Matrix
+        </a>
+        <a href="<?= base_url('export-all-holdings') ?>" class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i> Export All Holdings (CSV)
         </a>
     </div>
 </div>

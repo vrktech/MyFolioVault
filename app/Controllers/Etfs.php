@@ -520,5 +520,76 @@ class Etfs extends BaseController
             return redirect()->to('/etfs')->with('error', 'ETF Split failed: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Export active ETFs holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $metricsData = $this->etfModel->getHoldingsWithMetrics($userId);
+        $activeHoldings = $metricsData['active_holdings'] ?? [];
+
+        $activeHoldings = array_filter($activeHoldings, function ($h) {
+            return ($h['active_quantity'] ?? 0) > 0;
+        });
+
+        $headers = [
+            'ETF Symbol',
+            'ETF Name',
+            'Category',
+            'Quantity',
+            'Avg Buy Price (INR)',
+            'Current Market Price (INR)',
+            'Invested Value (INR)',
+            'Current Value (INR)',
+            'Unrealized P&L (INR)',
+            'Return (%)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeHoldings as $h) {
+            $qty = (int) ($h['active_quantity'] ?? 0);
+            $avgBuy = (float) ($h['avg_buy_price'] ?? 0);
+            $cmp = (float) ($h['current_price'] ?? 0);
+            $invested = (float) ($h['invested_value'] ?? 0);
+            $current = (float) ($h['current_value'] ?? 0);
+            $pnl = (float) ($h['unrealized_pnl'] ?? 0);
+            $pnlPct = (float) ($h['unrealized_pnl_percent'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $h['symbol'] ?? '',
+                $h['etf_name'] ?? '',
+                $h['category'] ?? '—',
+                $qty,
+                $avgBuy,
+                $cmp,
+                $invested,
+                $current,
+                $pnl,
+                $pnlPct
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - ETFs Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'etfs_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
 

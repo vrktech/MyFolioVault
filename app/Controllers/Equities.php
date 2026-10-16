@@ -912,6 +912,80 @@ class Equities extends BaseController
             return redirect()->to('/equities')->with('error', 'Corporate Action failed: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Export active equities holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $metricsData = $this->equityModel->getHoldingsWithMetrics($userId);
+        $activeHoldings = $metricsData['active_holdings'] ?? [];
+
+        $activeHoldings = array_filter($activeHoldings, function ($h) {
+            return ($h['active_quantity'] ?? 0) > 0;
+        });
+
+        $headers = [
+            'Symbol',
+            'Company Name',
+            'Exchange',
+            'Sector',
+            'Quantity',
+            'Avg Buy Price (INR)',
+            'Current Market Price (INR)',
+            'Invested Value (INR)',
+            'Current Value (INR)',
+            'Unrealized P&L (INR)',
+            'Return (%)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeHoldings as $h) {
+            $qty = (int) ($h['active_quantity'] ?? 0);
+            $avgBuy = (float) ($h['avg_buy_price'] ?? 0);
+            $cmp = (float) ($h['current_price'] ?? 0);
+            $invested = (float) ($h['invested_value'] ?? 0);
+            $current = (float) ($h['current_value'] ?? 0);
+            $pnl = (float) ($h['unrealized_pnl'] ?? 0);
+            $pnlPct = (float) ($h['unrealized_pnl_percent'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $h['symbol'] ?? '',
+                $h['company_name'] ?? '',
+                $h['exchange'] ?? 'NSE',
+                $h['sector'] ?? '—',
+                $qty,
+                $avgBuy,
+                $cmp,
+                $invested,
+                $current,
+                $pnl,
+                $pnlPct
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - Equities Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'equities_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
+
 
 

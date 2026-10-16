@@ -21,6 +21,9 @@
         <a href="<?= base_url('equities/refresh-prices') ?>" class="btn btn-light border shadow-sm btn-sm rounded-3 px-3">
             <i class="bi bi-arrow-clockwise me-1 text-primary"></i>Refresh Live Prices
         </a>
+        <a href="<?= base_url('equities/export-holdings') ?>" class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV
+        </a>
         <a href="<?= base_url('equities/new') ?>" class="btn btn-primary btn-sm rounded-3 px-3 fw-semibold">
             <i class="bi bi-plus-lg me-1"></i>Add New Stock
         </a>

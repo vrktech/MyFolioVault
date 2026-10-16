@@ -15,6 +15,9 @@
         <small class="text-muted">Sovereign Gold Bonds (SGB), Government Securities (G-Secs), Corporate NCDs & Tax-Free Bonds</small>
     </div>
     <div class="d-flex gap-2">
+        <a href="<?= base_url('bonds/export-holdings') ?>" class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV
+        </a>
         <a href="<?= base_url('bonds/new') ?>" class="btn btn-primary btn-sm rounded-3 px-3 fw-semibold">
             <i class="bi bi-plus-lg me-1"></i>Add New Bond
         </a>

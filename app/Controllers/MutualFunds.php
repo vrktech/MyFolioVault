@@ -484,5 +484,80 @@ class MutualFunds extends BaseController
             return redirect()->to('/mutual-funds')->with('error', $e->getMessage());
         }
     }
+
+    /**
+     * Export active Mutual Funds holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $metricsData = $this->fundModel->getHoldingsWithMetrics($userId);
+        $activeHoldings = $metricsData['active_holdings'] ?? [];
+
+        $activeHoldings = array_filter($activeHoldings, function ($h) {
+            return ($h['active_units'] ?? 0) > 0.0001;
+        });
+
+        $headers = [
+            'Scheme Name',
+            'Folio Number',
+            'AMC / Fund House',
+            'Category',
+            'AMFI Code',
+            'Units',
+            'Avg Purchase NAV (INR)',
+            'Current NAV (INR)',
+            'Invested Value (INR)',
+            'Current Value (INR)',
+            'Unrealized P&L (INR)',
+            'Return (%)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeHoldings as $h) {
+            $units = (float) ($h['active_units'] ?? 0);
+            $avgNav = (float) ($h['avg_purchase_nav'] ?? 0);
+            $currentNav = (float) ($h['current_nav'] ?? 0);
+            $invested = (float) ($h['invested_value'] ?? 0);
+            $current = (float) ($h['current_value'] ?? 0);
+            $pnl = (float) ($h['unrealized_pnl'] ?? 0);
+            $pnlPct = (float) ($h['unrealized_pnl_percent'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $h['scheme_name'] ?? '',
+                $h['folio_number'] ?? '',
+                $h['fund_house'] ?? '—',
+                $h['category'] ?? '',
+                $h['amfi_code'] ?? '',
+                number_format($units, 4, '.', ''),
+                $avgNav,
+                $currentNav,
+                $invested,
+                $current,
+                $pnl,
+                $pnlPct
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - Mutual Funds Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'mutual_funds_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
 

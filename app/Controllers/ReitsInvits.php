@@ -607,5 +607,76 @@ class ReitsInvits extends BaseController
 
         return redirect()->to('/reits-invits')->with('success', 'Distribution record deleted successfully.');
     }
+
+    /**
+     * Export active REITs & InvITs holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $metricsData = $this->trustModel->getHoldingsWithMetrics($userId);
+        $activeHoldings = $metricsData['active_holdings'] ?? [];
+
+        $activeHoldings = array_filter($activeHoldings, function ($h) {
+            return ($h['active_units'] ?? 0) > 0;
+        });
+
+        $headers = [
+            'Trust Symbol',
+            'Trust Name',
+            'Category',
+            'Units',
+            'Avg Buy Price (INR)',
+            'Current Market Price (INR)',
+            'Invested Value (INR)',
+            'Current Value (INR)',
+            'Unrealized P&L (INR)',
+            'Return (%)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeHoldings as $h) {
+            $units = (int) ($h['active_units'] ?? 0);
+            $avgBuy = (float) ($h['avg_buy_price'] ?? 0);
+            $cmp = (float) ($h['current_price'] ?? 0);
+            $invested = (float) ($h['invested_value'] ?? 0);
+            $current = (float) ($h['current_value'] ?? 0);
+            $pnl = (float) ($h['unrealized_pnl'] ?? 0);
+            $pnlPct = (float) ($h['unrealized_pnl_percent'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $h['symbol'] ?? '',
+                $h['trust_name'] ?? '',
+                $h['trust_type'] ?? 'REIT',
+                $units,
+                $avgBuy,
+                $cmp,
+                $invested,
+                $current,
+                $pnl,
+                $pnlPct
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - REITs & InvITs Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'reits_invits_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
 

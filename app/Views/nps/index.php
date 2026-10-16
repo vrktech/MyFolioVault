@@ -29,17 +29,8 @@
         </small>
     </div>
     <div class="d-flex gap-2 align-items-center flex-wrap">
-        <a href="<?= base_url('nps/update-navs') ?>" class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-semibold shadow-sm" id="btnAutoUpdateNav">
-            <i class="bi bi-cloud-arrow-down me-1"></i>Auto-Update NAVs (npsnav.in)
-        </a>
-        <button type="button" class="btn btn-light border shadow-sm btn-sm rounded-3 px-3" data-bs-toggle="modal" data-bs-target="#npsNavModal">
-            <i class="bi bi-pencil-square me-1 text-secondary"></i>Manual NAVs
-        </button>
-        <button type="button" class="btn btn-warning btn-sm rounded-3 px-3 fw-semibold text-dark" data-bs-toggle="modal" data-bs-target="#npsTransactionModal">
-            <i class="bi bi-plus-lg me-1"></i>Add Transaction
-        </button>
         <div class="dropdown">
-            <button class="btn btn-light border shadow-sm btn-sm rounded-3 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light border shadow-sm btn-sm rounded-3 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account Options">
                 <i class="bi bi-three-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
@@ -73,6 +64,18 @@
                 </li>
             </ul>
         </div>
+        <button type="button" class="btn btn-light border shadow-sm btn-sm rounded-3 px-3" data-bs-toggle="modal" data-bs-target="#npsNavModal">
+            <i class="bi bi-pencil-square me-1 text-secondary"></i>Manual NAVs
+        </button>
+        <a href="<?= base_url('nps/update-navs') ?>" class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-semibold shadow-sm" id="btnAutoUpdateNav">
+            <i class="bi bi-cloud-arrow-down me-1"></i>Auto-Update NAVs (npsnav.in)
+        </a>
+        <a href="<?= base_url('nps/export-holdings') ?>" class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV
+        </a>
+        <button type="button" class="btn btn-warning btn-sm rounded-3 px-3 fw-semibold text-dark" data-bs-toggle="modal" data-bs-target="#npsTransactionModal">
+            <i class="bi bi-plus-lg me-1"></i>Add Transaction
+        </button>
     </div>
 </div>
 

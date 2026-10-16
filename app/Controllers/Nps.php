@@ -813,5 +813,82 @@ class Nps extends BaseController
 
         return redirect()->to('/nps')->with('success', "NPS NAVs updated from npsnav.in (as of {$lastUpdated}): " . implode(' | ', $updatedSchemes));
     }
+
+    /**
+     * Export active NPS holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $portfolio = $this->accountModel->getNpsPortfolio($userId);
+
+        $schemes = $portfolio['schemes'] ?? [];
+        $activeSchemes = array_filter($schemes, function ($s) {
+            return ($s['active_units'] ?? 0) > 0.0001;
+        });
+
+        $headers = [
+            'Scheme Type',
+            'Scheme Code',
+            'Asset Class',
+            'Target Allocation (%)',
+            'Actual Allocation (%)',
+            'Net Active Units',
+            'Avg Purchase NAV (INR)',
+            'Current NAV (INR)',
+            'Invested Amount (INR)',
+            'Current Value (INR)',
+            'Unrealized P&L (INR)',
+            'Return (%)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeSchemes as $s) {
+            $units = (float) ($s['active_units'] ?? 0);
+            $avgNav = (float) ($s['avg_nav'] ?? 0);
+            $currentNav = (float) ($s['current_nav'] ?? 0);
+            $invested = (float) ($s['invested_amount'] ?? 0);
+            $current = (float) ($s['current_value'] ?? 0);
+            $pnl = (float) ($s['unrealized_pnl'] ?? 0);
+            $returnPct = (float) ($s['return_pct'] ?? 0);
+            $targetPct = (float) ($s['target_pct'] ?? 0);
+            $actualPct = (float) ($s['actual_pct'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $s['name'] ?? '',
+                $s['scheme_code'] ?? $s['code'] ?? '',
+                $s['code'] ?? '',
+                $targetPct,
+                $actualPct,
+                number_format($units, 4, '.', ''),
+                $avgNav,
+                $currentNav,
+                $invested,
+                $current,
+                $pnl,
+                $returnPct
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - NPS Tier 1 Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'nps_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
 

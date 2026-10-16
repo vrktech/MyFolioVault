@@ -18,6 +18,9 @@
         <a href="<?= base_url('reits-invits/refresh-prices') ?>" class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-semibold">
             <i class="bi bi-arrow-clockwise me-1"></i>Refresh Live CMP
         </a>
+        <a href="<?= base_url('reits-invits/export-holdings') ?>" class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold shadow-sm">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV
+        </a>
         <a href="<?= base_url('reits-invits/new') ?>" class="btn btn-primary btn-sm rounded-3 px-3 fw-semibold">
             <i class="bi bi-plus-lg me-1"></i>Add New Trust
         </a>

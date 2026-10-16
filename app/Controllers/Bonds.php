@@ -571,5 +571,83 @@ class Bonds extends BaseController
 
         return redirect()->to('/bonds')->with('success', 'Bond interest payout record deleted successfully.');
     }
+
+    /**
+     * Export active Bonds holdings to CSV.
+     */
+    public function exportHoldings()
+    {
+        $userId = (int) session()->get('userId');
+        $metricsData = $this->bondModel->getHoldingsWithMetrics($userId);
+        $activeHoldings = $metricsData['active_holdings'] ?? [];
+
+        $activeHoldings = array_filter($activeHoldings, function ($h) {
+            return ($h['active_quantity'] ?? 0) > 0;
+        });
+
+        $headers = [
+            'Bond Name',
+            'Category',
+            'ISIN',
+            'Units / Quantity',
+            'Avg Buy Price (INR)',
+            'Current Price / Face Value (INR)',
+            'Invested Value (INR)',
+            'Current Value (INR)',
+            'Coupon Rate (%)',
+            'Coupon Frequency',
+            'Maturity Date',
+            'Days to Maturity',
+            'Unrealized P&L (INR)'
+        ];
+
+        $rows = [];
+        $totalInvested = 0.0;
+        $totalCurrent = 0.0;
+        $totalPnl = 0.0;
+
+        foreach ($activeHoldings as $h) {
+            $qty = (float) ($h['active_quantity'] ?? 0);
+            $avgBuy = (float) ($h['avg_buy_price'] ?? 0);
+            $currentPrice = (float) ($h['current_market_price'] ?? $h['face_value'] ?? 0);
+            $invested = (float) ($h['invested_value'] ?? 0);
+            $current = (float) ($h['current_value'] ?? 0);
+            $couponRate = (float) ($h['coupon_rate'] ?? 0);
+            $daysToMaturity = (int) ($h['days_to_maturity'] ?? 0);
+            $pnl = (float) ($h['unrealized_pnl'] ?? 0);
+
+            $totalInvested += $invested;
+            $totalCurrent += $current;
+            $totalPnl += $pnl;
+
+            $rows[] = [
+                $h['bond_name'] ?? '',
+                $h['category'] ?? '',
+                $h['isin'] ?? '',
+                $qty,
+                $avgBuy,
+                $currentPrice,
+                $invested,
+                $current,
+                $couponRate,
+                $h['interest_frequency'] ?? 'ANNUAL',
+                $h['maturity_date'] ?? '',
+                $daysToMaturity,
+                $pnl
+            ];
+        }
+
+        $metadata = [
+            ['MyFolioVault - Bonds Active Holdings'],
+            ['Generated on:', date('Y-m-d H:i:s')],
+            ['Total Active Holdings:', count($rows)],
+            ['Total Invested Value (INR):', $totalInvested],
+            ['Total Current Value (INR):', $totalCurrent],
+            ['Total Unrealized P&L (INR):', $totalPnl]
+        ];
+
+        $filename = 'bonds_holdings_' . date('Y-m-d') . '.csv';
+        csv_download($filename, $headers, $rows, $metadata);
+    }
 }
 
